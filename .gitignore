@@ -1,0 +1,37 @@
+# --- Python & General ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.env  # Contains sensitive information
+.ipynb_checkpoints
+.idea/  # JetBrains/PyCharm
+.vscode/
+.DS_Store
+*.egg-info/
+dist/
+build/
+
+# --- Machine Learning Specific ---
+# Data files, raw/processed data
+data/
+data/raw/
+data/processed/
+
+# Model checkpoints and artifacts
+models/
+checkpoints/
+*.pkl
+*.joblib
+*.h5
+*.pth
+*.pt
+*.onnx
+
+# Experiment Tracking
+logs/
+results/
+mlruns/
+wandb/
+.pytest_cache/

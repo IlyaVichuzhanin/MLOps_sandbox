@@ -1,0 +1,9 @@
+hdfs[avro,dataframe,kerberos]>=2.7.3
+apache-airflow-providers-apache-hdfs==4.2.0
+fastavro>=0.14.19
+pandas>=0.14.1
+requests>=2.27.0
+sqlalchemy
+pandas
+numpy
+psycopg2-binary
