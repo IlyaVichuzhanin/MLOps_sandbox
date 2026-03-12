@@ -1,0 +1,135 @@
+::group::Pre task execution logs
+Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: upload_main_db_data_dag.upload_staging_to_habs manual__2026-03-10T06:34:01.329700+00:00 map_index=22 [queued]>
+Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: upload_main_db_data_dag.upload_staging_to_habs manual__2026-03-10T06:34:01.329700+00:00 map_index=22 [queued]>
+Starting attempt 2 of 3
+Executing <Mapped(_PythonDecoratedOperator): upload_staging_to_habs> on 2026-03-10 06:34:01.329700+00:00
+/home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:62: DeprecationWarning: This process (pid=4435) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+Started process 4439 to run task
+Running: ['***', 'tasks', 'run', 'upload_main_db_data_dag', 'upload_staging_to_habs', 'manual__2026-03-10T06:34:01.329700+00:00', '--job-id', '2024', '--raw', '--subdir', 'DAGS_FOLDER/upload_main_db_data_dag.py', '--cfg-path', '/tmp/tmpo5bhlf1h', '--map-index', '22']
+Job 2024: Subtask upload_staging_to_habs
+Running <TaskInstance: upload_main_db_data_dag.upload_staging_to_habs manual__2026-03-10T06:34:01.329700+00:00 map_index=22 [running]> on host 252804bf5bed
+Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='upload_main_db_data_dag' AIRFLOW_CTX_TASK_ID='upload_staging_to_habs' AIRFLOW_CTX_EXECUTION_DATE='2026-03-10T06:34:01.329700+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-03-10T06:34:01.329700+00:00'
+::endgroup::
+✅ Uploading staging data from stg_preset_chart_settings table to h_preset_chart_settings hub table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+SQLAlchemy error during DV load: (psycopg2.errors.NotNullViolation) null value in column "userid" of relation "h_preset_chart_settings" violates not-null constraint
+DETAIL:  Failing row contains (4492305d-edf9-f2aa-407f-6bde67b25624, 2026-03-10 06:45:41.484768, 289c288e-ccf8-a441-ae8d-f36862eded0a, null).
+
+[SQL: 
+                INSERT INTO h_preset_chart_settings (
+                    h_preset_chart_setting_sk,
+                    load_dttm,
+                    data_source_id
+                )
+                SELECT 
+                    stg.hash_sk,
+                    stg.load_dttm,
+                    stg.data_source_id
+                FROM stg_preset_chart_settings stg
+                ON CONFLICT (h_preset_chart_setting_sk) DO NOTHING
+            
+            ]
+(Background on this error at: https://sqlalche.me/e/14/gkpj)
+::group::Post task execution logs
+Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1910, in _execute_context
+    self.dialect.do_execute(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 736, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.NotNullViolation: null value in column "userid" of relation "h_preset_chart_settings" violates not-null constraint
+DETAIL:  Failing row contains (4492305d-edf9-f2aa-407f-6bde67b25624, 2026-03-10 06:45:41.484768, 289c288e-ccf8-a441-ae8d-f36862eded0a, null).
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 465, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/decorators/base.py", line 265, in execute
+    return_value = super().execute(context)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 235, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 252, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/upload_main_db_data_dag.py", line 134, in upload_staging_data_to_hub
+    return merge_staging_to_hub(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/upload_main_db_data/upload_main_db_data.py", line 349, in merge_staging_to_hub
+    raise e
+  File "/opt/airflow/dags/upload_main_db_data/upload_main_db_data.py", line 338, in merge_staging_to_hub
+    result = conn.execute(insert_hub_sql)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1385, in execute
+    return meth(self, multiparams, params, _EMPTY_EXECUTION_OPTS)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/sql/elements.py", line 334, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1577, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1953, in _execute_context
+    self._handle_dbapi_exception(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2134, in _handle_dbapi_exception
+    util.raise_(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1910, in _execute_context
+    self.dialect.do_execute(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 736, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.IntegrityError: (psycopg2.errors.NotNullViolation) null value in column "userid" of relation "h_preset_chart_settings" violates not-null constraint
+DETAIL:  Failing row contains (4492305d-edf9-f2aa-407f-6bde67b25624, 2026-03-10 06:45:41.484768, 289c288e-ccf8-a441-ae8d-f36862eded0a, null).
+
+[SQL: 
+                INSERT INTO h_preset_chart_settings (
+                    h_preset_chart_setting_sk,
+                    load_dttm,
+                    data_source_id
+                )
+                SELECT 
+                    stg.hash_sk,
+                    stg.load_dttm,
+                    stg.data_source_id
+                FROM stg_preset_chart_settings stg
+                ON CONFLICT (h_preset_chart_setting_sk) DO NOTHING
+            
+            ]
+(Background on this error at: https://sqlalche.me/e/14/gkpj)
+Marking task as UP_FOR_RETRY. dag_id=upload_main_db_data_dag, task_id=upload_staging_to_habs, run_id=manual__2026-03-10T06:34:01.329700+00:00, map_index=22, execution_date=20260310T063401, start_date=20260310T064659, end_date=20260310T064659
+Failed to execute job 2024 for task upload_staging_to_habs ((psycopg2.errors.NotNullViolation) null value in column "userid" of relation "h_preset_chart_settings" violates not-null constraint
+DETAIL:  Failing row contains (4492305d-edf9-f2aa-407f-6bde67b25624, 2026-03-10 06:45:41.484768, 289c288e-ccf8-a441-ae8d-f36862eded0a, null).
+
+[SQL: 
+                INSERT INTO h_preset_chart_settings (
+                    h_preset_chart_setting_sk,
+                    load_dttm,
+                    data_source_id
+                )
+                SELECT 
+                    stg.hash_sk,
+                    stg.load_dttm,
+                    stg.data_source_id
+                FROM stg_preset_chart_settings stg
+                ON CONFLICT (h_preset_chart_setting_sk) DO NOTHING
+            
+            ]
+(Background on this error at: https://sqlalche.me/e/14/gkpj); 4439)
+Task exited with return code 1
+::endgroup::

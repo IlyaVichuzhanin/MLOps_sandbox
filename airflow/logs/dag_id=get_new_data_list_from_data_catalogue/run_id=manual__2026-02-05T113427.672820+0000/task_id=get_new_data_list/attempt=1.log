@@ -1,0 +1,167 @@
+::group::Pre task execution logs
+Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: get_new_data_list_from_data_catalogue.get_new_data_list manual__2026-02-05T11:34:27.672820+00:00 [queued]>
+Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: get_new_data_list_from_data_catalogue.get_new_data_list manual__2026-02-05T11:34:27.672820+00:00 [queued]>
+Starting attempt 1 of 2
+Executing <Task(_PythonDecoratedOperator): get_new_data_list> on 2026-02-05 11:34:27.672820+00:00
+/home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:62: DeprecationWarning: This process (pid=13280) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+Started process 13282 to run task
+Running: ['***', 'tasks', 'run', 'get_new_data_list_from_data_catalogue', 'get_new_data_list', 'manual__2026-02-05T11:34:27.672820+00:00', '--job-id', '66', '--raw', '--subdir', 'DAGS_FOLDER/get_new_data_list.py', '--cfg-path', '/tmp/tmpwf2jkpi8']
+Job 66: Subtask get_new_data_list
+Running <TaskInstance: get_new_data_list_from_data_catalogue.get_new_data_list manual__2026-02-05T11:34:27.672820+00:00 [running]> on host 472ebed98a01
+Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='get_new_data_list_from_data_catalogue' AIRFLOW_CTX_TASK_ID='get_new_data_list' AIRFLOW_CTX_EXECUTION_DATE='2026-02-05T11:34:27.672820+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-05T11:34:27.672820+00:00'
+::endgroup::
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Running statement:        
+            SELECT 
+                data_source_id, 
+                main_db_id,
+                main_db_name,
+                last_update,
+                upload_date_time,
+                created_dttm,
+                hdfs_full_path,
+                data_type,
+                data_format,
+                is_uploaded_to_dwh
+            FROM
+                public.data_catalogue as data_catalogue
+            WHERE
+                data_catalogue.is_uploaded_to_dwh = false
+            ORDER BY
+                CASE data_type
+                    WHEN 'MainDb' THEN 1
+                    WHEN 'Double' THEN 2
+                    WHEN 'Any' THEN 3
+                    ELSE 4
+                END
+            , parameters: None
+Rows affected: 12
+Извлечено записей: 12
+data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+main_db_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+main_db_name: Acron
+last_update: 2026-02-05 12:18:13
+upload_date_time: 2026-02-05 12:18:49
+created_dttm: 2026-02-05 09:18:49.508082
+hdfs_full_path: /test_raw_data/data/Acron/MainDb/Acron_2026-02-05 12-18.db
+data_type: MainDb
+data_format: sqlite
+is_uploaded_to_dwh: False
+data_source_id: 63324dcc-9429-8a42-94ab-de553400f7e1
+main_db_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+main_db_name: Acron
+last_update: 2026-02-05 12:17:02
+upload_date_time: 2026-02-05 12:17:02
+created_dttm: 2026-02-05 09:17:02.431151
+hdfs_full_path: /test_raw_data/data/Acron/Double/Acron_10002_2025-04-04 00-00_DOUBLE_1440.db
+data_type: Double
+data_format: sqlite
+is_uploaded_to_dwh: False
+data_source_id: 4a1a4f98-038c-364e-b626-3f5cf4b87edc
+main_db_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+main_db_name: Acron
+last_update: 2026-02-05 12:16:43
+upload_date_time: 2026-02-05 12:16:43
+created_dttm: 2026-02-05 09:16:43.249947
+hdfs_full_path: /test_raw_data/data/Acron/Any/Acron_10002_2025-04-04 10-30_ANY_30.db
+data_type: Any
+data_format: sqlite
+is_uploaded_to_dwh: False
+data_source_id: ed8ead91-fb1e-3a44-9bcd-c77d7053e6f0
+main_db_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+main_db_name: Acron
+last_update: 2026-02-05 12:16:43
+upload_date_time: 2026-02-05 12:16:43
+created_dttm: 2026-02-05 08:57:05.652920
+hdfs_full_path: /test_raw_data/data/Acron/Any/Acron_10002_2025-02-27 12-30_ANY_30.db
+data_type: Any
+data_format: sqlite
+is_uploaded_to_dwh: False
+data_source_id: ad705c8b-16f5-6049-a033-85473ddd518a
+main_db_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+main_db_name: Acron
+last_update: 2026-02-05 12:16:43
+upload_date_time: 2026-02-05 12:16:43
+created_dttm: 2026-02-05 09:16:43.355422
+hdfs_full_path: /test_raw_data/data/Acron/Any/Acron_10002_2025-02-27 13-00_ANY_30.db
+data_type: Any
+data_format: sqlite
+is_uploaded_to_dwh: False
+data_source_id: aa9ea59f-982e-5b43-ae92-5a906f505c0e
+main_db_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+main_db_name: Acron
+last_update: 2026-02-05 12:16:51
+upload_date_time: 2026-02-05 12:16:52
+created_dttm: 2026-02-05 09:16:52.030895
+hdfs_full_path: /test_raw_data/data/Acron/Any/Acron_10002_2025-04-04 13-30_ANY_30.db
+data_type: Any
+data_format: sqlite
+is_uploaded_to_dwh: False
+data_source_id: 6a1c3bde-3470-3545-a4b8-bfcb444be61f
+main_db_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+main_db_name: Acron
+last_update: 2026-02-05 12:16:24
+upload_date_time: 2026-02-05 12:16:24
+created_dttm: 2026-02-05 09:16:24.258700
+hdfs_full_path: /test_raw_data/data/Acron/Any/Acron_10002_2025-04-04 13-00_ANY_30.db
+data_type: Any
+data_format: sqlite
+is_uploaded_to_dwh: False
+data_source_id: ce1f6661-7c40-fb47-89a3-a964832d230b
+main_db_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+main_db_name: Acron
+last_update: 2026-02-05 12:16:56
+upload_date_time: 2026-02-05 12:16:56
+created_dttm: 2026-02-05 09:16:56.337215
+hdfs_full_path: /test_raw_data/data/Acron/Any/Acron_10002_2025-04-04 15-00_ANY_30.db
+data_type: Any
+data_format: sqlite
+is_uploaded_to_dwh: False
+data_source_id: c56c3ed0-7271-3944-866a-fd59153feaba
+main_db_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+main_db_name: Acron
+last_update: 2026-02-05 12:17:01
+upload_date_time: 2026-02-05 12:17:01
+created_dttm: 2026-02-05 09:17:01.410648
+hdfs_full_path: /test_raw_data/data/Acron/Any/Acron_10002_2025-04-04 15-30_ANY_30.db
+data_type: Any
+data_format: sqlite
+is_uploaded_to_dwh: False
+data_source_id: 15f51566-c832-2c47-a364-2b12af4d84da
+main_db_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+main_db_name: Acron
+last_update: 2026-02-05 12:17:01
+upload_date_time: 2026-02-05 12:17:01
+created_dttm: 2026-02-05 09:17:01.521357
+hdfs_full_path: /test_raw_data/data/Acron/Any/Acron_10005_2025-04-28 09-30_ANY_30.db
+data_type: Any
+data_format: sqlite
+is_uploaded_to_dwh: False
+data_source_id: 5ac01da9-25d8-4149-b08e-7f9716fc3f97
+main_db_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+main_db_name: Acron
+last_update: 2026-02-05 12:16:54
+upload_date_time: 2026-02-05 12:16:54
+created_dttm: 2026-02-05 09:16:54.507109
+hdfs_full_path: /test_raw_data/data/Acron/Any/Acron_10002_2025-04-04 14-00_ANY_30.db
+data_type: Any
+data_format: sqlite
+is_uploaded_to_dwh: False
+data_source_id: bc71964e-4512-754b-b17c-8bdb649963a9
+main_db_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+main_db_name: Acron
+last_update: 2026-02-05 12:16:42
+upload_date_time: 2026-02-05 12:16:42
+created_dttm: 2026-02-05 09:16:42.596841
+hdfs_full_path: /test_raw_data/data/Acron/Any/Acron_10002_2025-04-04 11-00_ANY_30.db
+data_type: Any
+data_format: sqlite
+is_uploaded_to_dwh: False
+Done. Returned value was: None
+::group::Post task execution logs
+Marking task as SUCCESS. dag_id=get_new_data_list_from_data_catalogue, task_id=get_new_data_list, run_id=manual__2026-02-05T11:34:27.672820+00:00, execution_date=20260205T113427, start_date=20260205T113429, end_date=20260205T113429
+Task exited with return code 0
+0 downstream tasks scheduled from follow-on schedule check
+::endgroup::

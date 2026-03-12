@@ -1,0 +1,644 @@
+Started process (PID=97) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.086 seconds
+Started process (PID=163) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.098 seconds
+Started process (PID=236) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.069 seconds
+Started process (PID=89) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.051 seconds
+Started process (PID=155) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.100 seconds
+Started process (PID=228) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.049 seconds
+Started process (PID=294) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.049 seconds
+Started process (PID=367) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.050 seconds
+Started process (PID=433) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.049 seconds
+Started process (PID=506) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.054 seconds
+Started process (PID=572) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.052 seconds
+Started process (PID=644) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.053 seconds
+Started process (PID=710) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.053 seconds
+Started process (PID=783) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.059 seconds
+Started process (PID=849) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.051 seconds
+Started process (PID=922) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.052 seconds
+Started process (PID=988) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.048 seconds
+Started process (PID=1061) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.048 seconds
+Started process (PID=1127) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.048 seconds
+Started process (PID=1201) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.048 seconds
+Started process (PID=1274) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.050 seconds
+Started process (PID=1340) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.049 seconds
+Started process (PID=89) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.062 seconds
+Started process (PID=155) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.101 seconds
+Started process (PID=221) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.068 seconds
+Started process (PID=295) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.052 seconds
+Started process (PID=361) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.050 seconds
+Started process (PID=434) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.048 seconds
+Started process (PID=501) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.048 seconds
+Started process (PID=575) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.049 seconds
+Started process (PID=640) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.050 seconds
+Started process (PID=714) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.048 seconds
+Started process (PID=780) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.052 seconds
+Started process (PID=853) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.048 seconds
+Started process (PID=89) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.048 seconds
+Started process (PID=103) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.145 seconds
+Started process (PID=169) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.066 seconds
+Started process (PID=242) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.087 seconds
+Started process (PID=315) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 1.068 seconds
+Started process (PID=381) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 1.165 seconds
+Started process (PID=454) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.363 seconds
+Started process (PID=528) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.916 seconds
+Started process (PID=595) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.051 seconds
+Started process (PID=668) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.053 seconds
+Started process (PID=734) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.051 seconds
+Started process (PID=807) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.050 seconds
+Started process (PID=873) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.056 seconds
+Started process (PID=947) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.051 seconds
+Started process (PID=1013) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.257 seconds
+Started process (PID=1085) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 2.349 seconds
+Started process (PID=1158) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 1.251 seconds
+Started process (PID=1225) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.056 seconds
+Started process (PID=89) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.046 seconds
+Started process (PID=155) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.102 seconds
+Started process (PID=221) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.049 seconds
+Started process (PID=294) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.048 seconds
+Started process (PID=360) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.049 seconds
+Started process (PID=433) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.049 seconds
+Started process (PID=499) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.058 seconds
+Started process (PID=572) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.061 seconds
+Started process (PID=638) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.052 seconds
+Started process (PID=710) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.048 seconds
+Started process (PID=777) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.048 seconds
+Started process (PID=851) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.049 seconds
+Started process (PID=924) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.049 seconds
+Started process (PID=990) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.050 seconds
+Started process (PID=1064) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.053 seconds
+Started process (PID=1130) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.048 seconds
+Started process (PID=1202) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.052 seconds
+Started process (PID=1269) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.053 seconds
+Started process (PID=1342) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.053 seconds
+Started process (PID=1407) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.050 seconds
+Started process (PID=1482) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.049 seconds
+Started process (PID=1549) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.047 seconds
+Started process (PID=90) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.044 seconds
+Started process (PID=163) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.101 seconds
+Started process (PID=229) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.056 seconds
+Started process (PID=302) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.049 seconds
+Started process (PID=367) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.047 seconds
+Started process (PID=440) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.054 seconds
+Started process (PID=506) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.048 seconds
+Started process (PID=580) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.057 seconds
+Started process (PID=646) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.049 seconds
+Started process (PID=719) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.048 seconds
+Started process (PID=792) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.062 seconds
+Started process (PID=858) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.050 seconds
+Started process (PID=931) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.061 seconds
+Started process (PID=997) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.055 seconds
+Started process (PID=96) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.069 seconds
+Started process (PID=162) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.104 seconds
+Started process (PID=228) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.050 seconds
+Started process (PID=301) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+DAG(s) 'example_dynamic_task_mapping_with_no_taskflow_operators' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py
+Sync 1 DAGs
+Setting next_dagrun for example_dynamic_task_mapping_with_no_taskflow_operators to 2026-01-26 00:00:00+00:00, run_after=2026-01-27 00:00:00+00:00
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_dynamic_task_mapping_with_no_taskflow_operators.py took 0.091 seconds

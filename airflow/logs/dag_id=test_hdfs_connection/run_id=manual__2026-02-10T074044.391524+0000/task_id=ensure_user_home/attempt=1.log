@@ -1,0 +1,33 @@
+::group::Pre task execution logs
+Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: test_hdfs_connection.ensure_user_home manual__2026-02-10T07:40:44.391524+00:00 [queued]>
+Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: test_hdfs_connection.ensure_user_home manual__2026-02-10T07:40:44.391524+00:00 [queued]>
+Starting attempt 1 of 2
+Executing <Task(_PythonDecoratedOperator): ensure_user_home> on 2026-02-10 07:40:44.391524+00:00
+/home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:62: DeprecationWarning: This process (pid=42559) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+Started process 42561 to run task
+Running: ['***', 'tasks', 'run', 'test_hdfs_connection', 'ensure_user_home', 'manual__2026-02-10T07:40:44.391524+00:00', '--job-id', '125', '--raw', '--subdir', 'DAGS_FOLDER/hdfs_conn_test.py', '--cfg-path', '/tmp/tmpi48r49e1']
+Job 125: Subtask ensure_user_home
+Running <TaskInstance: test_hdfs_connection.ensure_user_home manual__2026-02-10T07:40:44.391524+00:00 [running]> on host 752fea1deb88
+Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='test_hdfs_connection' AIRFLOW_CTX_TASK_ID='ensure_user_home' AIRFLOW_CTX_EXECUTION_DATE='2026-02-10T07:40:44.391524+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-10T07:40:44.391524+00:00'
+::endgroup::
+Using connection ID 'hdfs_default' for task execution.
+Trying to connect to namenode:9870
+Trying namenode namenode
+Instantiated <InsecureClient(url='http://namenode:9870')>.
+Fetching status for '/'.
+Using namenode namenode for hook
+Fetching status for '/user/hadoop'.
+Домашняя директория /user/hadoop не существует — создаём...
+Creating directories to '/user/hadoop'.
+Changing permissions of '/user/hadoop' to '755'.
+✓ Создана домашняя директория: /user/hadoop
+Fetching status for '/user/hadoop'.
+  Права: 755, Владелец: ***
+Done. Returned value was: /user/hadoop
+::group::Post task execution logs
+Marking task as SUCCESS. dag_id=test_hdfs_connection, task_id=ensure_user_home, run_id=manual__2026-02-10T07:40:44.391524+00:00, execution_date=20260210T074044, start_date=20260210T074047, end_date=20260210T074047
+Task exited with return code 0
+1 downstream tasks scheduled from follow-on schedule check
+::endgroup::

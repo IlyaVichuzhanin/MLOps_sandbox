@@ -1,0 +1,58 @@
+::group::Pre task execution logs
+Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: cloudberry_insert_3_records.insert_three_records manual__2026-02-04T12:01:51.111385+00:00 [queued]>
+Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: cloudberry_insert_3_records.insert_three_records manual__2026-02-04T12:01:51.111385+00:00 [queued]>
+Starting attempt 1 of 2
+Executing <Task(PostgresOperator): insert_three_records> on 2026-02-04 12:01:51.111385+00:00
+/home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:62: DeprecationWarning: This process (pid=62977) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+Started process 62986 to run task
+Running: ['***', 'tasks', 'run', 'cloudberry_insert_3_records', 'insert_three_records', 'manual__2026-02-04T12:01:51.111385+00:00', '--job-id', '59', '--raw', '--subdir', 'DAGS_FOLDER/test.py', '--cfg-path', '/tmp/tmp6omde_ue']
+Job 59: Subtask insert_three_records
+Running <TaskInstance: cloudberry_insert_3_records.insert_three_records manual__2026-02-04T12:01:51.111385+00:00 [running]> on host 472ebed98a01
+Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='cloudberry_insert_3_records' AIRFLOW_CTX_TASK_ID='insert_three_records' AIRFLOW_CTX_EXECUTION_DATE='2026-02-04T12:01:51.111385+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-04T12:01:51.111385+00:00'
+::endgroup::
+Executing: 
+            INSERT INTO public.h_diagnostic_defect_types 
+                (h_diagnostic_defect_type, data_catalogue)
+            VALUES
+                ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', '11111111-1111-1111-1111-111111111111'),
+                ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12', '22222222-2222-2222-2222-222222222222'),
+                ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a13', '33333333-3333-3333-3333-333333333333')
+            ON CONFLICT (h_diagnostic_defect_type) DO NOTHING;
+        
+::group::Post task execution logs
+Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 465, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/operators/sql.py", line 283, in execute
+    hook = self.get_db_hook()
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/operators/sql.py", line 194, in get_db_hook
+    return self._hook
+           ^^^^^^^^^^
+  File "/usr/local/lib/python3.12/functools.py", line 995, in __get__
+    val = self.func(instance)
+          ^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/providers/common/sql/operators/sql.py", line 153, in _hook
+    conn = BaseHook.get_connection(conn_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/hooks/base.py", line 83, in get_connection
+    conn = Connection.get_connection_from_secrets(conn_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/connection.py", line 519, in get_connection_from_secrets
+    raise AirflowNotFoundException(f"The conn_id `{conn_id}` isn't defined")
+airflow.exceptions.AirflowNotFoundException: The conn_id `cloudberry_dwh` isn't defined
+Marking task as UP_FOR_RETRY. dag_id=cloudberry_insert_3_records, task_id=insert_three_records, run_id=manual__2026-02-04T12:01:51.111385+00:00, execution_date=20260204T120151, start_date=20260204T120157, end_date=20260204T120158
+Failed to execute job 59 for task insert_three_records (The conn_id `cloudberry_dwh` isn't defined; 62986)
+Task exited with return code 1
+0 downstream tasks scheduled from follow-on schedule check
+::endgroup::

@@ -1,0 +1,47 @@
+::group::Pre task execution logs
+Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: get_new_maindb_data_list_from_data_catalogue.get_new_main_db_data_list manual__2026-03-02T09:23:39.535730+00:00 [queued]>
+Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: get_new_maindb_data_list_from_data_catalogue.get_new_main_db_data_list manual__2026-03-02T09:23:39.535730+00:00 [queued]>
+Starting attempt 1 of 2
+Executing <Task(_PythonDecoratedOperator): get_new_main_db_data_list> on 2026-03-02 09:23:39.535730+00:00
+/home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:62: DeprecationWarning: This process (pid=11804) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+Started process 11806 to run task
+Running: ['***', 'tasks', 'run', 'get_new_maindb_data_list_from_data_catalogue', 'get_new_main_db_data_list', 'manual__2026-03-02T09:23:39.535730+00:00', '--job-id', '888', '--raw', '--subdir', 'DAGS_FOLDER/get_new_maindb_data_list.py', '--cfg-path', '/tmp/tmpnz1h87su']
+Job 888: Subtask get_new_main_db_data_list
+Running <TaskInstance: get_new_maindb_data_list_from_data_catalogue.get_new_main_db_data_list manual__2026-03-02T09:23:39.535730+00:00 [running]> on host ff5784e9d160
+Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='get_new_maindb_data_list_from_data_catalogue' AIRFLOW_CTX_TASK_ID='get_new_main_db_data_list' AIRFLOW_CTX_EXECUTION_DATE='2026-03-02T09:23:39.535730+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-03-02T09:23:39.535730+00:00'
+::endgroup::
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Running statement:        
+            SELECT 
+                data_source_id, 
+                main_db_id,
+                main_db_name,
+                last_update,
+                upload_date_time,
+                created_dttm,
+                hdfs_full_path,
+                data_type,
+                data_format,
+                is_uploaded_to_dwh
+            FROM
+                public.data_catalogue as data_catalogue
+            WHERE
+                data_catalogue.is_uploaded_to_dwh = false AND data_catalogue.data_type = 'MainDb'
+                
+            ORDER BY
+                CASE data_type
+                    WHEN 'MainDb' THEN 1
+                    WHEN 'Double' THEN 2
+                    WHEN 'Any' THEN 3
+                    ELSE 4
+                END
+            , parameters: None
+Rows affected: 1
+Done. Returned value was: [{'data_source_id': '289c288e-ccf8-a441-ae8d-f36862eded0a', 'main_db_id': '289c288e-ccf8-a441-ae8d-f36862eded0a', 'main_db_name': 'Acron', 'last_update': '2026-02-18T07:57:31.096658', 'upload_date_time': '2026-02-18T07:58:30', 'created_dttm': '2026-02-18T04:58:30.628762', 'hdfs_full_path': '/test_raw_data/data/Acron/MainDb/Acron.db', 'data_type': 'MainDb', 'data_format': 'sqlite', 'is_uploaded_to_dwh': False}]
+::group::Post task execution logs
+Marking task as SUCCESS. dag_id=get_new_maindb_data_list_from_data_catalogue, task_id=get_new_main_db_data_list, run_id=manual__2026-03-02T09:23:39.535730+00:00, execution_date=20260302T092339, start_date=20260302T092340, end_date=20260302T092340
+Task exited with return code 0
+1 downstream tasks scheduled from follow-on schedule check
+::endgroup::

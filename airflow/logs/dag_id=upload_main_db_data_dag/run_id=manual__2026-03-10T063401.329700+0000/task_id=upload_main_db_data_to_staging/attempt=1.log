@@ -1,0 +1,473 @@
+::group::Pre task execution logs
+Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: upload_main_db_data_dag.upload_main_db_data_to_staging manual__2026-03-10T06:34:01.329700+00:00 [queued]>
+Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: upload_main_db_data_dag.upload_main_db_data_to_staging manual__2026-03-10T06:34:01.329700+00:00 [queued]>
+Starting attempt 1 of 3
+Executing <Task(_PythonDecoratedOperator): upload_main_db_data_to_staging> on 2026-03-10 06:34:01.329700+00:00
+/home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:62: DeprecationWarning: This process (pid=3833) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+Started process 3835 to run task
+Running: ['***', 'tasks', 'run', 'upload_main_db_data_dag', 'upload_main_db_data_to_staging', 'manual__2026-03-10T06:34:01.329700+00:00', '--job-id', '1962', '--raw', '--subdir', 'DAGS_FOLDER/upload_main_db_data_dag.py', '--cfg-path', '/tmp/tmp419gx4b6']
+Job 1962: Subtask upload_main_db_data_to_staging
+Running <TaskInstance: upload_main_db_data_dag.upload_main_db_data_to_staging manual__2026-03-10T06:34:01.329700+00:00 [running]> on host 252804bf5bed
+Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='upload_main_db_data_dag' AIRFLOW_CTX_TASK_ID='upload_main_db_data_to_staging' AIRFLOW_CTX_EXECUTION_DATE='2026-03-10T06:34:01.329700+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-03-10T06:34:01.329700+00:00'
+::endgroup::
+Using connection ID 'hdfs_default' for task execution.
+Trying to connect to namenode:9870
+Trying namenode namenode
+Instantiated <InsecureClient(url='http://namenode:9870')>.
+Fetching status for '/'.
+Using namenode namenode for hook
+Fetching status for '/test_raw_data/data/Acron/MainDb/Acron.db'.
+Reading file '/test_raw_data/data/Acron/MainDb/Acron.db'.
+✅ Uploading data from MeasureGroups table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 22 rows to stg_measure_groups
+✅ Uploading data from AggregateNotificationConfigs table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+✅ Uploading data from Aggregates table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+✅ Uploading data from Annotation table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 22 rows to stg_annotation
+✅ Uploading data from Bearings table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 1252 rows to stg_bearings
+✅ Uploading data from DiagnosticAlarmHistory_v2 table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 26113 rows to stg_diagnostic_alarm_history_v2
+✅ Uploading data from DiagnosticAlarms_v2 table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 8578 rows to stg_diagnostic_alarms_v2
+✅ Uploading data from EmailAddresses table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+✅ Uploading data from IOCreytChannelConfigs table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 1204 rows to stg_io_creyt_channel_configs
+✅ Uploading data from IOCreytChannelConfigs_v5 table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 336 rows to stg_io_creyt_channel_configs_v5
+✅ Uploading data from IOCreytChannelStates table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 1316 rows to stg_io_creyt_channel_states
+✅ Uploading data from IOCreytChannelStates_v5 table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 336 rows to stg_io_creyt_channel_states_v5
+✅ Uploading data from IOCreytConfigs table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 43 rows to stg_io_creyt_configs
+✅ Uploading data from IOCreytConfigs_v5 table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 6 rows to stg_io_creyt_configs_v5
+✅ Uploading data from IOCreytControllerStates table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 490 rows to stg_io_creyt_controller_states
+✅ Uploading data from IOCreytControllerStates_v5 table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 84 rows to stg_io_creyt_controller_states_v5
+✅ Uploading data from IOCreytIMOperTimes table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 35 rows to stg_io_creyt_im_oper_times
+✅ Uploading data from IOCreytIMOperTimes_v5 table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 5 rows to stg_io_creyt_im_oper_times_v5
+✅ Uploading data from IODeviceConfigNodes table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 2 rows to stg_io_device_config_nodes
+✅ Uploading data from IODeviceConfigs table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 11 rows to stg_io_device_configs
+✅ Uploading data from IOLCardChannelConfigs table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+✅ Uploading data from IOLCardConfigs table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 1 rows to stg_io_l_card_configs
+✅ Uploading data from IOLCardCrateConfigs table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+✅ Uploading data from IOLCardCrateSync table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+✅ Uploading data from IOLCardInputConfigs table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+✅ Uploading data from IOLCardLogicInputConfigs table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+✅ Uploading data from IOLCardModuleConfigs table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+✅ Uploading data from IOMQTTConfigs table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+✅ Uploading data from IOMQTTDevEUIConfigs table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+✅ Uploading data from IOModbusTcpConfigs table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 46 rows to stg_io_modbus_tcp_configs
+✅ Uploading data from IOModbusTcpRegisterConfigs table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 3615 rows to stg_io_modbus_tcp_register_configs
+✅ Uploading data from IOModbusTcpRegisterConfigs_TMP table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+✅ Uploading data from IOModbustcpRegisterBitDecompressionConfigs table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 3833 rows to stg_io_modbus_tcp_register_bit_decompression_configs
+✅ Uploading data from IOOpcDaClientConfigs table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 11 rows to stg_io_opc_da_client_configs
+✅ Uploading data from IOOpcDaClientGroupConfigs table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 34 rows to stg_io_opc_da_client_group_configs
+✅ Uploading data from IOOpcDaClientItemConfigs table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 1262 rows to stg_io_opc_da_client_item_configs
+✅ Uploading data from IOOpcUaClientConfigs table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 6 rows to stg_io_opc_ua_client_configs
+✅ Uploading data from IOOpcUaClientGroupConfigs table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+✅ Uploading data from IOOpcUaClientItemConfigs table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+✅ Uploading data from IOOpcUaClientTransformItemConfigs table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+✅ Uploading data from Images table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 125 rows to stg_images
+✅ Uploading data from MeasureConvert table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 179 rows to stg_measure_convert
+✅ Uploading data from MeasureUnits table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 55 rows to stg_measure_units
+✅ Uploading data from ModelTemplateTreeNodes table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 15 rows to stg_model_template_tree_nodes
+✅ Uploading data from ModelTemplates table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 146 rows to stg_model_templates
+✅ Uploading data from ObjectDataValues_DiagnosticArray_Live_v2 table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+✅ Uploading data from ObjectDataValues_DiagnosticArray_v2 table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+✅ Uploading data from ObjectDataValues_Live_v2 table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+✅ Uploading data from ObjectDataValues_common_snapshot table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+Job heartbeat got an exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 3371, in _wrap_pool_connect
+    return fn()
+           ^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 327, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 894, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 493, in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/pool/impl.py", line 256, in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 273, in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 388, in __init__
+    self.__connect()
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 690, in __connect
+    with util.safe_reraise():
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py", line 70, in __exit__
+    compat.raise_(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 686, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/create.py", line 574, in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 598, in connect
+    return self.dbapi.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.OperationalError: could not translate host name "postgres_***" to address: Temporary failure in name resolution
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/jobs/job.py", line 213, in heartbeat
+    heartbeat_callback(session)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 76, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/jobs/local_task_job_runner.py", line 261, in heartbeat_callback
+    self.task_instance.refresh_from_db()
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 79, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 1821, in refresh_from_db
+    _refresh_from_db(task_instance=self, session=session, lock_for_update=lock_for_update)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 510, in _refresh_from_db
+    ti = TaskInstance.get_task_instance(
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/api_internal/internal_api_call.py", line 115, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 76, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 1807, in get_task_instance
+    return query.one_or_none()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/orm/query.py", line 2850, in one_or_none
+    return self._iter().one_or_none()
+           ^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/orm/query.py", line 2916, in _iter
+    result = self.session.execute(
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 1716, in execute
+    conn = self._connection_for_bind(bind)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 1555, in _connection_for_bind
+    return self._transaction._connection_for_bind(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 750, in _connection_for_bind
+    conn = bind.connect()
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/future/engine.py", line 412, in connect
+    return super(Engine, self).connect()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 3325, in connect
+    return self._connection_cls(self, close_with_result=close_with_result)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 96, in __init__
+    else engine.raw_connection()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 3404, in raw_connection
+    return self._wrap_pool_connect(self.pool.connect, _connection)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 3374, in _wrap_pool_connect
+    Connection._handle_dbapi_exception_noconnection(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2208, in _handle_dbapi_exception_noconnection
+    util.raise_(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 3371, in _wrap_pool_connect
+    return fn()
+           ^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 327, in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 894, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 493, in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/pool/impl.py", line 256, in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 273, in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 388, in __init__
+    self.__connect()
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 690, in __connect
+    with util.safe_reraise():
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py", line 70, in __exit__
+    compat.raise_(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/pool/base.py", line 686, in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/create.py", line 574, in connect
+    return dialect.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 598, in connect
+    return self.dbapi.connect(*cargs, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/psycopg2/__init__.py", line 122, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) could not translate host name "postgres_***" to address: Temporary failure in name resolution
+
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+Job heartbeat failed with error. Scheduler is in unhealthy state
+✅ Loaded 107097 rows to stg_object_data_values_common_snapshot
+✅ Uploading data from ObjectDataValues_common_snapshot_save table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 107231 rows to stg_object_data_values_common_snapshot_save
+✅ Uploading data from ObjectDataValues_history_snapshot table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+✅ Uploading data from ObjectDataValues_snapshot table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+✅ Uploading data from ObjectDataValues_snapshot_single table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 165227 rows to stg_object_data_values_snapshot_single
+✅ Uploading data from ObjectDataValues_v2 table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+✅ Uploading data from ObjectGroupDescriptors table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+✅ Uploading data from ObjectGroups table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+✅ Uploading data from ObjectProperties table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 108955 rows to stg_object_properties
+✅ Uploading data from ObjectPropertyDescriptorNodes table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 298 rows to stg_object_property_descriptor_nodes
+✅ Uploading data from ObjectPropertyDescriptors table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 1930 rows to stg_object_property_descriptors
+✅ Uploading data from ObjectRules table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 23618 rows to stg_object_rules
+✅ Uploading data from ObjectTemplates table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+✅ Uploading data from ObjectTypeDescriptors table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 404 rows to stg_object_type_descriptors
+✅ Uploading data from ObjectTypes table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 7119 rows to stg_object_types
+✅ Uploading data from Objects table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 8961 rows to stg_objects
+✅ Uploading data from PionRouteObjectsLists table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 7 rows to stg_pion_route_objects_lists
+✅ Uploading data from PouUserDefinedItems table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 657 rows to stg_pou_user_defined_items
+✅ Uploading data from PouUserItemsTree table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 49 rows to stg_pou_user_items_tree
+✅ Uploading data from PresetChartSettings table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 1 rows to stg_preset_chart_settings
+✅ Uploading data from TikExpertSlices table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 22 rows to stg_tik_expert_slices
+✅ Uploading data from TikScadaLog table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+✅ Uploading data from UserDefinedPropertyLists table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 181 rows to stg_user_defined_property_lists
+✅ Uploading data from UserDefinedPropertyListsTypes table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 8 rows to stg_user_defined_property_lists_types
+✅ Uploading data from UserDefinedTilesPropertiesConfigs table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 2 rows to stg_user_defined_tiles_properties_configs
+✅ Uploading data from UserLog table!
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Удалено дубликатов из таблицы stg_pou_user_defined_items: 0
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Удалено дубликатов из таблицы stg_pou_user_items_tree: 0
+Done. Returned value was: True
+::group::Post task execution logs
+Marking task as SUCCESS. dag_id=upload_main_db_data_dag, task_id=upload_main_db_data_to_staging, run_id=manual__2026-03-10T06:34:01.329700+00:00, execution_date=20260310T063401, start_date=20260310T063403, end_date=20260310T064541
+Task exited with return code 0
+1 downstream tasks scheduled from follow-on schedule check
+::endgroup::

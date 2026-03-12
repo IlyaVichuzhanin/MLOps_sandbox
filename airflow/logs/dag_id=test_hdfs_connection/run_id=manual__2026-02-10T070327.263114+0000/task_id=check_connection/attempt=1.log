@@ -1,0 +1,61 @@
+::group::Pre task execution logs
+Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: test_hdfs_connection.check_connection manual__2026-02-10T07:03:27.263114+00:00 [queued]>
+Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: test_hdfs_connection.check_connection manual__2026-02-10T07:03:27.263114+00:00 [queued]>
+Starting attempt 1 of 2
+Executing <Task(_PythonDecoratedOperator): check_connection> on 2026-02-10 07:03:27.263114+00:00
+/home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:62: DeprecationWarning: This process (pid=41215) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+Started process 41217 to run task
+Running: ['***', 'tasks', 'run', 'test_hdfs_connection', 'check_connection', 'manual__2026-02-10T07:03:27.263114+00:00', '--job-id', '119', '--raw', '--subdir', 'DAGS_FOLDER/hdfs_conn_test.py', '--cfg-path', '/tmp/tmpgpg822bc']
+Job 119: Subtask check_connection
+Running <TaskInstance: test_hdfs_connection.check_connection manual__2026-02-10T07:03:27.263114+00:00 [running]> on host 752fea1deb88
+Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='test_hdfs_connection' AIRFLOW_CTX_TASK_ID='check_connection' AIRFLOW_CTX_EXECUTION_DATE='2026-02-10T07:03:27.263114+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-10T07:03:27.263114+00:00'
+::endgroup::
+Using connection ID 'hdfs_default' for task execution.
+Trying to connect to namenode:9870
+Trying namenode namenode
+Instantiated <InsecureClient(url='http://namenode:9870')>.
+Fetching status for '/'.
+Using namenode namenode for hook
+Fetching status for '/'.
+::group::Post task execution logs
+Task failed with exception
+Traceback (most recent call last):
+  File "/opt/airflow/dags/hdfs_conn_test.py", line 86, in check_hdfs_connection
+    content_summary = client.content_summary('/')
+                      ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'InsecureClient' object has no attribute 'content_summary'. Did you mean: '_get_content_summary'?
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 465, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/decorators/base.py", line 265, in execute
+    return_value = super().execute(context)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 235, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 252, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/hdfs_conn_test.py", line 111, in check_hdfs_connection
+    raise AirflowException(f"Не удалось подключиться к HDFS: {str(e)}")
+airflow.exceptions.AirflowException: Не удалось подключиться к HDFS: 'InsecureClient' object has no attribute 'content_summary'
+Marking task as UP_FOR_RETRY. dag_id=test_hdfs_connection, task_id=check_connection, run_id=manual__2026-02-10T07:03:27.263114+00:00, execution_date=20260210T070327, start_date=20260210T070329, end_date=20260210T070330
+Failed to execute job 119 for task check_connection (Не удалось подключиться к HDFS: 'InsecureClient' object has no attribute 'content_summary'; 41217)
+Task exited with return code 1
+0 downstream tasks scheduled from follow-on schedule check
+::endgroup::

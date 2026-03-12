@@ -1,0 +1,128 @@
+# Используем официальный образ CentOS Stream 9
+FROM quay.io/centos/centos:stream9
+
+
+# Установка зависимостей
+# Установка зависимостей + настройка git
+RUN dnf update -y && \
+    dnf install -y sudo git wget tar make gcc gcc-c++ cmake3 bison flex diffutils \
+    apr-devel bzip2-devel libcurl-devel libevent-devel libxml2-devel libuuid-devel \
+    libzstd-devel lz4-devel net-tools openldap-devel openssl-devel pam-devel \
+    perl perl-ExtUtils-Embed perl-Test-Simple perl-Env python3-devel python3-pip \
+    readline-devel rsync which zlib-devel iproute krb5-devel glibc-langpack-en \
+    glibc-locale-source openssh-server hostname iputils && \
+    dnf install -y --enablerepo=crb libuv-devel libyaml-devel perl-IPC-Run protobuf-devel && \
+    git config --global http.version HTTP/1.1 && \
+    dnf clean all
+
+# Пользователь gpadmin с паролем
+RUN useradd -U -m -s /bin/bash gpadmin && \
+    echo 'gpadmin:gpadmin' | chpasswd && \
+    echo 'gpadmin ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/90-gpadmin && \
+    chmod 440 /etc/sudoers.d/90-gpadmin
+
+# SSH
+RUN mkdir -p /home/gpadmin/.ssh && \
+    ssh-keygen -t rsa -b 2048 -C 'apache-cloudberry-dev' -f /home/gpadmin/.ssh/id_rsa -N "" && \
+    cat /home/gpadmin/.ssh/id_rsa.pub >> /home/gpadmin/.ssh/authorized_keys && \
+    chmod 700 /home/gpadmin/.ssh && \
+    chmod 600 /home/gpadmin/.ssh/authorized_keys && \
+    chmod 644 /home/gpadmin/.ssh/id_rsa.pub && \
+    chown -R gpadmin:gpadmin /home/gpadmin/.ssh
+
+# .bashrc
+RUN echo -e '\n# Cloudberry\nif [ -f /usr/local/cloudberry-db/greenplum_path.sh ]; then\n  source /usr/local/cloudberry-db/greenplum_path.sh\nfi\nexport LANG=en_US.UTF-8\nexport LC_ALL=en_US.UTF-8' >> /home/gpadmin/.bashrc && \
+    chown gpadmin:gpadmin /home/gpadmin/.bashrc
+
+# Лимиты
+RUN echo -e '\
+    gpadmin soft core unlimited\n\
+    gpadmin hard core unlimited\n\
+    gpadmin soft nofile 524288\n\
+    gpadmin hard nofile 524288\n\
+    gpadmin soft nproc 131072\n\
+    gpadmin hard nproc 131072' > /etc/security/limits.d/90-db-limits.conf
+
+# Устанавливаем Xerces-C 3.3.0 — ИСПРАВЛЕНО: убраны лишние пробелы!
+ENV XERCES_LATEST_RELEASE=3.3.0
+ENV XERCES_INSTALL_PREFIX=/usr/local/xerces-c
+
+RUN cd /tmp && \
+    wget -nv "https://dlcdn.apache.org/xerces/c/3/sources/xerces-c-${XERCES_LATEST_RELEASE}.tar.gz" && \
+    echo "$(curl -sL https://dlcdn.apache.org/xerces/c/3/sources/xerces-c-${XERCES_LATEST_RELEASE}.tar.gz.sha256)" | sha256sum -c - && \
+    tar xf "xerces-c-${XERCES_LATEST_RELEASE}.tar.gz" && \
+    rm "xerces-c-${XERCES_LATEST_RELEASE}.tar.gz" && \
+    cd xerces-c-${XERCES_LATEST_RELEASE} && \
+    ./configure --prefix="${XERCES_INSTALL_PREFIX}" && \
+    make -j$(nproc) && \
+    make check && \
+    make install
+
+# Подготовка Cloudberry
+RUN mkdir -p /usr/local/cloudberry-db/lib && \
+    cp -v /usr/local/xerces-c/lib/libxerces-c.so* /usr/local/cloudberry-db/lib/ && \
+    chown -R gpadmin:gpadmin /usr/local/cloudberry-db
+
+# Переменные окружения
+ENV LD_LIBRARY_PATH=/usr/local/cloudberry-db/lib:/usr/local/xerces-c/lib
+ENV PATH=/usr/local/cloudberry-db/bin:$PATH
+
+# Клонируем Cloudberry — С ПОВТОРАМИ И ГЛУБИНОЙ 1
+USER gpadmin
+WORKDIR /home/gpadmin
+
+RUN for i in {1..3}; do \
+    echo "Attempt $i to clone Cloudberry..."; \
+    if git clone --depth=1 --branch 2.0.0-incubating https://github.com/apache/cloudberry.git cloudberry; then \
+    cd cloudberry && \
+    git submodule update --init --recursive && \
+    break; \
+    else \
+    echo "Clone failed, retrying..."; \
+    sleep 5; \
+    fi; \
+    done
+
+# Сборка
+WORKDIR /home/gpadmin/cloudberry
+
+RUN ./configure --prefix=/usr/local/cloudberry-db \
+    --disable-external-fts \
+    --enable-debug \
+    --enable-cassert \
+    --enable-debug-extensions \
+    --enable-gpcloud \
+    --enable-ic-proxy \
+    --enable-mapreduce \
+    --enable-orafce \
+    --enable-orca \
+    --enable-pax \
+    --enable-pxf \
+    --enable-tap-tests \
+    --with-gssapi \
+    --with-ldap \
+    --with-libxml \
+    --with-lz4 \
+    --with-pam \
+    --with-perl \
+    --with-pgport=5432 \
+    --with-python \
+    --with-pythonsrc-ext \
+    --with-ssl=openssl \
+    --with-uuid=e2fs \
+    --with-includes=/usr/local/xerces-c/include \
+    --with-libraries=/usr/local/cloudberry-db/lib
+
+RUN make -j$(nproc) && \
+    make -C contrib -j$(nproc) && \
+    make install && \
+    make -C contrib install
+
+# Проверка
+RUN /usr/local/cloudberry-db/bin/postgres --gp-version
+
+
+# Запуск
+COPY --chmod=+x start-cloudberry.sh /start-cloudberry.sh
+
+CMD ["bash", "/start-cloudberry.sh"]

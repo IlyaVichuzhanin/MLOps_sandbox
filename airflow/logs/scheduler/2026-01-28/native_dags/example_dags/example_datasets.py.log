@@ -1,0 +1,64 @@
+Started process (PID=87) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_datasets.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_datasets.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_datasets.py
+DAG(s) 'consume_1_or_both_2_and_3_with_dataset_expressions', 'dataset_produces_2', 'consume_1_and_2_with_dataset_expressions', 'conditional_dataset_and_time_based_timetable', 'dataset_consumes_1_and_2', 'dataset_consumes_1_never_scheduled', 'dataset_produces_1', 'consume_1_or_2_with_dataset_expressions', 'dataset_consumes_1', 'dataset_consumes_unknown_never_scheduled' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_datasets.py
+Sync 10 DAGs
+Setting next_dagrun for conditional_dataset_and_time_based_timetable to 2026-01-28 01:00:00+00:00, run_after=2026-01-28 01:00:00+00:00
+Setting next_dagrun for consume_1_and_2_with_dataset_expressions to None, run_after=None
+Setting next_dagrun for consume_1_or_2_with_dataset_expressions to None, run_after=None
+Setting next_dagrun for consume_1_or_both_2_and_3_with_dataset_expressions to None, run_after=None
+Setting next_dagrun for dataset_consumes_1 to None, run_after=None
+Setting next_dagrun for dataset_consumes_1_and_2 to None, run_after=None
+Setting next_dagrun for dataset_consumes_1_never_scheduled to None, run_after=None
+Setting next_dagrun for dataset_consumes_unknown_never_scheduled to None, run_after=None
+Setting next_dagrun for dataset_produces_1 to 2026-01-28 00:00:00+00:00, run_after=2026-01-28 00:00:00+00:00
+Setting next_dagrun for dataset_produces_2 to None, run_after=None
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_datasets.py took 0.104 seconds
+Started process (PID=153) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_datasets.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_datasets.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_datasets.py
+DAG(s) 'dataset_consumes_1_and_2', 'dataset_consumes_1', 'consume_1_or_both_2_and_3_with_dataset_expressions', 'dataset_consumes_1_never_scheduled', 'consume_1_or_2_with_dataset_expressions', 'dataset_produces_2', 'conditional_dataset_and_time_based_timetable', 'dataset_consumes_unknown_never_scheduled', 'dataset_produces_1', 'consume_1_and_2_with_dataset_expressions' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_datasets.py
+Sync 10 DAGs
+Setting next_dagrun for conditional_dataset_and_time_based_timetable to 2026-01-28 01:00:00+00:00, run_after=2026-01-28 01:00:00+00:00
+Setting next_dagrun for consume_1_and_2_with_dataset_expressions to None, run_after=None
+Setting next_dagrun for consume_1_or_2_with_dataset_expressions to None, run_after=None
+Setting next_dagrun for consume_1_or_both_2_and_3_with_dataset_expressions to None, run_after=None
+Setting next_dagrun for dataset_consumes_1 to None, run_after=None
+Setting next_dagrun for dataset_consumes_1_and_2 to None, run_after=None
+Setting next_dagrun for dataset_consumes_1_never_scheduled to None, run_after=None
+Setting next_dagrun for dataset_consumes_unknown_never_scheduled to None, run_after=None
+Setting next_dagrun for dataset_produces_1 to 2026-01-28 00:00:00+00:00, run_after=2026-01-28 00:00:00+00:00
+Setting next_dagrun for dataset_produces_2 to None, run_after=None
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_datasets.py took 0.199 seconds
+Started process (PID=219) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_datasets.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_datasets.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_datasets.py
+DAG(s) 'dataset_consumes_1_and_2', 'consume_1_and_2_with_dataset_expressions', 'dataset_produces_1', 'consume_1_or_2_with_dataset_expressions', 'consume_1_or_both_2_and_3_with_dataset_expressions', 'dataset_consumes_unknown_never_scheduled', 'dataset_consumes_1_never_scheduled', 'conditional_dataset_and_time_based_timetable', 'dataset_consumes_1', 'dataset_produces_2' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_datasets.py
+Sync 10 DAGs
+Setting next_dagrun for conditional_dataset_and_time_based_timetable to 2026-01-28 01:00:00+00:00, run_after=2026-01-28 01:00:00+00:00
+Setting next_dagrun for consume_1_and_2_with_dataset_expressions to None, run_after=None
+Setting next_dagrun for consume_1_or_2_with_dataset_expressions to None, run_after=None
+Setting next_dagrun for consume_1_or_both_2_and_3_with_dataset_expressions to None, run_after=None
+Setting next_dagrun for dataset_consumes_1 to None, run_after=None
+Setting next_dagrun for dataset_consumes_1_and_2 to None, run_after=None
+Setting next_dagrun for dataset_consumes_1_never_scheduled to None, run_after=None
+Setting next_dagrun for dataset_consumes_unknown_never_scheduled to None, run_after=None
+Setting next_dagrun for dataset_produces_1 to 2026-01-28 00:00:00+00:00, run_after=2026-01-28 00:00:00+00:00
+Setting next_dagrun for dataset_produces_2 to None, run_after=None
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_datasets.py took 0.108 seconds
+Started process (PID=293) to work on /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_datasets.py
+Processing file /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_datasets.py for tasks to queue
+Filling up the DagBag from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_datasets.py
+DAG(s) 'dataset_produces_1', 'consume_1_and_2_with_dataset_expressions', 'dataset_consumes_1_never_scheduled', 'conditional_dataset_and_time_based_timetable', 'dataset_consumes_1', 'dataset_consumes_unknown_never_scheduled', 'consume_1_or_2_with_dataset_expressions', 'consume_1_or_both_2_and_3_with_dataset_expressions', 'dataset_produces_2', 'dataset_consumes_1_and_2' retrieved from /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_datasets.py
+Sync 10 DAGs
+Setting next_dagrun for conditional_dataset_and_time_based_timetable to 2026-01-28 01:00:00+00:00, run_after=2026-01-28 01:00:00+00:00
+Setting next_dagrun for consume_1_and_2_with_dataset_expressions to None, run_after=None
+Setting next_dagrun for consume_1_or_2_with_dataset_expressions to None, run_after=None
+Setting next_dagrun for consume_1_or_both_2_and_3_with_dataset_expressions to None, run_after=None
+Setting next_dagrun for dataset_consumes_1 to None, run_after=None
+Setting next_dagrun for dataset_consumes_1_and_2 to None, run_after=None
+Setting next_dagrun for dataset_consumes_1_never_scheduled to None, run_after=None
+Setting next_dagrun for dataset_consumes_unknown_never_scheduled to None, run_after=None
+Setting next_dagrun for dataset_produces_1 to 2026-01-28 00:00:00+00:00, run_after=2026-01-28 00:00:00+00:00
+Setting next_dagrun for dataset_produces_2 to None, run_after=None
+Processing /home/airflow/.local/lib/python3.12/site-packages/airflow/example_dags/example_datasets.py took 0.210 seconds

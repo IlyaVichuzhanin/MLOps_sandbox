@@ -1,0 +1,5 @@
+# Dockerfile.mlflow
+FROM ghcr.io/mlflow/mlflow:latest
+
+# Установка PostgreSQL-драйвера
+RUN pip install psycopg2-binary

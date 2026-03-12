@@ -1,0 +1,91 @@
+::group::Pre task execution logs
+Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: upload_main_db_data_dag.upload_main_db_data manual__2026-03-04T10:02:41.749753+00:00 [queued]>
+Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: upload_main_db_data_dag.upload_main_db_data manual__2026-03-04T10:02:41.749753+00:00 [queued]>
+Starting attempt 2 of 3
+Executing <Task(_PythonDecoratedOperator): upload_main_db_data> on 2026-03-04 10:02:41.749753+00:00
+/home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:62: DeprecationWarning: This process (pid=3589) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+Started process 3598 to run task
+Running: ['***', 'tasks', 'run', 'upload_main_db_data_dag', 'upload_main_db_data', 'manual__2026-03-04T10:02:41.749753+00:00', '--job-id', '1166', '--raw', '--subdir', 'DAGS_FOLDER/upload_main_db_data_dag.py', '--cfg-path', '/tmp/tmpqrti2r78']
+Job 1166: Subtask upload_main_db_data
+Running <TaskInstance: upload_main_db_data_dag.upload_main_db_data manual__2026-03-04T10:02:41.749753+00:00 [running]> on host 31cb362d58af
+Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='upload_main_db_data_dag' AIRFLOW_CTX_TASK_ID='upload_main_db_data' AIRFLOW_CTX_EXECUTION_DATE='2026-03-04T10:02:41.749753+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-03-04T10:02:41.749753+00:00'
+::endgroup::
+Using connection ID 'hdfs_default' for task execution.
+Trying to connect to namenode:9870
+Trying namenode namenode
+Instantiated <InsecureClient(url='http://namenode:9870')>.
+Fetching status for '/'.
+Using namenode namenode for hook
+Fetching status for '/test_raw_data/data/Acron/MainDb/Acron.db'.
+Reading file '/test_raw_data/data/Acron/MainDb/Acron.db'.
+State of this instance has been externally set to None. Terminating instance.
+::endgroup::
+Sending 15 to group 3598. PIDs of all processes in the group: [3598]
+Sending the signal 15 to group 3598
+Received SIGTERM. Terminating subprocesses.
+::group::Post task execution logs
+Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 465, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/decorators/base.py", line 265, in execute
+    return_value = super().execute(context)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 235, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 252, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/upload_main_db_data_dag.py", line 101, in upload_main_db_data
+    with hdfs_tempfile(hdfs_path=sqlite_path) as local_sqlite_path:
+  File "/usr/local/lib/python3.12/contextlib.py", line 137, in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/upload_main_db_data_dag.py", line 41, in hdfs_tempfile
+    for chunk in reader:
+  File "/home/airflow/.local/lib/python3.12/site-packages/requests/utils.py", line 568, in stream_decode_response_unicode
+    yield from iterator
+  File "/home/airflow/.local/lib/python3.12/site-packages/requests/models.py", line 820, in generate
+    yield from self.raw.stream(chunk_size, decode_content=True)
+  File "/home/airflow/.local/lib/python3.12/site-packages/urllib3/response.py", line 936, in stream
+    data = self.read(amt=amt, decode_content=decode_content)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/urllib3/response.py", line 879, in read
+    data = self._raw_read(amt)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/urllib3/response.py", line 814, in _raw_read
+    data = self._fp_read(amt) if not fp_closed else b""
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/urllib3/response.py", line 799, in _fp_read
+    return self._fp.read(amt) if amt is not None else self._fp.read()
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/http/client.py", line 479, in read
+    s = self.fp.read(amt)
+        ^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/socket.py", line 708, in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 2613, in signal_handler
+    raise AirflowTaskTerminated("Task received SIGTERM signal")
+airflow.exceptions.AirflowTaskTerminated: Task received SIGTERM signal
+Marking task as FAILED. dag_id=upload_main_db_data_dag, task_id=upload_main_db_data, run_id=manual__2026-03-04T10:02:41.749753+00:00, execution_date=20260304T100241, start_date=20260304T100424, end_date=20260304T100503
+Failed to execute job 1166 for task upload_main_db_data ((psycopg2.errors.ForeignKeyViolation) insert or update on table "task_fail" violates foreign key constraint "task_fail_ti_fkey"
+DETAIL:  Key (dag_id, task_id, run_id, map_index)=(upload_main_db_data_dag, upload_main_db_data, manual__2026-03-04T10:02:41.749753+00:00, -1) is not present in table "task_instance".
+
+[SQL: INSERT INTO task_fail (task_id, dag_id, run_id, map_index, start_date, end_date, duration) VALUES (%(task_id)s, %(dag_id)s, %(run_id)s, %(map_index)s, %(start_date)s, %(end_date)s, %(duration)s) RETURNING task_fail.id]
+[parameters: {'task_id': 'upload_main_db_data', 'dag_id': 'upload_main_db_data_dag', 'run_id': 'manual__2026-03-04T10:02:41.749753+00:00', 'map_index': -1, 'start_date': datetime.datetime(2026, 3, 4, 10, 4, 24, 338132, tzinfo=Timezone('UTC')), 'end_date': datetime.datetime(2026, 3, 4, 10, 5, 3, 248452, tzinfo=Timezone('UTC')), 'duration': 38}]
+(Background on this error at: https://sqlalche.me/e/14/gkpj); 3598)
+Process psutil.Process(pid=3598, status='terminated', exitcode=1, started='13:04:23') (3598) terminated with exit code 1

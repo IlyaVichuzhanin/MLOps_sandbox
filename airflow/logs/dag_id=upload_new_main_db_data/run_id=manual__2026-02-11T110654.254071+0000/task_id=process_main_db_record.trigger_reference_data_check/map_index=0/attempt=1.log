@@ -1,0 +1,40 @@
+::group::Pre task execution logs
+Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: upload_new_main_db_data.process_main_db_record.trigger_reference_data_check manual__2026-02-11T11:06:54.254071+00:00 map_index=0 [queued]>
+Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: upload_new_main_db_data.process_main_db_record.trigger_reference_data_check manual__2026-02-11T11:06:54.254071+00:00 map_index=0 [queued]>
+Starting attempt 1 of 1
+Executing <Task(TriggerDagRunOperator): process_main_db_record.trigger_reference_data_check> on 2026-02-11 11:06:54.254071+00:00
+/home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:62: DeprecationWarning: This process (pid=1305) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+Started process 1307 to run task
+Running: ['***', 'tasks', 'run', 'upload_new_main_db_data', 'process_main_db_record.trigger_reference_data_check', 'manual__2026-02-11T11:06:54.254071+00:00', '--job-id', '195', '--raw', '--subdir', 'DAGS_FOLDER/upload_new_maindb_data_dag.py', '--cfg-path', '/tmp/tmpenvyi0c2', '--map-index', '0']
+Job 195: Subtask process_main_db_record.trigger_reference_data_check
+Running <TaskInstance: upload_new_main_db_data.process_main_db_record.trigger_reference_data_check manual__2026-02-11T11:06:54.254071+00:00 map_index=0 [running]> on host 752fea1deb88
+Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='upload_new_main_db_data' AIRFLOW_CTX_TASK_ID='process_main_db_record.trigger_reference_data_check' AIRFLOW_CTX_EXECUTION_DATE='2026-02-11T11:06:54.254071+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-11T11:06:54.254071+00:00'
+::endgroup::
+::group::Post task execution logs
+Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 460, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/trigger_dagrun.py", line 180, in execute
+    dag_run = trigger_dag(
+              ^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/api/common/trigger_dag.py", line 126, in trigger_dag
+    triggers = _trigger_dag(
+               ^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/api/common/trigger_dag.py", line 56, in _trigger_dag
+    raise DagNotFound(f"Dag id {dag_id} not found")
+airflow.exceptions.DagNotFound: Dag id upload_main_db_reference_data_dag not found
+Marking task as FAILED. dag_id=upload_new_main_db_data, task_id=process_main_db_record.trigger_reference_data_check, run_id=manual__2026-02-11T11:06:54.254071+00:00, map_index=0, execution_date=20260211T110654, start_date=20260211T110700, end_date=20260211T110700
+Failed to execute job 195 for task process_main_db_record.trigger_reference_data_check (Dag id upload_main_db_reference_data_dag not found; 1307)
+Task exited with return code 1
+0 downstream tasks scheduled from follow-on schedule check
+::endgroup::

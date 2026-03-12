@@ -1,0 +1,148 @@
+::group::Pre task execution logs
+Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: upload_main_db_data_dag.upload_main_db_data manual__2026-03-03T08:26:46.930771+00:00 [queued]>
+Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: upload_main_db_data_dag.upload_main_db_data manual__2026-03-03T08:26:46.930771+00:00 [queued]>
+Starting attempt 1 of 3
+Executing <Task(_PythonDecoratedOperator): upload_main_db_data> on 2026-03-03 08:26:46.930771+00:00
+/home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:62: DeprecationWarning: This process (pid=60851) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+Started process 60853 to run task
+Running: ['***', 'tasks', 'run', 'upload_main_db_data_dag', 'upload_main_db_data', 'manual__2026-03-03T08:26:46.930771+00:00', '--job-id', '1016', '--raw', '--subdir', 'DAGS_FOLDER/upload_main_db_data_dag.py', '--cfg-path', '/tmp/tmp6y800vt0']
+Job 1016: Subtask upload_main_db_data
+Running <TaskInstance: upload_main_db_data_dag.upload_main_db_data manual__2026-03-03T08:26:46.930771+00:00 [running]> on host ff5784e9d160
+Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='upload_main_db_data_dag' AIRFLOW_CTX_TASK_ID='upload_main_db_data' AIRFLOW_CTX_EXECUTION_DATE='2026-03-03T08:26:46.930771+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-03-03T08:26:46.930771+00:00'
+::endgroup::
+Using connection ID 'hdfs_default' for task execution.
+Trying to connect to namenode:9870
+Trying namenode namenode
+Instantiated <InsecureClient(url='http://namenode:9870')>.
+Fetching status for '/'.
+Using namenode namenode for hook
+Fetching status for '/test_raw_data/data/Acron/MainDb/Acron.db'.
+Reading file '/test_raw_data/data/Acron/MainDb/Acron.db'.
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 22 rows to stg_measure_groups
+Using connection ID 'cloudberry_test_dwh' for task execution.
+SQLAlchemy error during DV load: (psycopg2.errors.SyntaxError) syntax error at or near ")"
+LINE 13:                 )
+                         ^
+
+[SQL: 
+                INSERT INTO h_measure_groups (
+                    h_measure_group_sk,
+                    load_dttm,
+                    data_source_id
+                )
+                SELECT 
+                    stg.hash_sk,
+                    stg.load_dttm,
+                    stg.data_source_id
+                FROM stg_measure_groups stg
+                ON CONFLICT (h_measure_group_sk) DO NOTHING
+                )
+            ]
+(Background on this error at: https://sqlalche.me/e/14/f405)
+::group::Post task execution logs
+Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1910, in _execute_context
+    self.dialect.do_execute(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 736, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.SyntaxError: syntax error at or near ")"
+LINE 13:                 )
+                         ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 465, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/decorators/base.py", line 265, in execute
+    return_value = super().execute(context)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 235, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 252, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/upload_main_db_data_dag.py", line 122, in upload_main_db_data
+    merge_staging_to_hub()
+  File "/opt/airflow/dags/upload_main_db_data/upload_main_db_data.py", line 517, in merge_staging_to_hub
+    raise e
+  File "/opt/airflow/dags/upload_main_db_data/upload_main_db_data.py", line 447, in merge_staging_to_hub
+    result = conn.execute(insert_hub_sql)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1385, in execute
+    return meth(self, multiparams, params, _EMPTY_EXECUTION_OPTS)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/sql/elements.py", line 334, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1577, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1953, in _execute_context
+    self._handle_dbapi_exception(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2134, in _handle_dbapi_exception
+    util.raise_(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1910, in _execute_context
+    self.dialect.do_execute(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 736, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.SyntaxError) syntax error at or near ")"
+LINE 13:                 )
+                         ^
+
+[SQL: 
+                INSERT INTO h_measure_groups (
+                    h_measure_group_sk,
+                    load_dttm,
+                    data_source_id
+                )
+                SELECT 
+                    stg.hash_sk,
+                    stg.load_dttm,
+                    stg.data_source_id
+                FROM stg_measure_groups stg
+                ON CONFLICT (h_measure_group_sk) DO NOTHING
+                )
+            ]
+(Background on this error at: https://sqlalche.me/e/14/f405)
+Marking task as UP_FOR_RETRY. dag_id=upload_main_db_data_dag, task_id=upload_main_db_data, run_id=manual__2026-03-03T08:26:46.930771+00:00, execution_date=20260303T082646, start_date=20260303T082648, end_date=20260303T082719
+Failed to execute job 1016 for task upload_main_db_data ((psycopg2.errors.SyntaxError) syntax error at or near ")"
+LINE 13:                 )
+                         ^
+
+[SQL: 
+                INSERT INTO h_measure_groups (
+                    h_measure_group_sk,
+                    load_dttm,
+                    data_source_id
+                )
+                SELECT 
+                    stg.hash_sk,
+                    stg.load_dttm,
+                    stg.data_source_id
+                FROM stg_measure_groups stg
+                ON CONFLICT (h_measure_group_sk) DO NOTHING
+                )
+            ]
+(Background on this error at: https://sqlalche.me/e/14/f405); 60853)
+Task exited with return code 1
+::endgroup::

@@ -1,0 +1,109 @@
+::group::Pre task execution logs
+Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: check_main_db_reference_data_dag.validate_reference_data manual__2026-02-16T07:41:03.547239+00:00 [queued]>
+Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: check_main_db_reference_data_dag.validate_reference_data manual__2026-02-16T07:41:03.547239+00:00 [queued]>
+Starting attempt 2 of 3
+Executing <Task(_PythonDecoratedOperator): validate_reference_data> on 2026-02-16 07:41:03.547239+00:00
+/home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:62: DeprecationWarning: This process (pid=50071) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+Started process 50073 to run task
+Running: ['***', 'tasks', 'run', 'check_main_db_reference_data_dag', 'validate_reference_data', 'manual__2026-02-16T07:41:03.547239+00:00', '--job-id', '251', '--raw', '--subdir', 'DAGS_FOLDER/check_main_db_reference_data_dag.py', '--cfg-path', '/tmp/tmpy8b7lv3k']
+Job 251: Subtask validate_reference_data
+Running <TaskInstance: check_main_db_reference_data_dag.validate_reference_data manual__2026-02-16T07:41:03.547239+00:00 [running]> on host 752fea1deb88
+Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='check_main_db_reference_data_dag' AIRFLOW_CTX_TASK_ID='validate_reference_data' AIRFLOW_CTX_EXECUTION_DATE='2026-02-16T07:41:03.547239+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-16T07:41:03.547239+00:00'
+::endgroup::
+Выполнение запроса к /test_raw_data/data/Acron/MainDb/Acron.db:
+  SELECT DISTINCT DefectType FROM DiagnosticAlarmHistory_v2 
+Using connection ID 'hdfs_default' for task execution.
+Trying to connect to namenode:9870
+Trying namenode namenode
+Instantiated <InsecureClient(url='http://namenode:9870')>.
+Fetching status for '/'.
+Using namenode namenode for hook
+Fetching status for '/test_raw_data/data/Acron/MainDb/Acron.db'.
+Reading file '/test_raw_data/data/Acron/MainDb/Acron.db'.
+✓ Запрос выполнен успешно. Получено строк: 1
+Выполнение запроса к Cloudberry (cloudberry_test_dwh):
+  SELECT type_id FROM s_diagnostic_defect_types 
+Using connection ID 'cloudberry_test_dwh' for task execution.
+✓ Запрос выполнен успешно. Получено строк: 2
+✓ Проверка пройдена: все 23 элемента справочных данных Diagnostic Defect Types из SQLite найдены в DWH.
+Выполнение запроса к /test_raw_data/data/Acron/MainDb/Acron.db:
+  SELECT DISTINCT AlarmState FROM DiagnosticAlarmHistory_v2 
+Using connection ID 'hdfs_default' for task execution.
+Trying to connect to namenode:9870
+Trying namenode namenode
+Instantiated <InsecureClient(url='http://namenode:9870')>.
+Fetching status for '/'.
+Using namenode namenode for hook
+Fetching status for '/test_raw_data/data/Acron/MainDb/Acron.db'.
+Reading file '/test_raw_data/data/Acron/MainDb/Acron.db'.
+✓ Запрос выполнен успешно. Получено строк: 4
+Выполнение запроса к Cloudberry (cloudberry_test_dwh):
+  SELECT state_id FROM s_diagnostic_alarm_states 
+Using connection ID 'cloudberry_test_dwh' for task execution.
+✓ Запрос выполнен успешно. Получено строк: 4
+✓ Проверка пройдена: все 23 элемента справочных данных Diagnostic Alarm States из SQLite найдены в DWH.
+Выполнение запроса к /test_raw_data/data/Acron/MainDb/Acron.db:
+  SELECT DISTINCT DefectState FROM DiagnosticAlarmHistory_v2 
+Using connection ID 'hdfs_default' for task execution.
+Trying to connect to namenode:9870
+Trying namenode namenode
+Instantiated <InsecureClient(url='http://namenode:9870')>.
+Fetching status for '/'.
+Using namenode namenode for hook
+Fetching status for '/test_raw_data/data/Acron/MainDb/Acron.db'.
+Reading file '/test_raw_data/data/Acron/MainDb/Acron.db'.
+✓ Запрос выполнен успешно. Получено строк: 6
+Выполнение запроса к Cloudberry (cloudberry_test_dwh):
+  SELECT state_id FROM s_diagnostic_defect_states 
+Using connection ID 'cloudberry_test_dwh' for task execution.
+✓ Запрос выполнен успешно. Получено строк: 6
+✓ Проверка пройдена: все 24 элемента справочных данных Diagnostic Defect States из SQLite найдены в DWH.
+Выполнение запроса к /test_raw_data/data/Acron/MainDb/Acron.db:
+  SELECT DISTINCT TypeID FROM IODeviceConfigs 
+Using connection ID 'hdfs_default' for task execution.
+Trying to connect to namenode:9870
+Trying namenode namenode
+Instantiated <InsecureClient(url='http://namenode:9870')>.
+Fetching status for '/'.
+Using namenode namenode for hook
+Fetching status for '/test_raw_data/data/Acron/MainDb/Acron.db'.
+Reading file '/test_raw_data/data/Acron/MainDb/Acron.db'.
+✓ Запрос выполнен успешно. Получено строк: 2
+Выполнение запроса к Cloudberry (cloudberry_test_dwh):
+  SELECT type_id FROM s_config_types 
+Using connection ID 'cloudberry_test_dwh' for task execution.
+✓ Запрос выполнен успешно. Получено строк: 13
+::group::Post task execution logs
+Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 465, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/decorators/base.py", line 265, in execute
+    return_value = super().execute(context)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 235, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 252, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/check_main_db_reference_data_dag.py", line 200, in validate_reference_data
+    raise AirflowException(f"❌ Проверка НЕ пройдена: в DWH отсутствуют элементы справочных данных {reference_data_set}!/n"
+airflow.exceptions.AirflowException: ❌ Проверка НЕ пройдена: в DWH отсутствуют элементы справочных данных Config Types!/nНеобходимо актуализировать справочные данные Config Types!
+Marking task as UP_FOR_RETRY. dag_id=check_main_db_reference_data_dag, task_id=validate_reference_data, run_id=manual__2026-02-16T07:41:03.547239+00:00, execution_date=20260216T074103, start_date=20260216T074556, end_date=20260216T074811
+Failed to execute job 251 for task validate_reference_data (❌ Проверка НЕ пройдена: в DWH отсутствуют элементы справочных данных Config Types!/nНеобходимо актуализировать справочные данные Config Types!; 50073)
+Task exited with return code 1
+0 downstream tasks scheduled from follow-on schedule check
+::endgroup::

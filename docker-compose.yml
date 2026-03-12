@@ -1,0 +1,691 @@
+x-airflow-common:
+  &airflow-common
+  # image: ${_AIRFLOW_IMAGE_NAME:-apache/airflow:2.9.3}
+  build:
+    context: ./airflow
+    dockerfile: ./Dockerfile.airflow
+  env_file:
+    - ${_ENV_FILE_PATH}
+  environment:
+    &airflow-common-env
+    AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+    AIRFLOW__CORE__AUTH_MANAGER: airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres_airflow/airflow
+    AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@postgres_airflow/airflow
+    AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
+    AIRFLOW__CORE__FERNET_KEY: ''
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'true'
+    AIRFLOW__CORE__XCOM_BACKEND: airflow.models.xcom.BaseXCom
+    AIRFLOW__CORE__EXECUTION_API_SERVER_URL: 'http://airflow-apiserver:8080/execution/'
+    AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
+    # _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
+    AIRFLOW_CONFIG: '/opt/airflow/config/airflow.cfg'
+  volumes:
+    - type: bind
+      source: ./airflow/dags
+      target: /opt/airflow/dags
+    - type: bind
+      source: ./airflow/logs
+      target: /opt/airflow/logs
+    - type: bind
+      source: ./airflow/plugins
+      target: /opt/airflow/plugins
+    - type: bind
+      source: ./airflow/config
+      target: /opt/airflow/config
+    - type: bind
+      source: ./airflow/scripts
+      target: /opt/airflow/scripts
+  user: "${AIRFLOW_UID:-50000}:0"
+  depends_on:
+    &airflow-common-depends-on
+    redis:
+      condition: service_healthy
+    postgres_airflow:
+      condition: service_healthy
+
+
+
+services:
+  postgres_airflow:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: ${_POSTGRES_USER_AIRFLOW}
+      POSTGRES_PASSWORD: ${_POSTGRES_PASSWORD_AIRFLOW}
+      POSTGRES_DB: ${_POSTGRES_DB_AIRFLOW}
+    volumes:
+    - type: volume
+      source: pg_airflow_db_volume
+      target: /var/lib/postgresql/data
+      volume:
+        nocopy: false
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 5s
+      retries: 5
+    restart: always
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.10
+
+  redis:
+    image: redis:latest
+    expose:
+      - 6379
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 30s
+      retries: 50
+    restart: always
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.11
+
+
+  airflow-webserver:
+    <<: *airflow-common
+    entrypoint: bash
+    command: ["/opt/airflow/scripts/webserver.sh"]
+    ports:
+      - 8080:8080
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://127.0.0.1:8080/health"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    restart: always
+    depends_on:
+      <<: *airflow-common-depends-on
+      airflow-init:
+        condition: service_completed_successfully
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.20
+
+  airflow-scheduler:
+    <<: *airflow-common
+    entrypoint: bash
+    command: ["/opt/airflow/scripts/scheduler.sh"]
+    healthcheck:
+      test: ["CMD-SHELL", 'airflow jobs check --job-type SchedulerJob --hostname "$${HOSTNAME}"']
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    restart: always
+    depends_on:
+      <<: *airflow-common-depends-on
+      airflow-init:
+        condition: service_completed_successfully
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.21
+
+  airflow-worker:
+    <<: *airflow-common
+    entrypoint: bash
+    command: ["/opt/airflow/scripts/worker.sh"]
+    mem_limit: 8g      
+    memswap_limit: 8g
+    healthcheck:
+      test:
+        - "CMD-SHELL"
+        - 'celery --app airflow.executors.celery_executor.app inspect ping -d "celery@$${HOSTNAME}"'
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    environment:
+      <<: *airflow-common-env
+      DUMB_INIT_SETSID: "0"
+    restart: always
+    depends_on:
+      <<: *airflow-common-depends-on
+      airflow-init:
+        condition: service_completed_successfully
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.22
+
+
+  airflow-triggerer:
+    <<: *airflow-common
+    entrypoint: bash
+    command: ["/opt/airflow/scripts/triggerer.sh"]
+    healthcheck:
+      test: ["CMD-SHELL", 'airflow jobs check --job-type TriggererJob --hostname "$${HOSTNAME}"']
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    restart: always
+    depends_on:
+      <<: *airflow-common-depends-on
+      airflow-init:
+        condition: service_completed_successfully
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.23
+
+  airflow-init:
+    <<: *airflow-common
+    entrypoint: bash
+    # yamllint disable rule:line-length
+    environment:
+      <<: *airflow-common-env
+      _AIRFLOW_DB_MIGRATE: 'true'
+      _AIRFLOW_WWW_USER_CREATE: 'true'
+      _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME}
+      _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD}
+      # _PIP_ADDITIONAL_REQUIREMENTS: "apache-airflow-providers-apache-hdfs==3.4.0 apache-airflow-providers-celery==3.1.0"
+    user: "0:0"
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.24
+
+
+  airflow-cli:
+    <<: *airflow-common
+    profiles:
+      - debug
+    environment:
+      <<: *airflow-common-env
+      CONNECTION_CHECK_MAX_COUNT: "0"
+    command: ["/opt/airflow/scripts/cli.sh"]
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.25
+
+  flower:
+    <<: *airflow-common
+    command: ["/opt/airflow/scripts/flower.sh"]
+    profiles:
+      - flower
+    ports:
+      - 5555:5555
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:5555/"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    restart: always
+    depends_on:
+      <<: *airflow-common-depends-on
+      airflow-init:
+        condition: service_completed_successfully
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.26
+
+  hadoop-namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    container_name: namenode
+    hostname: namenode
+    volumes:
+      - type: volume
+        source: hadoop_namenode_volume
+        target: /hadoop/dfs/name
+        volume:
+          nocopy: false
+      - type: bind
+        source: ./hadoop/config/core-site.xml
+        target: /opt/hadoop-3.2.1/etc/hadoop/core-site.xml
+      - type: bind
+        source: ./hadoop/config/hdfs-site.xml
+        target: /opt/hadoop-3.2.1/etc/hadoop/hdfs-site.xml
+      - type: bind
+        source: ./hadoop/hdfs-init.sh
+        target: /hdfs-init.sh
+    environment:
+      CLUSTER_NAME: ${_HADOOP_CLUSTER_NAME}
+      HDFS_CONF_dfs_namenode_rpc_bind_host: "0.0.0.0"
+      HDFS_CONF_dfs_namenode_http_bind_host: "0.0.0.0"
+      HDFS_CONF_dfs_client_use_datanode_hostname: "false"
+      HDFS_CONF_dfs_datanode_use_datanode_hostname: "false"
+      HDFS_CONF_dfs_namenode_datanode_registration_ip_hostname_check: "false"
+      HDFS_CONF_dfs_permissions_enabled: "false"
+    env_file:
+      - .env
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.30
+    ports:
+      - "9870:9870"   # Web UI NameNode
+      - "8020:8020"   # RPC (fs.defaultFS)
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9870"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+
+  hadoop-datanode1:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: datanode1
+    hostname: datanode1
+    volumes:
+      - type: volume
+        source: hadoop_datanode_volume
+        target: /hadoop/dfs/data
+        volume:
+          nocopy: false
+      - type: bind
+        source: ./hadoop/config/core-site.xml
+        target: /opt/hadoop-3.2.1/etc/hadoop/core-site.xml
+      - type: bind
+        source: ./hadoop/config/hdfs-site.xml
+        target: /opt/hadoop-3.2.1/etc/hadoop/hdfs-site.xml
+    # environment:
+    #   CORE_CONF_fs_defaultFS: ${_CORE_CONF_fs_defaultFS}
+    #   # КРИТИЧЕСКИ ВАЖНО: только подчёркивания, НИКАКИХ дефисов!
+    #   HDFS_CONF_dfs_client_use_datanode_hostname: "false"
+    #   HDFS_CONF_dfs_datanode_use_datanode_hostname: "false"
+    #   HDFS_CONF_dfs_namenode_datanode_registration_ip_hostname_check: "false"
+    env_file:
+      - .env
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.31
+    depends_on:
+      - hadoop-namenode
+    restart: always
+  
+  nifi:
+    build:
+      context: ./nifi
+      dockerfile: ./Dockerfile.nifi
+    container_name: nifi
+    entrypoint:
+      - bash
+      - -c
+      - |
+        echo "→ Копирование пользовательских NAR-библиотек в lib..." &&
+        cp -rn /opt/nifi/nar_libs/. /opt/nifi/nifi-current/lib/ 2>/dev/null || true &&
+        echo "→ Готово. Добавлено $$(ls -1 /opt/nifi/nar_libs/ 2>/dev/null | wc -l) файлов." &&
+        exec /opt/nifi/scripts/start.sh
+    ports:
+      - "8000:8000"
+      - "8443:8443"
+    environment:
+      NIFI_WEB_HTTP_PORT: ${_NIFI_WEB_HTTP_PORT}
+      NIFI_WEB_HTTP_HOST: ${_NIFI_WEB_HTTP_HOST}
+      NIFI_WEB_HTTPS_PORT: ${_NIFI_WEB_HTTPS_PORT}
+      NIFI_WEB_HTTPS_HOST: ${_NIFI_WEB_HTTPS_HOST}
+      NIFI_SENSITIVE_PROPS_KEY: ${_NIFI_SENSITIVE_PROPS_KEY}
+      # Авторизация
+      NIFI_SECURITY_USER_AUTHORIZER: ${_NIFI_SECURITY_USER_AUTHORIZER}
+      NIFI_SECURITY_USER_LOGIN_IDENTITY_PROVIDER: ${_NIFI_SECURITY_USER_LOGIN_IDENTITY_PROVIDER}
+    env_file:
+      - .env
+    volumes:
+      - type: volume
+        source: nifi_flow_volume
+        target: /opt/nifi/nifi-current/flowfile_repository
+      - type: volume
+        source: nifi_content_volume
+        target: /opt/nifi/nifi-current/content_repository
+      - type: volume
+        source: nifi_provenance_volume
+        target: /opt/nifi/nifi-current/provenance_repository
+      - type: volume
+        source: nifi_db_volume
+        target: /opt/nifi/nifi-current/database_repository
+      - type: volume
+        source: nifi_conf_volume
+        target: /opt/nifi/nifi-current/conf
+      - type: bind
+        source: ./nifi/conf/login-identity-providers.xml
+        target: /opt/nifi/nifi-current/conf/login-identity-providers.xml
+      - type: bind
+        source: ./nifi/nar_libs/
+        target: /opt/nifi/nar_libs
+      - type: bind
+        source: ./nifi/init_scripts/copy_nar_libs.sh
+        target: /opt/nifi/scripts/copy_nar_libs.sh
+      - type: bind
+        source: ./nifi/execute_scripts
+        target: /opt/nifi/execute_scripts
+      - type: bind
+        source: ./hadoop/config
+        target: /opt/nifi/hadoop_conf
+      - type: bind
+        source: ./nifi/test_data
+        target: /opt/nifi/test_data
+    restart: unless-stopped
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.40
+
+  cloudberry:
+    build:
+      context: ./cloudberry
+      dockerfile: ./Dockerfile.cloudberry
+    hostname: cdw
+    ports:
+      - "7000:7000"
+    volumes:
+      - type: volume
+        source: cloudberry_data_volume
+        target: /home/gpadmin/cloudberry/gpAux/gpdemo
+        volume:
+          nocopy: false
+    restart: unless-stopped
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.50
+
+  zookeeper:
+    image: zookeeper:3.9.3
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.60
+    environment:
+      ALLOW_ANONYMOUS_LOGIN: ${_ALLOW_ANONYMOUS_LOGIN}
+      ZOOKEEPER_CLIENT_PORT: ${_ZOOKEEPER_CLIENT_PORT}
+      TZ: ${_TZ}
+    ports:
+      - "2182:2181"
+      - "2888:2888"
+      - "3888:3888"
+    env_file:
+      - .env
+
+  # Общий шаблон для ClickHouse нод
+  clickhouse-base: &ch-default-configs
+    image: yandex/clickhouse-server:latest
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.70
+    restart: unless-stopped
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+
+  click1:
+    <<: *ch-default-configs
+    volumes:
+      - type: bind
+        source: ./clickhouse/configs/default_user.xml
+        target: /etc/clickhouse-server/users.d/default_user.xml
+      - type: bind
+        source: ./clickhouse/configs/z_config.xml
+        target: /etc/clickhouse-server/config.d/z_config.xml
+      - type: bind
+        source: ./clickhouse/configs/macros_ch1.xml
+        target: /etc/clickhouse-server/config.d/macros.xml
+      - type: bind
+        source: ./clickhouse/data/click1
+        target: /var/lib/clickhouse/user_files/data
+    ports:
+      - "8002:9000"
+      - "9123:8123"
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.71
+
+  click2:
+    <<: *ch-default-configs
+    volumes:
+      - type: bind
+        source: ./clickhouse/configs/default_user.xml
+        target: /etc/clickhouse-server/users.d/default_user.xml
+      - type: bind
+        source: ./clickhouse/configs/z_config.xml
+        target: /etc/clickhouse-server/config.d/z_config.xml
+      - type: bind
+        source: ./clickhouse/configs/macros_ch2.xml
+        target: /etc/clickhouse-server/config.d/macros.xml
+      - type: bind
+        source: ./clickhouse/data/click2
+        target: /var/lib/clickhouse/user_files/data
+    ports:
+      - "8003:9000"
+      - "9124:8123"
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.72
+
+  click3:
+    <<: *ch-default-configs
+    volumes:
+      - type: bind
+        source: ./clickhouse/configs/default_user.xml
+        target: /etc/clickhouse-server/users.d/default_user.xml
+      - type: bind
+        source: ./clickhouse/configs/z_config.xml
+        target: /etc/clickhouse-server/config.d/z_config.xml
+      - type: bind
+        source: ./clickhouse/configs/macros_ch3.xml
+        target: /etc/clickhouse-server/config.d/macros.xml
+      - type: bind
+        source: ./clickhouse/data/click3
+        target: /var/lib/clickhouse/user_files/data
+    ports:
+      - "8004:9000"
+      - "9125:8123"
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.73
+
+  click4:
+    <<: *ch-default-configs
+    volumes:
+      - type: bind
+        source: ./clickhouse/configs/default_user.xml
+        target: /etc/clickhouse-server/users.d/default_user.xml
+      - type: bind
+        source: ./clickhouse/configs/z_config.xml
+        target: /etc/clickhouse-server/config.d/z_config.xml
+      - type: bind
+        source: ./clickhouse/configs/macros_ch4.xml
+        target: /etc/clickhouse-server/config.d/macros.xml
+      - type: bind
+        source: ./clickhouse/data/click4
+        target: /var/lib/clickhouse/user_files/data
+    ports:
+      - "8005:9000"
+      - "9126:8123"
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.74
+
+  haproxy:
+    image: haproxy:3.1.7
+    command: ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.cfg"]
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.75
+    ports:
+      - "9002:9000"
+      - "8124:8123"
+    volumes:
+      - type: bind
+        source: ./clickhouse/configs/haproxy/haproxy.cfg
+        target: /usr/local/etc/haproxy/haproxy.cfg
+    depends_on:
+      - click1
+      - click2
+      - click3
+      - click4
+    restart: unless-stopped
+# PostgreSQL database
+  postgres_ml_flow:
+    image: postgres:17  # ← ВРЕМЕННОЕ решение: зафиксируйте версию <18
+    environment:
+      POSTGRES_USER: ${_POSTGRES_USER_MLFLOW}
+      POSTGRES_PASSWORD: ${_POSTGRES_PASSWORD_MLFLOW}
+      POSTGRES_DB: ${_POSTGRES_DB_MLFLOW}
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - type: bind
+        source: ./mlflow/postgres-data
+        target: /var/lib/postgresql/data
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.80
+
+  # MinIO server (S3-compatible artifact store)
+  minio:
+    image: minio/minio
+    expose:
+      - "9000"
+    ports:
+      - "9010:9000"
+      - "9001:9001" # MinIO Console
+    environment:
+      MINIO_ROOT_USER: ${_MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${_MINIO_ROOT_PASSWORD}
+    env_file:
+      - .env
+    command: server /data --console-address :9001
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    volumes:
+      - type: bind
+        source: ./minio/minio-data
+        target: /data
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.81
+
+  # MLflow Tracking Server
+  mlflow:
+    build:
+      context: ./mlflow
+      dockerfile: ./Dockerfile.mlflow
+    ports:
+      - "5000:5000"
+    environment:
+      MLFLOW_S3_ENDPOINT_URL: ${_MLFLOW_S3_ENDPOINT_URL}
+      AWS_ACCESS_KEY_ID: ${_AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${_AWS_SECRET_ACCESS_KEY}
+    env_file:
+      - .env
+    command:
+      - mlflow
+      - server
+      - --backend-store-uri
+      - ${_MLFLOW_BACKEND_STORE_URI}  # ← из .env
+      - --default-artifact-root
+      - s3://mlflow-artifacts
+      - --host
+      - 0.0.0.0
+    depends_on:
+      - postgres_ml_flow
+      - minio
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.82
+  label_studio:
+    image: heartexlabs/label-studio:latest
+    container_name: label_studio
+    restart: unless-stopped
+    ports:
+      - "8083:8080"
+    volumes:
+      - type: bind
+        source: ./label_studio/data
+        target: /label_studio/data
+    networks:
+        ml_sandbox_network:
+          ipv4_address: 172.21.0.83
+  
+  postgres_superset:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${_POSTGRES_USER_SUPERSET}
+      POSTGRES_PASSWORD: ${_POSTGRES_PASSWORD_SUPERSET}
+      POSTGRES_DB: ${_POSTGRES_DB_SUPERSET}
+    env_file:
+      - .env
+    volumes:
+      - type: volume
+        source: pg_superset_db_volume
+        target: /var/lib/postgresql/data
+        volume:
+          nocopy: false
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U superset"]
+      interval: 5s
+      retries: 5
+    restart: always
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.84
+
+  superset:
+    image: apache/superset:4.0.2
+    ports:
+      - "8088:8088"
+    depends_on:
+      postgres_superset:
+        condition: service_healthy
+    volumes:
+      - type: volume
+        source: superset_volume
+        target: /app/superset_home
+      - type: bind
+        source: ./superset/config
+        target: /app/pythonpath
+    environment:
+      SUPERSET_SECRET_KEY: ${_SUPERSET_SECRET_KEY}
+      SUPERSET_DB_URI: ${_SUPERSET_DB_URI}
+      SUPERSET_CONFIG_PATH: ${_SUPERSET_CONFIG_PATH}
+    env_file:
+      - .env
+    restart: unless-stopped
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.85
+  
+  trino:
+    image: trinodb/trino:latest
+    container_name: trino-server
+    ports:
+      - "8085:8080"
+    environment:
+      # Optional: Allocate memory to prevent potential out-of-memory errors on small systems
+      JAVA_TOOL_OPTIONS: ${_JAVA_TOOL_OPTIONS}
+    env_file:
+      - .env
+    # Optional: Add a healthcheck to verify the server is running
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/v1/info"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.86
+
+
+
+volumes:
+  pg_airflow_db_volume:
+  airflow_logs_volume:
+  hadoop_namenode_volume:
+  hadoop_datanode_volume:
+  cloudberry_data_volume:
+  superset_volume:
+  pg_superset_db_volume:
+  nifi_flow_volume:
+  nifi_content_volume:
+  nifi_provenance_volume:
+  nifi_db_volume:
+  nifi_conf_volume:
+  
+
+
+networks:
+  ml_sandbox_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16

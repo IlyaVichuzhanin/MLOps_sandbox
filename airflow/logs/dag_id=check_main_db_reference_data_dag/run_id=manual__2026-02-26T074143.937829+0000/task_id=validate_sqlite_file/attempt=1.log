@@ -1,0 +1,37 @@
+::group::Pre task execution logs
+Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: check_main_db_reference_data_dag.validate_sqlite_file manual__2026-02-26T07:41:43.937829+00:00 [queued]>
+Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: check_main_db_reference_data_dag.validate_sqlite_file manual__2026-02-26T07:41:43.937829+00:00 [queued]>
+Starting attempt 1 of 3
+Executing <Task(_PythonDecoratedOperator): validate_sqlite_file> on 2026-02-26 07:41:43.937829+00:00
+/home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:62: DeprecationWarning: This process (pid=7348) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+Started process 7350 to run task
+Running: ['***', 'tasks', 'run', 'check_main_db_reference_data_dag', 'validate_sqlite_file', 'manual__2026-02-26T07:41:43.937829+00:00', '--job-id', '547', '--raw', '--subdir', 'DAGS_FOLDER/check_main_db_reference_data_dag.py', '--cfg-path', '/tmp/tmph96p4wws']
+Job 547: Subtask validate_sqlite_file
+Running <TaskInstance: check_main_db_reference_data_dag.validate_sqlite_file manual__2026-02-26T07:41:43.937829+00:00 [running]> on host ca2006464258
+Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='check_main_db_reference_data_dag' AIRFLOW_CTX_TASK_ID='validate_sqlite_file' AIRFLOW_CTX_EXECUTION_DATE='2026-02-26T07:41:43.937829+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-26T07:41:43.937829+00:00'
+::endgroup::
+Using connection ID 'hdfs_default' for task execution.
+Trying to connect to namenode:9870
+Trying namenode namenode
+Instantiated <InsecureClient(url='http://namenode:9870')>.
+Fetching status for '/'.
+Using namenode namenode for hook
+Fetching status for '/test_raw_data/data/Acron/MainDb/Acron.db'.
+Reading file '/test_raw_data/data/Acron/MainDb/Acron.db'.
+Using connection ID 'hdfs_default' for task execution.
+Trying to connect to namenode:9870
+Trying namenode namenode
+Instantiated <InsecureClient(url='http://namenode:9870')>.
+Fetching status for '/'.
+Using namenode namenode for hook
+Fetching status for '/test_raw_data/data/Acron/MainDb/Acron.db'.
+Reading file '/test_raw_data/data/Acron/MainDb/Acron.db'.
+✓ Файл валиден: /test_raw_data/data/Acron/MainDb/Acron.db (1539.70 MB)
+Done. Returned value was: {'hdfs_path': '/test_raw_data/data/Acron/MainDb/Acron.db', 'file_size_bytes': 1614487552, 'file_size_mb': 1539.7, 'header_valid': True, 'sqlite_valid': True, 'error_detail': None, 'status': 'valid'}
+::group::Post task execution logs
+Marking task as SUCCESS. dag_id=check_main_db_reference_data_dag, task_id=validate_sqlite_file, run_id=manual__2026-02-26T07:41:43.937829+00:00, execution_date=20260226T074143, start_date=20260226T074147, end_date=20260226T074229
+Task exited with return code 0
+1 downstream tasks scheduled from follow-on schedule check
+::endgroup::

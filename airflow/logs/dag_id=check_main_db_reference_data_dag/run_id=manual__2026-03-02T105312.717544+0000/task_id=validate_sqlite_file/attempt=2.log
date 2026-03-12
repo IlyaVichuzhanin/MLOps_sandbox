@@ -1,0 +1,66 @@
+::group::Pre task execution logs
+Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: check_main_db_reference_data_dag.validate_sqlite_file manual__2026-03-02T10:53:12.717544+00:00 [queued]>
+Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: check_main_db_reference_data_dag.validate_sqlite_file manual__2026-03-02T10:53:12.717544+00:00 [queued]>
+Starting attempt 2 of 3
+Executing <Task(_PythonDecoratedOperator): validate_sqlite_file> on 2026-03-02 10:53:12.717544+00:00
+/home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:62: DeprecationWarning: This process (pid=15178) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+Started process 15180 to run task
+Running: ['***', 'tasks', 'run', 'check_main_db_reference_data_dag', 'validate_sqlite_file', 'manual__2026-03-02T10:53:12.717544+00:00', '--job-id', '972', '--raw', '--subdir', 'DAGS_FOLDER/check_main_db_reference_data_dag.py', '--cfg-path', '/tmp/tmprfmrx9jl']
+Job 972: Subtask validate_sqlite_file
+Running <TaskInstance: check_main_db_reference_data_dag.validate_sqlite_file manual__2026-03-02T10:53:12.717544+00:00 [running]> on host ff5784e9d160
+Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='check_main_db_reference_data_dag' AIRFLOW_CTX_TASK_ID='validate_sqlite_file' AIRFLOW_CTX_EXECUTION_DATE='2026-03-02T10:53:12.717544+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-03-02T10:53:12.717544+00:00'
+::endgroup::
+Using connection ID 'hdfs_default' for task execution.
+Trying to connect to namenode:9870
+Trying namenode namenode
+Instantiated <InsecureClient(url='http://namenode:9870')>.
+Fetching status for '/'.
+Using namenode namenode for hook
+Fetching status for '/test_raw_data/data/Acron/MainDb/Acron.db'.
+::group::Post task execution logs
+Task failed with exception
+Traceback (most recent call last):
+  File "/opt/airflow/dags/check_main_db_reference_data_dag.py", line 126, in validate_sqlite_file
+    file_status = client.status(hdfs_path, strict=True)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/hdfs/client.py", line 321, in status
+    res = self._get_file_status(hdfs_path, strict=strict)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/hdfs/client.py", line 118, in api_handler
+    raise err
+hdfs.util.HdfsError: File does not exist: /test_raw_data/data/Acron/MainDb/Acron.db
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 465, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/decorators/base.py", line 265, in execute
+    return_value = super().execute(context)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 235, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 252, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/check_main_db_reference_data_dag.py", line 185, in validate_sqlite_file
+    raise AirflowException(f"Ошибка валидации файла {hdfs_path}: {str(e)}")
+airflow.exceptions.AirflowException: Ошибка валидации файла /test_raw_data/data/Acron/MainDb/Acron.db: File does not exist: /test_raw_data/data/Acron/MainDb/Acron.db
+Marking task as UP_FOR_RETRY. dag_id=check_main_db_reference_data_dag, task_id=validate_sqlite_file, run_id=manual__2026-03-02T10:53:12.717544+00:00, execution_date=20260302T105312, start_date=20260302T105417, end_date=20260302T105417
+Failed to execute job 972 for task validate_sqlite_file (Ошибка валидации файла /test_raw_data/data/Acron/MainDb/Acron.db: File does not exist: /test_raw_data/data/Acron/MainDb/Acron.db; 15180)
+Task exited with return code 1
+0 downstream tasks scheduled from follow-on schedule check
+::endgroup::

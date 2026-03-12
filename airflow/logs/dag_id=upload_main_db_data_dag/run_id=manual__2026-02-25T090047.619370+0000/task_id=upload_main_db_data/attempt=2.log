@@ -1,0 +1,68 @@
+::group::Pre task execution logs
+Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: upload_main_db_data_dag.upload_main_db_data manual__2026-02-25T09:00:47.619370+00:00 [queued]>
+Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: upload_main_db_data_dag.upload_main_db_data manual__2026-02-25T09:00:47.619370+00:00 [queued]>
+Starting attempt 2 of 3
+Executing <Task(_PythonDecoratedOperator): upload_main_db_data> on 2026-02-25 09:00:47.619370+00:00
+/home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:62: DeprecationWarning: This process (pid=61298) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+Started process 61300 to run task
+Running: ['***', 'tasks', 'run', 'upload_main_db_data_dag', 'upload_main_db_data', 'manual__2026-02-25T09:00:47.619370+00:00', '--job-id', '433', '--raw', '--subdir', 'DAGS_FOLDER/upload_main_db_data_dag.py', '--cfg-path', '/tmp/tmpaw1nipy6']
+Job 433: Subtask upload_main_db_data
+Running <TaskInstance: upload_main_db_data_dag.upload_main_db_data manual__2026-02-25T09:00:47.619370+00:00 [running]> on host e02bf6fe05e5
+Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='upload_main_db_data_dag' AIRFLOW_CTX_TASK_ID='upload_main_db_data' AIRFLOW_CTX_EXECUTION_DATE='2026-02-25T09:00:47.619370+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-25T09:00:47.619370+00:00'
+::endgroup::
+Using connection ID 'hdfs_default' for task execution.
+Trying to connect to namenode:9870
+Trying namenode namenode
+Instantiated <InsecureClient(url='http://namenode:9870')>.
+Fetching status for '/'.
+Using namenode namenode for hook
+Fetching status for '/test_raw_data/data/Acron/MainDb/Acron.db'.
+Reading file '/test_raw_data/data/Acron/MainDb/Acron.db'.
+Using connection ID 'cloudberry_test_dwh' for task execution.
+::group::Post task execution logs
+Task failed with exception
+Traceback (most recent call last):
+  File "/opt/airflow/dags/upload_main_db_data/upload_main_db_data.py", line 182, in get_measure_groups_from_main_db
+    with session_maker as session:
+TypeError: 'sessionmaker' object does not support the context manager protocol
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 465, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/decorators/base.py", line 265, in execute
+    return_value = super().execute(context)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 235, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 252, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/upload_main_db_data_dag.py", line 118, in upload_main_db_data
+    upload_result = insert_function(sqlite_path=local_sqlite_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/upload_main_db_data/upload_main_db_data.py", line 279, in insert_new_measure_groups_hubs
+    measure_groups_entities=get_measure_groups_from_main_db(sqlite_path=sqlite_path)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/upload_main_db_data/upload_main_db_data.py", line 199, in get_measure_groups_from_main_db
+    raise AirflowException(f"Ошибка при подключении к БД или выполнении запроса: {str(e)}")
+airflow.exceptions.AirflowException: Ошибка при подключении к БД или выполнении запроса: 'sessionmaker' object does not support the context manager protocol
+Marking task as UP_FOR_RETRY. dag_id=upload_main_db_data_dag, task_id=upload_main_db_data, run_id=manual__2026-02-25T09:00:47.619370+00:00, execution_date=20260225T090047, start_date=20260225T090224, end_date=20260225T090258
+Failed to execute job 433 for task upload_main_db_data (Ошибка при подключении к БД или выполнении запроса: 'sessionmaker' object does not support the context manager protocol; 61300)
+Task exited with return code 1
+0 downstream tasks scheduled from follow-on schedule check
+::endgroup::

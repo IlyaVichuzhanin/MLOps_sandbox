@@ -1,0 +1,183 @@
+::group::Pre task execution logs
+Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: upload_main_db_data_dag.upload_main_db_data manual__2026-03-06T05:48:49.528092+00:00 [queued]>
+Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: upload_main_db_data_dag.upload_main_db_data manual__2026-03-06T05:48:49.528092+00:00 [queued]>
+Starting attempt 1 of 3
+Executing <Task(_PythonDecoratedOperator): upload_main_db_data> on 2026-03-06 05:48:49.528092+00:00
+/home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:62: DeprecationWarning: This process (pid=52358) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+Started process 52360 to run task
+Running: ['***', 'tasks', 'run', 'upload_main_db_data_dag', 'upload_main_db_data', 'manual__2026-03-06T05:48:49.528092+00:00', '--job-id', '1534', '--raw', '--subdir', 'DAGS_FOLDER/upload_main_db_data_dag.py', '--cfg-path', '/tmp/tmpxjnkdu5i']
+Job 1534: Subtask upload_main_db_data
+Running <TaskInstance: upload_main_db_data_dag.upload_main_db_data manual__2026-03-06T05:48:49.528092+00:00 [running]> on host ad14fccbac7a
+Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='upload_main_db_data_dag' AIRFLOW_CTX_TASK_ID='upload_main_db_data' AIRFLOW_CTX_EXECUTION_DATE='2026-03-06T05:48:49.528092+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-03-06T05:48:49.528092+00:00'
+::endgroup::
+Using connection ID 'hdfs_default' for task execution.
+Trying to connect to namenode:9870
+Trying namenode namenode
+Instantiated <InsecureClient(url='http://namenode:9870')>.
+Fetching status for '/'.
+Using namenode namenode for hook
+Fetching status for '/test_raw_data/data/Acron/MainDb/Acron.db'.
+Reading file '/test_raw_data/data/Acron/MainDb/Acron.db'.
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 22 rows to stg_measure_groups
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 22 rows to stg_annotation
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 1252 rows to stg_bearings
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 26113 rows to stg_diagnostic_alarm_history_v2
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 8578 rows to stg_diagnostic_alarms_v2
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 1204 rows to stg_io_creyt_channel_configs
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 336 rows to stg_io_creyt_channel_configs_v5
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 1316 rows to stg_io_creyt_channel_states
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 336 rows to stg_io_creyt_channel_states_v5
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 43 rows to stg_io_creyt_configs
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 6 rows to stg_io_creyt_configs_v5
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 490 rows to stg_io_creyt_controller_states
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 84 rows to stg_io_creyt_controller_states_v5
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 35 rows to stg_io_creyt_im_oper_times
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 5 rows to stg_io_creyt_im_oper_times_v5
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 2 rows to stg_io_device_config_nodes
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 11 rows to stg_io_device_configs
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 1 rows to stg_io_l_card_configs
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 46 rows to stg_io_modbus_tcp_configs
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 3615 rows to stg_io_modbus_tcp_register_configs
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 3833 rows to stg_io_modbus_tcp_register_bit_decompression_configs
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 11 rows to stg_io_opc_da_client_configs
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 34 rows to stg_io_opc_da_client_group_configs
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 1262 rows to stg_io_opc_da_client_item_configs
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 6 rows to stg_io_opc_ua_client_configs
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 125 rows to stg_images
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 179 rows to stg_measure_convert
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 55 rows to stg_measure_units
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 15 rows to stg_model_template_tree_nodes
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 146 rows to stg_model_templates
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 107097 rows to stg_object_data_values_common_snapshot
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+✅ Loaded 107231 rows to stg_object_data_values_common_snapshot_save
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+No data to process in SQLite
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using data_source_id: 289c288e-ccf8-a441-ae8d-f36862eded0a
+Task exited with return code -9For more information, see https://***.apache.org/docs/apache-***/stable/troubleshooting.html#LocalTaskJob-killed
+0 downstream tasks scheduled from follow-on schedule check
+::endgroup::

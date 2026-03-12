@@ -1,0 +1,122 @@
+::group::Pre task execution logs
+Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: upload_main_db_data_dag.upload_main_db_data manual__2026-02-26T05:32:30.656767+00:00 [queued]>
+Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: upload_main_db_data_dag.upload_main_db_data manual__2026-02-26T05:32:30.656767+00:00 [queued]>
+Starting attempt 1 of 3
+Executing <Task(_PythonDecoratedOperator): upload_main_db_data> on 2026-02-26 05:32:30.656767+00:00
+/home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:62: DeprecationWarning: This process (pid=2663) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+Started process 2672 to run task
+Running: ['***', 'tasks', 'run', 'upload_main_db_data_dag', 'upload_main_db_data', 'manual__2026-02-26T05:32:30.656767+00:00', '--job-id', '499', '--raw', '--subdir', 'DAGS_FOLDER/upload_main_db_data_dag.py', '--cfg-path', '/tmp/tmpx05ngd8w']
+Job 499: Subtask upload_main_db_data
+Running <TaskInstance: upload_main_db_data_dag.upload_main_db_data manual__2026-02-26T05:32:30.656767+00:00 [running]> on host ca2006464258
+Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='upload_main_db_data_dag' AIRFLOW_CTX_TASK_ID='upload_main_db_data' AIRFLOW_CTX_EXECUTION_DATE='2026-02-26T05:32:30.656767+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-26T05:32:30.656767+00:00'
+::endgroup::
+Using connection ID 'hdfs_default' for task execution.
+Trying to connect to namenode:9870
+Trying namenode namenode
+Instantiated <InsecureClient(url='http://namenode:9870')>.
+Fetching status for '/'.
+Using namenode namenode for hook
+Fetching status for '/test_raw_data/data/Acron/MainDb/Acron.db'.
+Reading file '/test_raw_data/data/Acron/MainDb/Acron.db'.
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using connection ID 'cloudberry_test_dwh' for task execution.
+::group::Post task execution logs
+Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1910, in _execute_context
+    self.dialect.do_execute(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 736, in do_execute
+    cursor.execute(statement, parameters)
+psycopg2.errors.UndefinedTable: relation "h_measuregroups" does not exist
+LINE 2: FROM h_measuregroups
+             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/airflow/dags/upload_main_db_data/upload_main_db_data.py", line 256, in get_measure_groups_hub_from_dwh
+    result = session.execute(stmt)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/orm/session.py", line 1717, in execute
+    result = conn._execute_20(statement, params or {}, execution_options)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1710, in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/sql/elements.py", line 334, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1577, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1953, in _execute_context
+    self._handle_dbapi_exception(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2134, in _handle_dbapi_exception
+    util.raise_(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1910, in _execute_context
+    self.dialect.do_execute(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/default.py", line 736, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedTable) relation "h_measuregroups" does not exist
+LINE 2: FROM h_measuregroups
+             ^
+
+[SQL: SELECT h_measuregroups.h_h_measuregroup_sk, h_measuregroups.load_dttm, h_measuregroups.data_source_id 
+FROM h_measuregroups]
+(Background on this error at: https://sqlalche.me/e/14/f405)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 465, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/decorators/base.py", line 265, in execute
+    return_value = super().execute(context)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 235, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 252, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/upload_main_db_data_dag.py", line 118, in upload_main_db_data
+    upload_result = insert_function(sqlite_path=local_sqlite_path)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/upload_main_db_data/upload_main_db_data.py", line 311, in insert_new_measure_groups_hubs
+    measure_groups_habs = get_measure_groups_hub_from_dwh()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/upload_main_db_data/upload_main_db_data.py", line 262, in get_measure_groups_hub_from_dwh
+    raise AirflowException(f"Ошибка выполнения запроса к Cloudberry: {str(e)}")
+airflow.exceptions.AirflowException: Ошибка выполнения запроса к Cloudberry: (psycopg2.errors.UndefinedTable) relation "h_measuregroups" does not exist
+LINE 2: FROM h_measuregroups
+             ^
+
+[SQL: SELECT h_measuregroups.h_h_measuregroup_sk, h_measuregroups.load_dttm, h_measuregroups.data_source_id 
+FROM h_measuregroups]
+(Background on this error at: https://sqlalche.me/e/14/f405)
+Marking task as UP_FOR_RETRY. dag_id=upload_main_db_data_dag, task_id=upload_main_db_data, run_id=manual__2026-02-26T05:32:30.656767+00:00, execution_date=20260226T053230, start_date=20260226T053236, end_date=20260226T053259
+Failed to execute job 499 for task upload_main_db_data (Ошибка выполнения запроса к Cloudberry: (psycopg2.errors.UndefinedTable) relation "h_measuregroups" does not exist
+LINE 2: FROM h_measuregroups
+             ^
+
+[SQL: SELECT h_measuregroups.h_h_measuregroup_sk, h_measuregroups.load_dttm, h_measuregroups.data_source_id 
+FROM h_measuregroups]
+(Background on this error at: https://sqlalche.me/e/14/f405); 2672)
+Task exited with return code 1
+0 downstream tasks scheduled from follow-on schedule check
+::endgroup::

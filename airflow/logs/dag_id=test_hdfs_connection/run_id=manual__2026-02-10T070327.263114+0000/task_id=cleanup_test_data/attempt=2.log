@@ -1,0 +1,64 @@
+::group::Pre task execution logs
+Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: test_hdfs_connection.cleanup_test_data manual__2026-02-10T07:03:27.263114+00:00 [queued]>
+Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: test_hdfs_connection.cleanup_test_data manual__2026-02-10T07:03:27.263114+00:00 [queued]>
+Starting attempt 2 of 2
+Executing <Task(_PythonDecoratedOperator): cleanup_test_data> on 2026-02-10 07:03:27.263114+00:00
+/home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:62: DeprecationWarning: This process (pid=41302) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+Started process 41304 to run task
+Running: ['***', 'tasks', 'run', 'test_hdfs_connection', 'cleanup_test_data', 'manual__2026-02-10T07:03:27.263114+00:00', '--job-id', '122', '--raw', '--subdir', 'DAGS_FOLDER/hdfs_conn_test.py', '--cfg-path', '/tmp/tmp65mbw56q']
+Job 122: Subtask cleanup_test_data
+Running <TaskInstance: test_hdfs_connection.cleanup_test_data manual__2026-02-10T07:03:27.263114+00:00 [running]> on host 752fea1deb88
+Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='test_hdfs_connection' AIRFLOW_CTX_TASK_ID='cleanup_test_data' AIRFLOW_CTX_EXECUTION_DATE='2026-02-10T07:03:27.263114+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-10T07:03:27.263114+00:00'
+::endgroup::
+Using connection ID 'hdfs_default' for task execution.
+Trying to connect to namenode:9870
+Trying namenode namenode
+Instantiated <InsecureClient(url='http://namenode:9870')>.
+Fetching status for '/'.
+Using namenode namenode for hook
+Fetching status for None.
+::group::Post task execution logs
+Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 465, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/decorators/base.py", line 265, in execute
+    return_value = super().execute(context)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 235, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 252, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/hdfs_conn_test.py", line 245, in cleanup_test_data
+    if client.status(test_dir, strict=False) is not None:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/hdfs/client.py", line 321, in status
+    res = self._get_file_status(hdfs_path, strict=strict)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/hdfs/client.py", line 97, in api_handler
+    quote(client.resolve(hdfs_path), '/= '),
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/hdfs/client.py", line 262, in resolve
+    if not psp.isabs(path):
+           ^^^^^^^^^^^^^^^
+  File "<frozen posixpath>", line 62, in isabs
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Marking task as FAILED. dag_id=test_hdfs_connection, task_id=cleanup_test_data, run_id=manual__2026-02-10T07:03:27.263114+00:00, execution_date=20260210T070327, start_date=20260210T070537, end_date=20260210T070537
+Failed to execute job 122 for task cleanup_test_data (expected str, bytes or os.PathLike object, not NoneType; 41304)
+Task exited with return code 1
+0 downstream tasks scheduled from follow-on schedule check
+::endgroup::

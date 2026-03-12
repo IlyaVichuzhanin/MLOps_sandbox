@@ -1,0 +1,27 @@
+FROM apache/airflow:2.9.3-python3.12
+USER root
+
+# Установка системных зависимостей для компиляции Python-пакетов с поддержкой Kerberos
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    build-essential \
+    python3-dev \
+    libkrb5-dev \          
+    libsasl2-dev \         
+    libssl-dev \           
+    krb5-user && \         
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+USER airflow
+
+# Установка Python-пакетов (теперь gssapi соберётся успешно благодаря системным зависимостям)
+RUN pip install --no-cache-dir \
+    'hdfs[avro,dataframe,kerberos]>=2.7.3' \
+    'apache-airflow-providers-apache-hdfs==4.2.0' \
+    'fastavro>=0.14.19' \
+    'pandas>=0.14.1' \
+    'requests>=2.27.0' \
+    'sqlalchemy' \
+    'pandas' \
+    'numpy'

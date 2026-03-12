@@ -1,0 +1,40 @@
+::group::Pre task execution logs
+Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: cloudberry_insert_3_records.insert_three_records manual__2026-02-04T12:10:36.791477+00:00 [queued]>
+Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: cloudberry_insert_3_records.insert_three_records manual__2026-02-04T12:10:36.791477+00:00 [queued]>
+Starting attempt 1 of 2
+Executing <Task(PostgresOperator): insert_three_records> on 2026-02-04 12:10:36.791477+00:00
+/home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:62: DeprecationWarning: This process (pid=63304) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+Started process 63306 to run task
+Running: ['***', 'tasks', 'run', 'cloudberry_insert_3_records', 'insert_three_records', 'manual__2026-02-04T12:10:36.791477+00:00', '--job-id', '63', '--raw', '--subdir', 'DAGS_FOLDER/test.py', '--cfg-path', '/tmp/tmpfaehbn4x']
+Job 63: Subtask insert_three_records
+Running <TaskInstance: cloudberry_insert_3_records.insert_three_records manual__2026-02-04T12:10:36.791477+00:00 [running]> on host 472ebed98a01
+Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='cloudberry_insert_3_records' AIRFLOW_CTX_TASK_ID='insert_three_records' AIRFLOW_CTX_EXECUTION_DATE='2026-02-04T12:10:36.791477+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-02-04T12:10:36.791477+00:00'
+::endgroup::
+Executing: 
+            INSERT INTO public.h_diagnostic_defect_types 
+                (h_diagnostic_defect_type, data_catalogue)
+            VALUES
+                ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', '11111111-1111-1111-1111-111111111111'),
+                ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12', '22222222-2222-2222-2222-222222222222'),
+                ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a13', '33333333-3333-3333-3333-333333333333')
+            ON CONFLICT (h_diagnostic_defect_type) DO NOTHING;
+        
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Using connection ID 'cloudberry_test_dwh' for task execution.
+Running statement: 
+            INSERT INTO public.h_diagnostic_defect_types 
+                (h_diagnostic_defect_type, data_catalogue)
+            VALUES
+                ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', '11111111-1111-1111-1111-111111111111'),
+                ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12', '22222222-2222-2222-2222-222222222222'),
+                ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a13', '33333333-3333-3333-3333-333333333333')
+            ON CONFLICT (h_diagnostic_defect_type) DO NOTHING;
+        , parameters: None
+Rows affected: 3
+::group::Post task execution logs
+Marking task as SUCCESS. dag_id=cloudberry_insert_3_records, task_id=insert_three_records, run_id=manual__2026-02-04T12:10:36.791477+00:00, execution_date=20260204T121036, start_date=20260204T121038, end_date=20260204T121038
+Task exited with return code 0
+0 downstream tasks scheduled from follow-on schedule check
+::endgroup::
