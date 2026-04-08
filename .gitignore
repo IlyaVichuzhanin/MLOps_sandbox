@@ -18,6 +18,7 @@ build/
 data/
 data/raw/
 data/processed/
+test_data/
 
 # Model checkpoints and artifacts
 models/
@@ -35,3 +36,4 @@ results/
 mlruns/
 wandb/
 .pytest_cache/
+

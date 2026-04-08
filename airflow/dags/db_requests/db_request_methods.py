@@ -149,7 +149,7 @@ def get_data_from_sqlite(sqlite_path: str, sql_query: str) -> List[Any]:
         print(f"  {sql_query}")
 
         conn = sqlite3.connect(sqlite_path)
-        cursor = conn.cursor()
+        cursor = conn.cursor()  
         cursor.execute(sql_query)
         
         # Для запросов без результата (INSERT/UPDATE/DELETE)
@@ -205,8 +205,6 @@ def get_data_from_sqlite(sqlite_path: str, sql_query: str) -> List[Any]:
 def insert_row_in_dwh(sql_query: str)->bool:
 
     hook = PostgresHook(postgres_conn_id='cloudberry_test_dwh')
-    
-    # Получаем SQLAlchemy engine напрямую из хука (Airflow 2.2+)
     engine = hook.get_sqlalchemy_engine()
     
     # Создаём сессию
