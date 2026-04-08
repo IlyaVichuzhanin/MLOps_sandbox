@@ -24,7 +24,7 @@ def create_uploading_main_db_data_chain(record: dict):
         poke_interval=10,
         reset_dag_run=False,
         execution_date=None,  # Используем None для автоматической генерации execution_date
-        execution_timeout=timedelta(hours=1), # Max time the *triggering* task will run
+        execution_timeout=timedelta(hours=3), # Max time the *triggering* task will run
         allowed_states=['success'],
         failed_states=['failed'],
     )
@@ -42,7 +42,7 @@ def create_uploading_main_db_data_chain(record: dict):
         poke_interval=10,
         reset_dag_run=False,
         execution_date=None,
-        execution_timeout=timedelta(hours=1), 
+        execution_timeout=timedelta(hours=3), 
         allowed_states=['success'],
         failed_states=['failed'],
     )
