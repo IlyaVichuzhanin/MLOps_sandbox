@@ -14,7 +14,7 @@ def create_uploading_main_db_data_chain(record: dict):
     # Запуск DAG для справочных данных
     trigger_reference_data_check = TriggerDagRunOperator(
         task_id='trigger_reference_data_check',
-        trigger_dag_id='check_main_db_reference_data_dag',
+        trigger_dag_id='validate_maindb_file_dag',
         conf={
             'record': record,
             'stage': 'check_main_db_reference_data',
