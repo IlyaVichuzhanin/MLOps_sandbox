@@ -49,3 +49,4 @@ done
 
 echo "✅ Cloudberry is ready on port 7000."
 tail -f "$LOG_DIR/startup.log"
+

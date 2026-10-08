@@ -1,0 +1,26 @@
+# 🔥 ФИКСИРУЕМ ТОЛЬКО ЭТО:
+apache-airflow==2.9.3
+airflow-clickhouse-plugin==1.6.0
+
+# 🔥 ВСЁ ОСТАЛЬНОЕ — без версий (constraints управляет):
+apache-airflow-providers-apache-hdfs
+apache-airflow-providers-amazon
+clickhouse-driver>=0.2.9,<0.3
+clickhouse-connect>=0.7.0
+lz4
+psycopg2-binary
+sqlalchemy>=1.4.52,<2.0
+pandas
+numpy
+pyarrow
+fastavro
+pyiceberg
+s3fs
+boto3>=1.34.90,<1.35
+botocore>=1.34.90,<1.35
+requests
+protobuf
+cryptography
+fsspec
+packaging
+cffi

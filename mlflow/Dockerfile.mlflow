@@ -1,5 +1,14 @@
-# Dockerfile.mlflow
 FROM ghcr.io/mlflow/mlflow:latest
 
 # Установка PostgreSQL-драйвера
 RUN pip install psycopg2-binary
+
+# Копируем кастомный entrypoint
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Указываем наш entrypoint
+ENTRYPOINT ["/entrypoint.sh"]
+
+# Оставляем CMD для передачи аргументов сервера
+CMD ["mlflow", "server", "--host", "0.0.0.0", "--port", "5000"]

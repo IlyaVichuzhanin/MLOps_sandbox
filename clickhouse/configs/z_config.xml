@@ -1,0 +1,40 @@
+<clickhouse>
+    <!-- ZooKeeper для координации репликации -->
+    <zookeeper>
+        <node>
+            <host>zookeeper</host>
+            <port>2181</port>
+        </node>
+    </zookeeper>
+
+    <!-- Конфигурация кластера: 2 шарда × 2 реплики -->
+    <remote_servers>
+        <ml_sandbox_cluster>
+            <!-- ШАРД 1: click1 + click2 (реплики) -->
+            <shard>
+                <internal_replication>true</internal_replication>
+                <replica>
+                    <host>click1</host>
+                    <port>9000</port>
+                </replica>
+                <replica>
+                    <host>click2</host>
+                    <port>9000</port>
+                </replica>
+            </shard>
+
+            <!-- ШАРД 2: click3 + click4 (реплики) -->
+            <shard>
+                <internal_replication>true</internal_replication>
+                <replica>
+                    <host>click3</host>
+                    <port>9000</port>
+                </replica>
+                <replica>
+                    <host>click4</host>
+                    <port>9000</port>
+                </replica>
+            </shard>
+        </ml_sandbox_cluster>
+    </remote_servers>
+</clickhouse>

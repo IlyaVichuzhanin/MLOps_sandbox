@@ -1,13 +1,10 @@
-x-airflow-common:
-  &airflow-common
-  # image: ${_AIRFLOW_IMAGE_NAME:-apache/airflow:2.9.3}
+x-airflow-common: &airflow-common
   build:
     context: ./airflow
     dockerfile: ./Dockerfile.airflow
   env_file:
     - ${_ENV_FILE_PATH}
-  environment:
-    &airflow-common-env
+  environment: &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
     AIRFLOW__CORE__AUTH_MANAGER: airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager
     AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres_airflow/airflow
@@ -15,12 +12,63 @@ x-airflow-common:
     AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
     AIRFLOW__CORE__FERNET_KEY: ''
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
-    AIRFLOW__CORE__LOAD_EXAMPLES: 'true'
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
     AIRFLOW__CORE__XCOM_BACKEND: airflow.models.xcom.BaseXCom
     AIRFLOW__CORE__EXECUTION_API_SERVER_URL: 'http://airflow-apiserver:8080/execution/'
     AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
-    # _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
+    AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session'
+    AIRFLOW__WEBSERVER__EXPOSE_CONFIG: 'true'
+    AIRFLOW__CORE__TEST_CONNECTION: 'Enabled'
     AIRFLOW_CONFIG: '/opt/airflow/config/airflow.cfg'
+
+    # ═══════════════════════════════════════════════════════════
+    # 🔥 ИСПРАВЛЕННЫЕ ПАРАМЕТРЫ ПАРАЛЛЕЛИЗМА
+    # ═══════════════════════════════════════════════════════════
+    # Реальный потолок = 5 воркеров × 4 задачи = 20 параллельных задач
+    AIRFLOW__CORE__PARALLELISM: 32                          # было 144 → 32 (с запасом, без излишков)
+    AIRFLOW__CORE__MAX_ACTIVE_RUNS_PER_DAG: 15              # было 4 → 15 (чтобы не резать max_active_runs=10 в DAG)
+    AIRFLOW__CORE__DAGRUN_CONF_ENABLED: 'true'
+
+    # ═══════════════════════════════════════════════════════════
+    # 🔥 ИСПРАВЛЕННЫЙ CELERY — равномерная раздача по воркерам
+    # ═══════════════════════════════════════════════════════════
+    AIRFLOW__CELERY__WORKER_CONCURRENCY: 4                  # было 12 → 4 (1 Creyt + 2-3 лёгких задачи на воркер)
+    AIRFLOW__CELERY__WORKER_PREFETCH_MULTIPLIER: 1          # не копить задачи локально
+    AIRFLOW__CELERY__WORKER_MAX_TASKS_PER_CHILD: 0          # было 50 → 0 (без перезапуска форков — стабильнее для долгих задач)
+
+    # ═══════════════════════════════════════════════════════════
+    # 🔥 УБРАНЫ ТАЙМАУТЫ — задачи работают сколько нужно
+    # ═══════════════════════════════════════════════════════════
+    # AIRFLOW__CORE__TASK_EXECUTION_TIMEOUT: 14400          # ❌ УБРАНО — был глобальный kill через 4 часа
+    AIRFLOW__CORE__TASK_ADHOC_TIMEOUT: 0                    # без таймаута для ad-hoc задач
+
+    # ═══════════════════════════════════════════════════════════
+    # 🔥 ZOMBIE DETECTION — мягче, чтобы не убивать долгие задачи
+    # ═══════════════════════════════════════════════════════════
+    AIRFLOW__SCHEDULER__MIN_FILE_PROCESS_INTERVAL: 30
+    AIRFLOW__SCHEDULER__MAX_THREADS: 8
+    AIRFLOW__CORE__TASK_INSTANCE_HEARTBEAT_TIMEOUT: 1800    # было 600 (10 мин) → 1800 (30 мин)
+    AIRFLOW__SCHEDULER__TASK_INSTANCE_HEARTBEAT_TIMEOUT_DETECTION_INTERVAL: 120  # было 60 → 120
+    AIRFLOW__SCHEDULER__ZOMBIE_DETECTION_INTERVAL: 300      # проверка zombie раз в 5 мин (вместо 1 мин)
+    AIRFLOW__SCHEDULER__CATCHUP_BY_DEFAULT: 'false'
+
+    # === DATA_STORAGE Configuration (без изменений) ===
+    DATA_STORAGE_CATALOG_NAME: ml_sandbox
+    DATA_STORAGE_WAREHOUSE: s3://${DATA_STORAGE_S3_BUCKET}/
+    DATA_STORAGE_S3_ENDPOINT: ${DATA_STORAGE_S3_ENDPOINT}
+    DATA_STORAGE_S3_REGION: ${DATA_STORAGE_S3_REGION}
+    AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+    S3_PATH_STYLE_ACCESS: "true"
+    PYARROW_S3_ENDPOINT_OVERRIDE: ${DATA_STORAGE_S3_ENDPOINT}
+    PYARROW_S3_ACCESS_KEY: ${AWS_ACCESS_KEY_ID}
+    PYARROW_S3_SECRET_KEY: ${AWS_SECRET_ACCESS_KEY}
+    PYARROW_S3_REGION: ${DATA_STORAGE_S3_REGION:-us-east-1}
+    PYARROW_S3_PATH_STYLE: "true"
+    PYARROW_S3_SCHEME: "http"
+    PYARROW_S3_ALLOW_BUCKET_LOOKUP: "false"
+    PYICEBERG_IO__IMPL: pyiceberg.io.pyarrow.PyArrowFileIO
+
   volumes:
     - type: bind
       source: ./airflow/dags
@@ -38,14 +86,15 @@ x-airflow-common:
       source: ./airflow/scripts
       target: /opt/airflow/scripts
   user: "${AIRFLOW_UID:-50000}:0"
-  depends_on:
-    &airflow-common-depends-on
+  # extra_hosts:
+  #   - "ml-cluster-raw-layer:135.106.148.140"
+  depends_on: &airflow-common-depends-on
     redis:
       condition: service_healthy
     postgres_airflow:
       condition: service_healthy
-
-
+  networks:
+    - ml_sandbox_network
 
 services:
   postgres_airflow:
@@ -55,11 +104,11 @@ services:
       POSTGRES_PASSWORD: ${_POSTGRES_PASSWORD_AIRFLOW}
       POSTGRES_DB: ${_POSTGRES_DB_AIRFLOW}
     volumes:
-    - type: volume
-      source: pg_airflow_db_volume
-      target: /var/lib/postgresql/data
-      volume:
-        nocopy: false
+      - type: volume
+        source: pg_airflow_db_volume
+        target: /var/lib/postgresql/data
+        volume:
+          nocopy: false
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "airflow"]
       interval: 5s
@@ -68,6 +117,14 @@ services:
     networks:
       ml_sandbox_network:
         ipv4_address: 172.21.0.10
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 8G
+        reservations:
+          cpus: '2.0'
+          memory: 4G
 
   redis:
     image: redis:latest
@@ -82,7 +139,14 @@ services:
     networks:
       ml_sandbox_network:
         ipv4_address: 172.21.0.11
-
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
 
   airflow-webserver:
     <<: *airflow-common
@@ -103,6 +167,14 @@ services:
     networks:
       ml_sandbox_network:
         ipv4_address: 172.21.0.20
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 1G
 
   airflow-scheduler:
     <<: *airflow-common
@@ -121,32 +193,14 @@ services:
     networks:
       ml_sandbox_network:
         ipv4_address: 172.21.0.21
-
-  airflow-worker:
-    <<: *airflow-common
-    entrypoint: bash
-    command: ["/opt/airflow/scripts/worker.sh"]
-    mem_limit: 8g      
-    memswap_limit: 8g
-    healthcheck:
-      test:
-        - "CMD-SHELL"
-        - 'celery --app airflow.executors.celery_executor.app inspect ping -d "celery@$${HOSTNAME}"'
-      interval: 10s
-      timeout: 10s
-      retries: 5
-    environment:
-      <<: *airflow-common-env
-      DUMB_INIT_SETSID: "0"
-    restart: always
-    depends_on:
-      <<: *airflow-common-depends-on
-      airflow-init:
-        condition: service_completed_successfully
-    networks:
-      ml_sandbox_network:
-        ipv4_address: 172.21.0.22
-
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 8G
+        reservations:
+          cpus: '2.0'
+          memory: 3G
 
   airflow-triggerer:
     <<: *airflow-common
@@ -165,23 +219,101 @@ services:
     networks:
       ml_sandbox_network:
         ipv4_address: 172.21.0.23
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 1G
+
+  airflow-worker-1: &airflow-worker
+    <<: *airflow-common
+    command: celery worker
+    deploy:
+      resources:
+        limits:
+          cpus: '7'
+          memory: 50G
+        reservations:
+          cpus: '1.5'
+          memory: 8G
+    environment:
+      <<: *airflow-common-env
+      DUMB_INIT_SETSID: 0
+      MALLOC_ARENA_MAX: 2
+      PYTHONMALLOC: malloc
+    healthcheck:
+      test:
+        - "CMD-SHELL"
+        - 'celery -A airflow.executors.celery_executor.app inspect ping -d "celery@$${HOSTNAME}"'
+      interval: 30s
+      timeout: 30s
+      retries: 10
+      start_period: 60s
+    restart: always
+    depends_on:
+      <<: *airflow-common-depends-on
+      airflow-init:
+        condition: service_completed_successfully
+
+  airflow-worker-2:
+    <<: *airflow-worker
+
+  # airflow-worker-3:
+  #   <<: *airflow-worker
+
+  # airflow-worker-4:
+  #   <<: *airflow-worker
+
+  # airflow-worker-5:
+  #   <<: *airflow-worker
 
   airflow-init:
     <<: *airflow-common
-    entrypoint: bash
-    # yamllint disable rule:line-length
+    entrypoint: ["/entrypoint"]
+    command: >
+      bash -c "
+        set -e &&
+        echo '🔄 Airflow init...' &&
+        airflow db migrate &&
+        echo '✅ DB ready' &&
+        if ! airflow users list 2>/dev/null | grep -q '$${_AIRFLOW_WWW_USER_USERNAME:-admin}'; then
+          airflow users create \
+            --username '$${_AIRFLOW_WWW_USER_USERNAME:-admin}' \
+            --firstname 'Admin' \
+            --lastname 'User' \
+            --role 'Admin' \
+            --email 'admin@example.com' \
+            --password '$${_AIRFLOW_WWW_USER_PASSWORD:-admin}'
+          echo '👤 User created'
+        else
+          echo '⚠️ User already exists'
+        fi &&
+        echo '✅ Init complete' &&
+        exit 0
+      "
     environment:
       <<: *airflow-common-env
-      _AIRFLOW_DB_MIGRATE: 'true'
-      _AIRFLOW_WWW_USER_CREATE: 'true'
-      _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME}
-      _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD}
-      # _PIP_ADDITIONAL_REQUIREMENTS: "apache-airflow-providers-apache-hdfs==3.4.0 apache-airflow-providers-celery==3.1.0"
-    user: "0:0"
+      _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME:-admin}
+      _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD:-admin}
+    depends_on:
+      <<: *airflow-common-depends-on
+      minio-init:
+        condition: service_completed_successfully
     networks:
       ml_sandbox_network:
         ipv4_address: 172.21.0.24
-
+    restart: "no"
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
 
   airflow-cli:
     <<: *airflow-common
@@ -194,6 +326,14 @@ services:
     networks:
       ml_sandbox_network:
         ipv4_address: 172.21.0.25
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
 
   flower:
     <<: *airflow-common
@@ -215,6 +355,14 @@ services:
     networks:
       ml_sandbox_network:
         ipv4_address: 172.21.0.26
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
 
   hadoop-namenode:
     image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
@@ -249,15 +397,75 @@ services:
       ml_sandbox_network:
         ipv4_address: 172.21.0.30
     ports:
-      - "9870:9870"   # Web UI NameNode
-      - "8020:8020"   # RPC (fs.defaultFS)
+      - "9870:9870"
+      - "8020:8020"
     restart: always
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9870"]
       interval: 30s
       timeout: 20s
       retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 8G
+        reservations:
+          cpus: '2.0'
+          memory: 4G
 
+  iceberg-rest:
+    image: tabulario/iceberg-rest:latest
+    container_name: iceberg-rest-catalog
+    ports:
+      - "8181:8181"
+    environment:
+      - CATALOG_NAME=default
+      - CATALOG_WAREHOUSE=s3://iceberg-warehouse
+      - CATALOG_IO__IMPL=org.apache.iceberg.aws.s3.S3FileIO
+      - AWS_ACCESS_KEY_ID=admin
+      - AWS_SECRET_ACCESS_KEY=password
+      - AWS_REGION=us-east-1
+      - CATALOG_S3_ENDPOINT=http://minio:9000
+      - s3.endpoint=http://minio:9000
+      - aws.s3.endpoint=http://minio:9000
+      - s3.bucket.endpoint=http://minio:9000
+      - CATALOG_S3_PATH_STYLE_ACCESS=true
+      - AWS_S3_PATH_STYLE_ACCESS=true
+      - s3.path-style-access=true
+      - path.style.access=true
+      - aws.s3.path.style.access=true
+      - s3.access-style=path
+      - CATALOG_S3_CHECKSUM_ENABLED=false
+      - client.region=us-east-1
+      - QUARKUS_LOG_LEVEL=DEBUG
+      - QUARKUS_LOG_CATEGORY__ORG_APACHE_ICEBERG__LEVEL=DEBUG
+      - QUARKUS_LOG_CATEGORY__SOFTWARE_AMAZON__LEVEL=DEBUG
+    extra_hosts:
+      - "minio:172.21.0.81"
+      - "ml-sandbox-minio-1:172.21.0.81"
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.90
+    depends_on:
+      minio:
+        condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8181/q/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 1G
 
   hadoop-datanode1:
     image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
@@ -275,21 +483,26 @@ services:
       - type: bind
         source: ./hadoop/config/hdfs-site.xml
         target: /opt/hadoop-3.2.1/etc/hadoop/hdfs-site.xml
-    # environment:
-    #   CORE_CONF_fs_defaultFS: ${_CORE_CONF_fs_defaultFS}
-    #   # КРИТИЧЕСКИ ВАЖНО: только подчёркивания, НИКАКИХ дефисов!
-    #   HDFS_CONF_dfs_client_use_datanode_hostname: "false"
-    #   HDFS_CONF_dfs_datanode_use_datanode_hostname: "false"
-    #   HDFS_CONF_dfs_namenode_datanode_registration_ip_hostname_check: "false"
     env_file:
       - .env
     networks:
       ml_sandbox_network:
         ipv4_address: 172.21.0.31
+    ports:
+      - "9864:9864"
+      - "9865:9865"
     depends_on:
       - hadoop-namenode
     restart: always
-  
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 2G
+
   nifi:
     build:
       context: ./nifi
@@ -312,7 +525,6 @@ services:
       NIFI_WEB_HTTPS_PORT: ${_NIFI_WEB_HTTPS_PORT}
       NIFI_WEB_HTTPS_HOST: ${_NIFI_WEB_HTTPS_HOST}
       NIFI_SENSITIVE_PROPS_KEY: ${_NIFI_SENSITIVE_PROPS_KEY}
-      # Авторизация
       NIFI_SECURITY_USER_AUTHORIZER: ${_NIFI_SECURITY_USER_AUTHORIZER}
       NIFI_SECURITY_USER_LOGIN_IDENTITY_PROVIDER: ${_NIFI_SECURITY_USER_LOGIN_IDENTITY_PROVIDER}
     env_file:
@@ -355,6 +567,14 @@ services:
     networks:
       ml_sandbox_network:
         ipv4_address: 172.21.0.40
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 8G
+        reservations:
+          cpus: '2.0'
+          memory: 4G
 
   cloudberry:
     build:
@@ -363,6 +583,12 @@ services:
     hostname: cdw
     ports:
       - "7000:7000"
+    env_file:
+      - .env
+    environment:
+      - CLOUDBERRY_DWH_DB
+      - CLOUDBERRY_DWH_USER
+      - CLOUDBERRY_DWH_PASSWORD
     volumes:
       - type: volume
         source: cloudberry_data_volume
@@ -373,6 +599,14 @@ services:
     networks:
       ml_sandbox_network:
         ipv4_address: 172.21.0.50
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 8G
+        reservations:
+          cpus: '2.0'
+          memory: 4G
 
   zookeeper:
     image: zookeeper:3.9.3
@@ -389,10 +623,22 @@ services:
       - "3888:3888"
     env_file:
       - .env
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 1G
 
-  # Общий шаблон для ClickHouse нод
-  clickhouse-base: &ch-default-configs
+  # ==========================================
+  # ЕДИНЫЙ ИНСТАНС CLICKHOUSE (БЕЗ РЕПЛИКАЦИИ)
+  # ==========================================
+  clickhouse:
     image: yandex/clickhouse-server:latest
+    container_name: clickhouse-server
+    hostname: clickhouse
     networks:
       ml_sandbox_network:
         ipv4_address: 172.21.0.70
@@ -401,9 +647,6 @@ services:
       nofile:
         soft: 262144
         hard: 262144
-
-  click1:
-    <<: *ch-default-configs
     volumes:
       - type: bind
         source: ./clickhouse/configs/default_user.xml
@@ -411,107 +654,25 @@ services:
       - type: bind
         source: ./clickhouse/configs/z_config.xml
         target: /etc/clickhouse-server/config.d/z_config.xml
-      - type: bind
-        source: ./clickhouse/configs/macros_ch1.xml
-        target: /etc/clickhouse-server/config.d/macros.xml
-      - type: bind
-        source: ./clickhouse/data/click1
-        target: /var/lib/clickhouse/user_files/data
+      - type: volume
+        source: clickhouse_data_volume
+        target: /var/lib/clickhouse
+        volume:
+          nocopy: false
     ports:
-      - "8002:9000"
-      - "9123:8123"
-    networks:
-      ml_sandbox_network:
-        ipv4_address: 172.21.0.71
+      - "8123:8123"  # HTTP интерфейс (Web UI, REST)
+      - "9000:9000"  # Native интерфейс (клиенты, драйверы)
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'       # Увеличил лимит, так как теперь он один
+          memory: 8G
+        reservations:
+          cpus: '2.0'
+          memory: 4G
 
-  click2:
-    <<: *ch-default-configs
-    volumes:
-      - type: bind
-        source: ./clickhouse/configs/default_user.xml
-        target: /etc/clickhouse-server/users.d/default_user.xml
-      - type: bind
-        source: ./clickhouse/configs/z_config.xml
-        target: /etc/clickhouse-server/config.d/z_config.xml
-      - type: bind
-        source: ./clickhouse/configs/macros_ch2.xml
-        target: /etc/clickhouse-server/config.d/macros.xml
-      - type: bind
-        source: ./clickhouse/data/click2
-        target: /var/lib/clickhouse/user_files/data
-    ports:
-      - "8003:9000"
-      - "9124:8123"
-    networks:
-      ml_sandbox_network:
-        ipv4_address: 172.21.0.72
-
-  click3:
-    <<: *ch-default-configs
-    volumes:
-      - type: bind
-        source: ./clickhouse/configs/default_user.xml
-        target: /etc/clickhouse-server/users.d/default_user.xml
-      - type: bind
-        source: ./clickhouse/configs/z_config.xml
-        target: /etc/clickhouse-server/config.d/z_config.xml
-      - type: bind
-        source: ./clickhouse/configs/macros_ch3.xml
-        target: /etc/clickhouse-server/config.d/macros.xml
-      - type: bind
-        source: ./clickhouse/data/click3
-        target: /var/lib/clickhouse/user_files/data
-    ports:
-      - "8004:9000"
-      - "9125:8123"
-    networks:
-      ml_sandbox_network:
-        ipv4_address: 172.21.0.73
-
-  click4:
-    <<: *ch-default-configs
-    volumes:
-      - type: bind
-        source: ./clickhouse/configs/default_user.xml
-        target: /etc/clickhouse-server/users.d/default_user.xml
-      - type: bind
-        source: ./clickhouse/configs/z_config.xml
-        target: /etc/clickhouse-server/config.d/z_config.xml
-      - type: bind
-        source: ./clickhouse/configs/macros_ch4.xml
-        target: /etc/clickhouse-server/config.d/macros.xml
-      - type: bind
-        source: ./clickhouse/data/click4
-        target: /var/lib/clickhouse/user_files/data
-    ports:
-      - "8005:9000"
-      - "9126:8123"
-    networks:
-      ml_sandbox_network:
-        ipv4_address: 172.21.0.74
-
-  haproxy:
-    image: haproxy:3.1.7
-    command: ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.cfg"]
-    networks:
-      ml_sandbox_network:
-        ipv4_address: 172.21.0.75
-    ports:
-      - "9002:9000"
-      - "8124:8123"
-    volumes:
-      - type: bind
-        source: ./clickhouse/configs/haproxy/haproxy.cfg
-        target: /usr/local/etc/haproxy/haproxy.cfg
-    depends_on:
-      - click1
-      - click2
-      - click3
-      - click4
-    restart: unless-stopped
-# PostgreSQL database
   postgres_ml_flow:
-    image: postgres:17  # ← ВРЕМЕННОЕ решение: зафиксируйте версию <18
+    image: postgres:17
     environment:
       POSTGRES_USER: ${_POSTGRES_USER_MLFLOW}
       POSTGRES_PASSWORD: ${_POSTGRES_PASSWORD_MLFLOW}
@@ -524,23 +685,59 @@ services:
       - type: bind
         source: ./mlflow/postgres-data
         target: /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${_POSTGRES_USER_MLFLOW:-mlflow} -d ${_POSTGRES_DB_MLFLOW:-mlflow}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
     networks:
       ml_sandbox_network:
         ipv4_address: 172.21.0.80
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 2G
 
-  # MinIO server (S3-compatible artifact store)
+  minio-init:
+    image: minio/mc:latest
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+        echo '⏳ Waiting for MinIO...' &&
+        sleep 5 &&
+        mc alias set myminio http://minio:9000 ${_MINIO_ROOT_USER} ${_MINIO_ROOT_PASSWORD} &&
+        mc mb -p myminio/${MLFLOW_S3_BUCKET} 2>/dev/null || echo '⚠️ Bucket ${MLFLOW_S3_BUCKET} exists' &&
+        mc mb -p myminio/${DATA_STORAGE_S3_BUCKET} 2>/dev/null || echo '⚠️ Bucket ${DATA_STORAGE_S3_BUCKET} exists' &&
+        echo '✅ Buckets ready: [${MLFLOW_S3_BUCKET}, ${DATA_STORAGE_S3_BUCKET}]'
+      "
+    networks:
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.87
+    restart: "no"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.2'
+          memory: 256M
+
   minio:
     image: minio/minio
-    expose:
-      - "9000"
     ports:
       - "9010:9000"
-      - "9001:9001" # MinIO Console
+      - "9001:9001"
     environment:
       MINIO_ROOT_USER: ${_MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${_MINIO_ROOT_PASSWORD}
-    env_file:
-      - .env
     command: server /data --console-address :9001
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
@@ -554,8 +751,15 @@ services:
     networks:
       ml_sandbox_network:
         ipv4_address: 172.21.0.81
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 2G
 
-  # MLflow Tracking Server
   mlflow:
     build:
       context: ./mlflow
@@ -563,26 +767,50 @@ services:
     ports:
       - "5000:5000"
     environment:
-      MLFLOW_S3_ENDPOINT_URL: ${_MLFLOW_S3_ENDPOINT_URL}
-      AWS_ACCESS_KEY_ID: ${_AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${_AWS_SECRET_ACCESS_KEY}
+      MLFLOW_S3_ENDPOINT_URL: ${MLFLOW_S3_ENDPOINT_URL}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION}
+      POSTGRES_HOST: postgres_ml_flow
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: ${_POSTGRES_USER_MLFLOW}
+      POSTGRES_PASSWORD: ${_POSTGRES_PASSWORD_MLFLOW}
+      POSTGRES_DB: ${_POSTGRES_DB_MLFLOW}
+      MLFLOW_BACKEND_STORE_URI: ${_MLFLOW_BACKEND_STORE_URI}
+      S3_PATH_STYLE_ACCESS: "true" 
     env_file:
       - .env
     command:
       - mlflow
       - server
       - --backend-store-uri
-      - ${_MLFLOW_BACKEND_STORE_URI}  # ← из .env
+      - ${_MLFLOW_BACKEND_STORE_URI}
       - --default-artifact-root
-      - s3://mlflow-artifacts
+      - s3://${MLFLOW_S3_BUCKET}/
       - --host
       - 0.0.0.0
+      - --port
+      - "5000"
     depends_on:
-      - postgres_ml_flow
-      - minio
+      postgres_ml_flow:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
     networks:
       ml_sandbox_network:
         ipv4_address: 172.21.0.82
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 2G
+
   label_studio:
     image: heartexlabs/label-studio:latest
     container_name: label_studio
@@ -594,9 +822,17 @@ services:
         source: ./label_studio/data
         target: /label_studio/data
     networks:
-        ml_sandbox_network:
-          ipv4_address: 172.21.0.83
-  
+      ml_sandbox_network:
+        ipv4_address: 172.21.0.83
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 2G
+
   postgres_superset:
     image: postgres:16
     environment:
@@ -619,6 +855,14 @@ services:
     networks:
       ml_sandbox_network:
         ipv4_address: 172.21.0.84
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 2G
 
   superset:
     image: apache/superset:4.0.2
@@ -644,18 +888,24 @@ services:
     networks:
       ml_sandbox_network:
         ipv4_address: 172.21.0.85
-  
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 2G
+
   trino:
     image: trinodb/trino:latest
     container_name: trino-server
     ports:
       - "8085:8080"
     environment:
-      # Optional: Allocate memory to prevent potential out-of-memory errors on small systems
       JAVA_TOOL_OPTIONS: ${_JAVA_TOOL_OPTIONS}
     env_file:
       - .env
-    # Optional: Add a healthcheck to verify the server is running
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/v1/info"]
       interval: 30s
@@ -664,8 +914,14 @@ services:
     networks:
       ml_sandbox_network:
         ipv4_address: 172.21.0.86
-
-
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 8G
+        reservations:
+          cpus: '2.0'
+          memory: 4G
 
 volumes:
   pg_airflow_db_volume:
@@ -680,8 +936,7 @@ volumes:
   nifi_provenance_volume:
   nifi_db_volume:
   nifi_conf_volume:
-  
-
+  clickhouse_data_volume: # <-- Единый том для ClickHouse
 
 networks:
   ml_sandbox_network:

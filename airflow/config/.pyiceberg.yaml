@@ -1,0 +1,12 @@
+catalogs:
+  default:
+    type: rest  # или sql/hive/glue
+    uri: http://iceberg-rest:8181  # если используете REST Catalog
+    warehouse: s3://${DATA_STORAGE_S3_BUCKET}/iceberg_warehouse
+    s3:
+      endpoint: ${DATA_STORAGE_S3_ENDPOINT}
+      access-key-id: ${AWS_ACCESS_KEY_ID}
+      secret-access-key: ${AWS_SECRET_ACCESS_KEY}
+      region: ${DATA_STORAGE_S3_REGION}
+      path-style-access: true  # КРИТИЧНО для MinIO!
+    io-impl: pyiceberg.io.pyarrow.PyArrowFileIO

@@ -105,8 +105,8 @@ def get_data_from_dwh(sql_query: str) -> Dict[str, Any]:
         )
     
     try:
-        print(f"Выполнение запроса к Cloudberry (cloudberry_test_dwh):")
-        print(f"  {sql_query}")
+        # print(f"Выполнение запроса к Cloudberry (cloudberry_test_dwh):")
+        # print(f"  {sql_query}")
         
         hook = PostgresHook(postgres_conn_id='cloudberry_test_dwh')
         conn = hook.get_conn()
@@ -117,7 +117,7 @@ def get_data_from_dwh(sql_query: str) -> Dict[str, Any]:
             conn.commit()
             cursor.close()
             conn.close()
-            print("✓ Запрос выполнен (без возвращаемых данных)")
+            # print("✓ Запрос выполнен (без возвращаемых данных)")
             return []
         
         columns = [desc[0] for desc in cursor.description]
@@ -127,7 +127,7 @@ def get_data_from_dwh(sql_query: str) -> Dict[str, Any]:
         cursor.close()
         conn.close()
         
-        print(f"✓ Запрос выполнен успешно. Получено строк: {len(results)}")
+        # print(f"✓ Запрос выполнен успешно. Получено строк: {len(results)}")
         return results
             
     except Exception as e:

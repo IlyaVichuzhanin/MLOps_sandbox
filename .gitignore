@@ -4,7 +4,7 @@ __pycache__/
 .venv/
 venv/
 env/
-.env  # Contains sensitive information
+
 .ipynb_checkpoints
 .idea/  # JetBrains/PyCharm
 .vscode/
@@ -37,3 +37,43 @@ mlruns/
 wandb/
 .pytest_cache/
 
+
+# Airflow logs
+airflow/logs/
+
+
+# MinIO data files
+minio/minio-data/
+
+# MlFlowKs
+mlflow/postgres-data/
+
+
+
+cloudberry/Dockerfile.cloudberry
+
+nifi/nifi_flow_repository/journals/
+minio/minio-data/
+mlflow/postgres-data
+airflow/dags/upload_any_data_dag.py
+
+
+convert_to_binary_sample.py
+download_bynary.py
+s_creyt_timeseries_20260505_110018.csv
+processed/
+output/
+output_csv/
+batches/
+get_creyt_samples.py
+test_3.py
+test_2.py
+test_1.py
+
+
+# Data files
+*.parquet
+*.csv
+
+*.zip
+*.gz

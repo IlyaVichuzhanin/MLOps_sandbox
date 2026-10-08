@@ -8,3 +8,8 @@ pandas
 numpy
 psycopg2-binary
 apache-airflow
+psycopg2-binary
+airflow_clickhouse_plugin
+botocore
+boto3
+utils

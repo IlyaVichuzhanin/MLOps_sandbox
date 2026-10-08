@@ -1,16 +1,21 @@
 #!/usr/bin/env python3
 import sys
-import json
 import os
-import argparse
-import psycopg2
-import psycopg2.extras  # 🔑 ДОБАВЛЕНО: поддержка UUID
-psycopg2.extras.register_uuid()  # 🔑 КРИТИЧЕСКИ ВАЖНО: регистрация до подключения к БД!
-import uuid  # 🔑 ДОБАВЛЕНО: работа с UUID
-from pathlib import Path
-from datetime import datetime
-import traceback
+import hashlib
+import re
+import struct
 import binascii
+import psycopg2
+import psycopg2.extras
+psycopg2.extras.register_uuid()
+from psycopg2.extras import RealDictCursor
+from pathlib import Path
+from datetime import datetime, timezone, timedelta
+import shutil
+import json
+import sqlite3
+import uuid
+
 
 # === НАСТРОЙКИ ПОДКЛЮЧЕНИЯ К Cloudberry ===
 CB_CONFIG = {
@@ -18,10 +23,24 @@ CB_CONFIG = {
     "port": 7000,
     "dbname": "dwh",
     "user": "gpadmin",
-    "password": "gpadmin_password"
+    "password": "123"
 }
 
+
+TEMP_FILES_PATH_DIR = Path("/home/temp_data")
+
+DB_IDENT_TABLE_NAME = "DatabaseIdent"
 CATALOGUE_TABLE = "data_catalogue"
+
+
+# === КОНСТАНТЫ ФОРМАТА .fh ===
+FH_MAGIC = 0xBEBAADDE
+FH_MIN_HEADER_LENGTH = 30
+FH_HEADER_DATA_OFFSET = 26
+FH_FROM_DATE_OFFSET = 8
+FH_TO_DATE_OFFSET = 16
+FH_VERSION_OFFSET = 24
+FH_EXTRA_MAGIC = 0x4B52494F  # "KRIO"
 
 # === СТРОКОВЫЕ ТИПЫ ДАННЫХ ===
 class DataType:
@@ -34,349 +53,695 @@ class DataFormat:
     fh = "fh"
     other = "other"
 
-# Маппинг числовых значений для обратной совместимости
-NUMERIC_DATATYPE_MAPPING = {
+class FileOperation:
+    Replace = "Replace"
+    Add = "Add"
+    Skip = "Skip"
+
+
+FH_DATATYPE_MAPPING = {
     1: DataType.MainDb,
     2: DataType.Double,
     3: DataType.Any
 }
 
-NUMERIC_DATAFORMAT_MAPPING = {
-    1: DataFormat.sqlite,
-    2: DataFormat.fh,
-    3: DataFormat.other
+SQLITE_DATATYPE_MAPPING = {
+    1: DataType.MainDb,
+    2: DataType.Double,
+    3: DataType.Any
 }
 
-def to_uuid(value) -> uuid.UUID:
-    """
-    Преобразует входное значение (строка, bytes) в объект UUID.
-    Поддерживает:
-      - Строки в формате UUID (с дефисами и без)
-      - 16-байтные последовательности (bytes)
-      - Hex-строки длиной 32 символа
-    """
-    if value is None:
-        raise ValueError("UUID value cannot be None")
-    
-    if isinstance(value, uuid.UUID):
-        return value
-    
-    if isinstance(value, bytes):
-        if len(value) == 16:
-            return uuid.UUID(bytes=value)
-        else:
-            raise ValueError(f"Expected 16 bytes for UUID, got {len(value)} bytes")
-    
-    if isinstance(value, str):
-        s = value.strip()
-        # Убираем префикс 0x если есть
-        if s.startswith(("0x", "0X")):
-            s = s[2:]
-        # Пробуем распарсить как стандартный UUID
-        try:
-            return uuid.UUID(s)
-        except ValueError:
-            # Убираем дефисы и пробелы для обработки "чистого" hex
-            s_clean = s.replace('-', '').replace(' ', '')
-            if len(s_clean) == 32:
-                try:
-                    return uuid.UUID(hex=s_clean)
-                except ValueError:
-                    pass
-            raise ValueError(f"Cannot convert string to UUID: {value}")
-    
-    raise TypeError(f"Cannot convert {type(value)} to UUID")
 
-def to_hex_string(value) -> str:
-    """
-    Преобразует входное значение (bytes, hex-строка) в нормализованную hex-строку (нижний регистр, без префиксов).
-    Примеры:
-      - b'\xde\xad\xbe\xef' → "deadbeef"
-      - "DEADBEEF" → "deadbeef"
-      - "0xdeadbeef" → "deadbeef"
-      - "dead-beef" → "deadbeef"
-    """
-    if value is None:
-        raise ValueError("Hash value cannot be None")
-    
-    if isinstance(value, bytes):
-        return binascii.hexlify(value).decode('ascii').lower()
-    
-    if isinstance(value, str):
-        s = value.strip()
-        # Убираем префикс 0x/0X
-        if s.startswith(("0x", "0X")):
-            s = s[2:]
-        # Убираем дефисы, двоеточия, пробелы (для форматов вроде "de:ad:be:ef")
-        s = s.replace('-', '').replace(':', '').replace(' ', '').lower()
-        # Валидация: должна быть четной длины и содержать только hex-символы
-        if len(s) % 2 != 0 or not all(c in '0123456789abcdef' for c in s):
-            raise ValueError(f"Invalid hex string: {value}")
-        return s
-    
-    raise TypeError(f"Cannot convert {type(value)} to hex string")
+def calculate_sha256(filepath: str) -> str:
+    """Возвращает SHA-256 хеш файла как шестнадцатеричную строку (64 символа)."""
+    sha256_hash = hashlib.sha256()
+    with open(filepath, "rb") as f:
+        for byte_block in iter(lambda: f.read(4096), b""):
+            sha256_hash.update(byte_block)
+    return sha256_hash.hexdigest()
 
-def normalize_data_type(value) -> str:
-    """Нормализует значение типа данных в строку."""
-    if isinstance(value, str):
-        return value.strip() or DataType.Any
-    elif isinstance(value, (int, float)):
-        return NUMERIC_DATATYPE_MAPPING.get(int(value), DataType.Any)
-    else:
-        return DataType.Any
 
-def normalize_data_format(value) -> str:
-    """Нормализует значение формата данных в строку."""
-    if isinstance(value, str):
-        return value.strip() or DataFormat.other
-    elif isinstance(value, (int, float)):
-        return NUMERIC_DATAFORMAT_MAPPING.get(int(value), DataFormat.other)
+class DataIdentInfo:
+    def __init__(self, file_path: str,
+                 data_source_id: uuid.UUID,
+                 data_file_id: uuid.UUID,
+                 main_db_name: str,
+                 main_db_id: uuid.UUID,
+                 data_type: str,
+                 data_format: str,
+                 size: int,
+                 last_date_time_update: datetime,
+                 file_hash: str,
+                 interval_date: datetime = None):
+        if not isinstance(data_source_id, uuid.UUID):
+            raise TypeError(f"data_source_id must be uuid.UUID, got {type(data_source_id)}")
+        if not isinstance(data_file_id, uuid.UUID):
+            raise TypeError(f"data_file_id must be uuid.UUID, got {type(data_file_id)}")
+        if not isinstance(main_db_id, uuid.UUID):
+            raise TypeError(f"main_db_id must be uuid.UUID, got {type(main_db_id)}")
+        if not isinstance(file_hash, str) or len(file_hash) != 64:
+            raise TypeError(f"file_hash must be 64-char hex string")
+
+        self.file_path = Path(file_path)
+        self.data_source_id = data_source_id
+        self.data_file_id = data_file_id
+        self.main_db_name = str(main_db_name)
+        self.main_db_id = main_db_id
+        self.data_type = str(data_type)
+        self.data_format = str(data_format)
+        self.size = int(size)
+        self.last_date_time_update = last_date_time_update
+        self.file_hash = file_hash
+        self.interval_date = interval_date
+
+
+class UploadInfo:
+    def __init__(self,
+                 file_operation: str,
+                 file_path: Path,
+                 data_source_id: uuid.UUID = None,
+                 data_file_id: uuid.UUID = None,
+                 main_db_id: uuid.UUID = None,
+                 main_db_name: str = None,
+                 file_size: int = None,
+                 last_update: datetime = None,
+                 upload_date_time: str = None,
+                 hdfs_storage_path: Path = None,
+                 hdfs_full_path: Path = None,
+                 data_type: str = None,
+                 data_format: str = None,
+                 file_hash: str = None):
+        self.file_operation = str(file_operation)
+        self.file_path = file_path
+        self.data_source_id = data_source_id
+        self.data_file_id = data_file_id
+        self.main_db_id = main_db_id
+        self.main_db_name = str(main_db_name) if main_db_name else None
+        self.file_size = int(file_size) if file_size is not None else None
+        self.last_update = last_update
+        self.upload_date_time = str(upload_date_time) if upload_date_time else None
+        self.hdfs_storage_path = hdfs_storage_path
+        self.hdfs_full_path = hdfs_full_path
+        self.data_type = str(data_type) if data_type is not None else None
+        self.data_format = str(data_format) if data_format is not None else None
+        self.file_hash = str(file_hash) if file_hash is not None else None
+
+
+def get_data_format(file_path: Path) -> str:
+    ext = file_path.suffix.lower()
+    if ext == ".db":
+        return DataFormat.sqlite
+    elif ext == ".fh":
+        return DataFormat.fh
     else:
         return DataFormat.other
 
-def get_postgres_connection():
-    dsn = " ".join(f"{k}={v}" for k, v in CB_CONFIG.items())
-    conn = psycopg2.connect(dsn)
-    conn.autocommit = True
-    return conn
 
-def migrate_bytea_to_text(conn) -> None:
-    """Миграция существующих данных из BYTEA в TEXT (выполняется один раз при обнаружении старой схемы)."""
+def get_cloudberry_connection():
+    try:
+        dsn = " ".join(f"{k}={v}" for k, v in CB_CONFIG.items())
+        conn = psycopg2.connect(dsn)
+        conn.autocommit = True
+        return conn
+    except Exception as e:
+        raise ConnectionError(f"Cloudberry error: {e}")
+
+
+def json_default(obj):
+    if isinstance(obj, datetime):
+        return obj.strftime("%Y-%m-%d %H:%M:%S")
+    if isinstance(obj, Path):
+        return str(obj)
+    if isinstance(obj, uuid.UUID):
+        return str(obj)
+    return str(obj)
+
+
+def ensure_catalogue_schema(conn):
     cur = conn.cursor()
     try:
-        # Проверяем тип колонки file_hash
         cur.execute("""
-            SELECT data_type 
-            FROM information_schema.columns 
-            WHERE table_name = %s AND column_name = 'file_hash'
+            SELECT EXISTS (
+                SELECT 1 FROM information_schema.tables
+                WHERE table_schema = 'public' AND table_name = %s
+            )
         """, (CATALOGUE_TABLE,))
-        result = cur.fetchone()
-        
-        if result and result[0].lower() == 'bytea':
-            print("[INFO] Migrating file_hash from BYTEA to TEXT...", file=sys.stderr)
-            # Создаём временную колонку
-            cur.execute(f'ALTER TABLE "{CATALOGUE_TABLE}" ADD COLUMN IF NOT EXISTS "file_hash_tmp" TEXT')
-            # Конвертируем данные
-            cur.execute(f'UPDATE "{CATALOGUE_TABLE}" SET "file_hash_tmp" = encode("file_hash", \'hex\')')
-            # Удаляем старую колонку и переименовываем новую
-            cur.execute(f'ALTER TABLE "{CATALOGUE_TABLE}" DROP COLUMN "file_hash"')
-            cur.execute(f'ALTER TABLE "{CATALOGUE_TABLE}" RENAME COLUMN "file_hash_tmp" TO "file_hash"')
-            # Пересоздаём индекс
-            cur.execute(f'DROP INDEX IF EXISTS idx_{CATALOGUE_TABLE}_file_hash')
-            cur.execute(f'CREATE INDEX IF NOT EXISTS idx_{CATALOGUE_TABLE}_file_hash ON "{CATALOGUE_TABLE}"("file_hash")')
-            print("[INFO] Migration completed successfully", file=sys.stderr)
-    finally:
-        cur.close()
+        table_exists = cur.fetchone()[0]
 
-def ensure_catalogue_schema(conn) -> None:
-    cur = conn.cursor()
-    try:
-        # ИСПРАВЛЕНО: колонка первичного ключа называется "id" (строчная буква), а не "Id"
-        cur.execute(f"""
-            CREATE TABLE IF NOT EXISTS "{CATALOGUE_TABLE}" (
-                "id" SERIAL PRIMARY KEY,  
-                "data_source_id" UUID NOT NULL,
-                "main_db_id" UUID NOT NULL,
-                "main_db_name" TEXT NOT NULL,
-                "file_name" TEXT,
-                "file_size" INTEGER,
-                "file_hash" TEXT NOT NULL, 
-                "last_update" TIMESTAMP NOT NULL,
-                "upload_date_time" TIMESTAMP NOT NULL,
-                "hdfs_storage_path" TEXT NOT NULL,
-                "data_type" TEXT NOT NULL,
-                "data_format" TEXT NOT NULL
-            );
-        """)
-        cur.execute(f'CREATE INDEX IF NOT EXISTS idx_{CATALOGUE_TABLE}_data_source_id ON "{CATALOGUE_TABLE}"("data_source_id");')
-        cur.execute(f'CREATE INDEX IF NOT EXISTS idx_{CATALOGUE_TABLE}_file_hash ON "{CATALOGUE_TABLE}"("file_hash");')
-        
-        # Выполняем миграцию если нужно
-        migrate_bytea_to_text(conn)
-    finally:
-        cur.close()
-
-def upsert_catalogue(conn, row: dict) -> int:
-    cur = conn.cursor()
-    try:
-        # 🔑 ИСПРАВЛЕНО: "id" вместо "Id" в SELECT
-        cur.execute(f'SELECT "id", "file_hash" FROM "{CATALOGUE_TABLE}" WHERE "data_source_id" = %s LIMIT 1;', (row["data_source_id"],))
-        existing = cur.fetchone()
-
-        if existing:
-            existing_id, existing_hash = existing
-            # Сравниваем хеш как строки (в нижнем регистре для надёжности)
-            if existing_hash.lower() == row["file_hash"].lower():
-                # Файл не изменился — ничего не делаем
-                print("[DEBUG] File hash unchanged — skipping update", file=sys.stderr)
-                return existing_id
-            else:
-                # Хеш изменился — обновляем
-                print("[DEBUG] File hash changed — updating record", file=sys.stderr)
-                # 🔑 ИСПРАВЛЕНО: "id" вместо "Id" в WHERE
-                cur.execute(f"""
-                    UPDATE "{CATALOGUE_TABLE}"
-                    SET "main_db_id" = %s, "main_db_name" = %s, "file_name" = %s, "file_size" = %s,
-                        "file_hash" = %s, "last_update" = %s, "upload_date_time" = %s, "hdfs_storage_path" = %s,
-                        "data_type" = %s, "data_format" = %s
-                    WHERE "id" = %s;
-                """, (
-                    row["main_db_id"], row["main_db_name"], row["file_name"], row["file_size"],
-                    row["file_hash"], row["last_update"], row["upload_date_time"], row["hdfs_storage_path"],
-                    row["data_type"], row["data_format"], existing_id
-                ))
-                return existing_id
-        else:
-            # 🔑 ВСТАВКА С ОБЪЕКТАМИ UUID
-            print("[DEBUG] Inserting new record", file=sys.stderr)
-            # 🔑 ИСПРАВЛЕНО: "id" вместо "Id" в RETURNING
+        if not table_exists:
             cur.execute(f"""
-                INSERT INTO "{CATALOGUE_TABLE}"
-                ("data_source_id", "main_db_id", "main_db_name", "file_name", "file_size", "file_hash",
-                 "last_update", "upload_date_time", "hdfs_storage_path", "data_type", "data_format")
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                RETURNING "id";
-            """, (
-                row["data_source_id"],
-                row["main_db_id"],
-                row["main_db_name"], row["file_name"], row["file_size"], row["file_hash"],
-                row["last_update"], row["upload_date_time"], row["hdfs_storage_path"],
-                row["data_type"], row["data_format"]
-            ))
-            result = cur.fetchone()
-            return result[0] if result else -1
+                CREATE TABLE "{CATALOGUE_TABLE}" (
+                    "data_source_id" UUID NOT NULL,
+                    "data_file_id" UUID NOT NULL,
+                    "main_db_id" UUID NOT NULL,
+                    "main_db_name" TEXT NOT NULL,
+                    "file_name" TEXT,
+                    "file_size" BIGINT,
+                    "file_hash" TEXT,
+                    "last_update" TIMESTAMP,
+                    "upload_date_time" TIMESTAMP,
+                    "created_dttm" TIMESTAMP DEFAULT NOW() NOT NULL,
+                    "hdfs_storage_path" TEXT,
+                    "hdfs_full_path" TEXT,
+                    "data_type" TEXT,
+                    "data_format" TEXT,
+                    "is_uploaded_to_dwh" BOOL DEFAULT FALSE NOT NULL,
+                    "dwh_upload_dttm" TIMESTAMPTZ,
+                    CONSTRAINT data_catalogue_pk PRIMARY KEY (data_source_id)
+                );
+            """)
+            cur.execute(f'CREATE INDEX idx_{CATALOGUE_TABLE}_data_file_id ON "{CATALOGUE_TABLE}"("data_file_id");')
+            cur.execute(f'CREATE INDEX idx_{CATALOGUE_TABLE}_file_hash ON "{CATALOGUE_TABLE}"("file_hash");')
+            sys.stderr.write("INFO: Created data_catalogue with data_source_id as PK\n")
+        else:
+            for col_name, col_def in [
+                ("data_file_id", "UUID"),
+                ("hdfs_full_path", "TEXT"),
+                ("created_dttm", "TIMESTAMP DEFAULT NOW()"),
+                ("is_uploaded_to_dwh", "BOOL DEFAULT FALSE"),
+                ("dwh_upload_dttm", "TIMESTAMPTZ"),
+            ]:
+                cur.execute(f"""
+                    SELECT column_name FROM information_schema.columns
+                    WHERE table_name = '{CATALOGUE_TABLE}' AND column_name = '{col_name}'
+                """)
+                if not cur.fetchone():
+                    cur.execute(f'ALTER TABLE "{CATALOGUE_TABLE}" ADD COLUMN "{col_name}" {col_def}')
+                    sys.stderr.write(f"INFO: Added column {col_name} to data_catalogue\n")
+
+            cur.execute(f"""
+                SELECT indexname FROM pg_indexes
+                WHERE tablename = '{CATALOGUE_TABLE}' AND indexname = 'idx_{CATALOGUE_TABLE}_data_file_id'
+            """)
+            if not cur.fetchone():
+                cur.execute(f'CREATE INDEX idx_{CATALOGUE_TABLE}_data_file_id ON "{CATALOGUE_TABLE}"("data_file_id");')
     finally:
         cur.close()
 
-def main():
-    # === Определяем режим: stdin или --json ===
-    use_stdin = True
-    raw_input = ""
 
-    if len(sys.argv) > 1 and '--json' in sys.argv:
-        use_stdin = False
-        parser = argparse.ArgumentParser()
-        parser.add_argument("--json", required=True)
-        args = parser.parse_args()
-        raw_input = args.json
-        print(f"[DEBUG] Mode: command-line argument", file=sys.stderr)
-    else:
-        print(f"[DEBUG] Mode: reading from stdin", file=sys.stderr)
-        raw_input = sys.stdin.read()
-
-    print(f"[DEBUG] Raw input length: {len(raw_input)} chars", file=sys.stderr)
-    print(f"[DEBUG] First 300 chars of input:\n{repr(raw_input[:300])}", file=sys.stderr)
-
-    if not raw_input.strip():
-        print(json.dumps({"ok": True, "skipped": True, "reason": "empty_input"}, ensure_ascii=False))
-        return
-
-    # === Парсинг JSON ===
-    attr = None
+def ensure_local_catalogue_exists():
+    conn = get_cloudberry_connection()
     try:
-        attr = json.loads(raw_input)
-        print("[DEBUG] JSON parsed successfully", file=sys.stderr)
-    except json.JSONDecodeError as e:
-        error_msg = f"JSON decode error: {str(e)}"
-        print(f"[ERROR] {error_msg}", file=sys.stderr)
-        print(json.dumps({"ok": False, "error": error_msg}, ensure_ascii=False), file=sys.stderr)
-        return
+        ensure_catalogue_schema(conn)
+    finally:
+        conn.close()
 
-    # === Логика обработки ===
+
+def save_to_catalogue(upload_info: UploadInfo):
+    conn = get_cloudberry_connection()
+    cursor = conn.cursor()
     try:
-        file_operation = str(attr.get("file_operation", "")).strip()
-        file_path = str(attr.get("file_path", "")).strip()
+        if upload_info.file_operation == FileOperation.Add:
+            cursor.execute(f"""
+                INSERT INTO "{CATALOGUE_TABLE}" (
+                    "data_source_id", "data_file_id", "main_db_id", "main_db_name",
+                    "file_name", "file_size", "file_hash",
+                    "last_update", "upload_date_time",
+                    "hdfs_storage_path", "hdfs_full_path",
+                    "data_type", "data_format", "is_uploaded_to_dwh"
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                RETURNING "data_source_id"
+            """, (
+                upload_info.data_source_id,
+                upload_info.data_file_id,
+                upload_info.main_db_id,
+                upload_info.main_db_name,
+                upload_info.file_path.name,
+                upload_info.file_size,
+                upload_info.file_hash,
+                upload_info.last_update,
+                upload_info.upload_date_time,
+                str(upload_info.hdfs_storage_path),
+                str(upload_info.hdfs_full_path),
+                upload_info.data_type,
+                upload_info.data_format,
+                False
+            ))
+            result = cursor.fetchone()
+            returned_id = result[0] if result else upload_info.data_source_id
+            sys.stderr.write(f"INFO: Inserted new catalogue record "
+                             f"data_source_id={returned_id}, "
+                             f"data_file_id={upload_info.data_file_id}\n")
+    finally:
+        cursor.close()
+        conn.close()
 
-        if not file_path or file_operation.lower() == "skip":
-            print(json.dumps({"ok": True, "skipped": True}, ensure_ascii=False))
-            return
 
-        file_name = Path(file_path).name
-        hdfs_storage_path = str(attr.get("hdfs_storage_path") or Path(file_path).parent).strip()
-        upload_dt_str = str(attr.get("upload_date_time", "")).strip() or datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        last_update_str = str(attr.get("last_update", "")).strip() or datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+def get_date_from_timeinterval(db_path: str) -> datetime:
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+    try:
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='TimeInterval'")
+        if not cursor.fetchone():
+            return None
 
-        # === Обязательно: file_hash должен быть передан как hex-строка или bytes ===
-        file_hash_raw = attr.get("file_hash")
-        if not file_hash_raw:
-            print(json.dumps({
-                "ok": False,
-                "error": "Missing 'file_hash' in input JSON"
-            }, ensure_ascii=False), file=sys.stderr)
-            return
+        cursor.execute("SELECT SegmentFromDate FROM TimeInterval LIMIT 1")
+        row = cursor.fetchone()
+        if row and row[0]:
+            date_value = row[0]
+            for fmt in ["%Y-%m-%d %H:%M:%S", "%Y-%m-%d", "%d.%m.%Y %H:%M:%S", "%d.%m.%Y"]:
+                try:
+                    parsed_date = datetime.strptime(str(date_value), fmt)
+                    sys.stderr.write(f"INFO: Extracted date from TimeInterval: {parsed_date}\n")
+                    return parsed_date
+                except ValueError:
+                    continue
+            sys.stderr.write(f"WARNING: Could not parse date '{date_value}' from TimeInterval\n")
+            return None
+        return None
+    except Exception as e:
+        sys.stderr.write(f"WARNING: Error reading TimeInterval: {e}\n")
+        return None
+    finally:
+        conn.close()
 
-        # 🔑 КОНВЕРТАЦИЯ В UUID
+
+def fh_timestamp_to_datetime(ts_ms: int) -> datetime:
+    """Конвертирует Unix timestamp (мс) в datetime UTC."""
+    return datetime(1970, 1, 1, tzinfo=timezone.utc) + timedelta(milliseconds=ts_ms)
+
+
+def get_fh_data_ident_info(path_to_file: str) -> DataIdentInfo:
+    """
+    Читает метаданные из заголовка .fh файла.
+    Ожидает модифицированный заголовок с дополнительными полями (Id, MainDbId, MainDbName, DataType).
+    """
+    stat = os.stat(path_to_file)
+    file_hash = calculate_sha256(path_to_file)
+    data_source_id = uuid.uuid4()
+
+    with open(path_to_file, 'rb') as f:
+        file_data = f.read()
+
+    file_size = len(file_data)
+
+    # Проверка минимального размера
+    if file_size < FH_MIN_HEADER_LENGTH:
+        raise ValueError(f"Файл слишком мал: {file_size} байт (минимум {FH_MIN_HEADER_LENGTH})")
+
+    # Проверка магического слова
+    magic = struct.unpack_from('<I', file_data, 0)[0]
+    if magic != FH_MAGIC:
+        raise ValueError(f"Неверное магическое слово: 0x{magic:08X} (ожидается 0x{FH_MAGIC:08X})")
+
+    # Чтение длины заголовка
+    header_length = struct.unpack_from('<I', file_data, 4)[0]
+    if header_length < FH_MIN_HEADER_LENGTH or header_length > file_size:
+        raise ValueError(f"Некорректная длина заголовка: {header_length}")
+
+    # Чтение дат
+    from_ts = struct.unpack_from('<Q', file_data, FH_FROM_DATE_OFFSET)[0]
+    to_ts = struct.unpack_from('<Q', file_data, FH_TO_DATE_OFFSET)[0]
+    from_date = fh_timestamp_to_datetime(from_ts)
+    to_date = fh_timestamp_to_datetime(to_ts)
+
+    # Чтение версии
+    file_version = struct.unpack_from('<H', file_data, FH_VERSION_OFFSET)[0]
+
+    # Чтение HeaderData (без CRC32)
+    header_data_end = header_length - 4
+    header_data = file_data[FH_HEADER_DATA_OFFSET:header_data_end]
+
+    # Проверка CRC32
+    stored_crc32 = struct.unpack_from('<I', file_data, header_data_end)[0]
+    calculated_crc32 = binascii.crc32(file_data[:header_data_end]) & 0xFFFFFFFF
+    if stored_crc32 != calculated_crc32:
+        raise ValueError(f"CRC32 не совпадает: файл=0x{stored_crc32:08X}, вычислено=0x{calculated_crc32:08X}")
+
+    # Разбор HeaderData для версии 1
+    if file_version != 1:
+        raise ValueError(f"Неподдерживаемая версия файла: {file_version}")
+
+    if len(header_data) < 4:
+        raise ValueError("HeaderData слишком короткий для версии 1")
+
+    # DataRowValuesCount (4 байта)
+    data_row_values_count = struct.unpack_from('<I', header_data, 0)[0]
+
+    # Проверка наличия дополнительных метаданных (сигнатура KRIO)
+    if len(header_data) < 8:
+        raise ValueError("Файл не содержит дополнительных метаданных (Id, MainDbId, MainDbName, DataType)")
+
+    extra_magic = struct.unpack_from('<I', header_data, 4)[0]
+    if extra_magic != FH_EXTRA_MAGIC:
+        raise ValueError(f"Отсутствует сигнатура дополнительных метаданных: 0x{extra_magic:08X} (ожидается 0x{FH_EXTRA_MAGIC:08X})")
+
+    # Чтение дополнительных полей
+    offset = 8
+    
+    # Id (16 байт, GUID LE)
+    if len(header_data) < offset + 16:
+        raise ValueError("Недостаточно данных для чтения Id")
+    data_file_id = uuid.UUID(bytes_le=header_data[offset:offset + 16])
+    offset += 16
+
+    # MainDbId (16 байт, GUID LE)
+    if len(header_data) < offset + 16:
+        raise ValueError("Недостаточно данных для чтения MainDbId")
+    main_db_id = uuid.UUID(bytes_le=header_data[offset:offset + 16])
+    offset += 16
+
+    # MainDbName length (4 байта)
+    if len(header_data) < offset + 4:
+        raise ValueError("Недостаточно данных для чтения длины MainDbName")
+    main_db_name_length = struct.unpack_from('<I', header_data, offset)[0]
+    offset += 4
+
+    # MainDbName (UTF-8)
+    if len(header_data) < offset + main_db_name_length:
+        raise ValueError("Недостаточно данных для чтения MainDbName")
+    main_db_name = header_data[offset:offset + main_db_name_length].decode('utf-8')
+    offset += main_db_name_length
+
+    # DataType (4 байта)
+    if len(header_data) < offset + 4:
+        raise ValueError("Недостаточно данных для чтения DataType")
+    raw_data_type = struct.unpack_from('<I', header_data, offset)[0]
+    data_type_str = FH_DATATYPE_MAPPING.get(raw_data_type, DataType.Any)
+
+    sys.stderr.write(f"INFO: FH file metadata: data_file_id={data_file_id}, main_db_id={main_db_id}, "
+                     f"main_db_name={main_db_name}, data_type={data_type_str}, "
+                     f"from_date={from_date}, to_date={to_date}, values_count={data_row_values_count}\n")
+
+    return DataIdentInfo(
+        file_path=path_to_file,
+        data_source_id=data_source_id,
+        data_file_id=data_file_id,
+        main_db_name=main_db_name,
+        main_db_id=main_db_id,
+        data_type=data_type_str,
+        data_format=get_data_format(Path(path_to_file)),
+        size=stat.st_size,
+        last_date_time_update=datetime.fromtimestamp(stat.st_mtime),
+        file_hash=file_hash,
+        interval_date=from_date  # Для .fh файлов используем FromDate из заголовка
+    )
+
+
+def get_data_ident_info(path_to_file: str) -> DataIdentInfo:
+    """Определяет формат файла и вызывает соответствующую функцию для чтения метаданных."""
+    file_path = Path(path_to_file)
+    data_format = get_data_format(file_path)
+
+    if data_format == DataFormat.sqlite:
+        # Обработка SQLite файла
+        stat = os.stat(path_to_file)
+        file_hash = calculate_sha256(path_to_file)
+        data_source_id = uuid.uuid4()
+
+        conn = sqlite3.connect(path_to_file)
+        cursor = conn.cursor()
         try:
-            data_source_id = to_uuid(attr.get("data_id"))
-            main_db_id = to_uuid(attr.get("main_db_id"))
-        except (ValueError, TypeError) as e:
-            print(json.dumps({
-                "ok": False,
-                "error": f"Invalid UUID format: {str(e)}",
-                "field": "data_id or main_db_id"
-            }, ensure_ascii=False), file=sys.stderr)
-            return
+            cursor.execute(f"SELECT Id, MainDbName, MainDbId, DataType FROM {DB_IDENT_TABLE_NAME} LIMIT 1;")
+            row = cursor.fetchone()
+            if not row:
+                raise ValueError("No data in DatabaseIdent table")
 
-        # 🔑 КОНВЕРТАЦИЯ ХЕША В СТРОКУ
-        try:
-            file_hash_str = to_hex_string(file_hash_raw)
-        except (ValueError, TypeError) as e:
-            print(json.dumps({
-                "ok": False,
-                "error": f"Invalid hash format: {str(e)}",
-                "field": "file_hash"
-            }, ensure_ascii=False), file=sys.stderr)
-            return
+            data_file_id_blob = row[0]
+            main_db_id_blob = row[2]
 
-        # Нормализуем типы данных в строки (с поддержкой обратной совместимости)
-        data_type_str = normalize_data_type(attr.get("data_type"))
-        data_format_str = normalize_data_format(attr.get("data_format"))
+            if not isinstance(data_file_id_blob, (bytes, bytearray)) or len(data_file_id_blob) != 16:
+                raise ValueError(f"data_file_id must be 16-byte UUID BLOB, got {type(data_file_id_blob)}")
+            if not isinstance(main_db_id_blob, (bytes, bytearray)) or len(main_db_id_blob) != 16:
+                raise ValueError(f"main_db_id must be 16-byte UUID BLOB, got {type(main_db_id_blob)}")
 
-        row = {
-            "id": int(attr.get("id", 0) or 0),  # 🔑 ИСПРАВЛЕНО: "id" вместо "Id" для внутренней согласованности
-            "data_source_id": data_source_id,
-            "main_db_id": main_db_id,
-            "main_db_name": str(attr.get("main_db_name", "")).strip(),
-            "file_name": file_name,
-            "file_size": int(attr.get("file_size", 0) or 0),
-            "file_hash": file_hash_str,  # 🔑 ИЗМЕНЕНО: строка вместо bytes
-            "last_update": last_update_str,
-            "upload_date_time": upload_dt_str,
-            "hdfs_storage_path": hdfs_storage_path,
-            "data_type": data_type_str,
-            "data_format": data_format_str
-        }
+            data_file_id = uuid.UUID(bytes=data_file_id_blob)
+            main_db_id = uuid.UUID(bytes=main_db_id_blob)
 
-        # Валидация обязательных полей (нулевой UUID считается недопустимым)
-        if data_source_id.int == 0 or main_db_id.int == 0 or not row["main_db_name"] or not row["hdfs_storage_path"]:
-            print(json.dumps({"ok": True, "skipped": True, "reason": "missing_required_fields"}, ensure_ascii=False))
-            return
+            raw_data_type = row[3]
+            data_type_str = SQLITE_DATATYPE_MAPPING.get(raw_data_type, DataType.Any)
 
-        conn = get_postgres_connection()
-        try:
-            ensure_catalogue_schema(conn)
-            row_id = upsert_catalogue(conn, row)
+            interval_date = None
+            if data_type_str in (DataType.Any, DataType.Double):
+                interval_date = get_date_from_timeinterval(path_to_file)
+
+            return DataIdentInfo(
+                file_path=path_to_file,
+                data_source_id=data_source_id,
+                data_file_id=data_file_id,
+                main_db_name=row[1],
+                main_db_id=main_db_id,
+                data_type=data_type_str,
+                data_format=data_format,
+                size=stat.st_size,
+                last_date_time_update=datetime.fromtimestamp(stat.st_mtime),
+                file_hash=file_hash,
+                interval_date=interval_date
+            )
         finally:
             conn.close()
 
-        # Определяем, был ли пропущен файл из-за совпадения хеша
-        resp = {
-            "ok": True,
-            "updated": True,
-            "file_operation": file_operation,
-            "file_path": file_path,
-            "id": row_id,
-            "data_type": row["data_type"],
-            "data_format": row["data_format"]
+    elif data_format == DataFormat.fh:
+        # Обработка .fh файла
+        return get_fh_data_ident_info(path_to_file)
+
+    else:
+        raise ValueError(f"Неподдерживаемый формат файла: {data_format}")
+
+
+def get_date_from_filename(filename: str) -> datetime:
+    """Извлекает дату (YYYY-MM-DD) из имени файла."""
+    match = re.search(r'(\d{4})-(\d{2})-(\d{2})', filename)
+    if match:
+        try:
+            year = int(match.group(1))
+            month = int(match.group(2))
+            day = int(match.group(3))
+            return datetime(year, month, day)
+        except ValueError:
+            return None
+    return None
+
+
+def get_upload_file_path(data_ident_info: DataIdentInfo, with_date: bool = False) -> Path:
+    base_dir = Path("/raw_data")
+    data_type_name = data_ident_info.data_type
+    subdir = base_dir / data_ident_info.main_db_name / data_type_name
+
+    if data_ident_info.data_type in [DataType.Any, DataType.Double]:
+        # 🔑 Пытаемся извлечь дату из имени файла для Any/Double
+        file_date = get_date_from_filename(data_ident_info.file_path.name)
+        date_to_use = file_date if file_date else data_ident_info.last_date_time_update
+        
+        year_dir = f"year={date_to_use.year:04d}"
+        month_dir = f"month={date_to_use.month:02d}"
+        day_dir = f"day={date_to_use.day:02d}"
+
+        date_path = Path(year_dir) / month_dir / day_dir
+        full_path = subdir / date_path
+
+        # 🔑 Any/Double: НЕ переименовываем с датой/временем, всегда используем оригинальное имя файла
+        return full_path / data_ident_info.file_path.name
+    else:
+        # 🔑 MainDb: ВСЕГДА с датой/временем в имени, берем дату из last_date_time_update
+        date_to_use = data_ident_info.last_date_time_update
+        dt_string = date_to_use.strftime("%Y-%m-%d_%H-%M")
+        file_name = f"{data_ident_info.main_db_name}_{dt_string}{data_ident_info.file_path.suffix}"
+        return subdir / file_name
+
+
+def get_hdfs_upload_info(data_ident_info: DataIdentInfo) -> UploadInfo:
+    data_file_id = data_ident_info.data_file_id
+    data_source_id = data_ident_info.data_source_id
+    is_main_db = data_ident_info.data_type == DataType.MainDb
+
+    conn = get_cloudberry_connection()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    try:
+        cursor.execute(
+            f'SELECT * FROM "{CATALOGUE_TABLE}" WHERE "data_file_id" = %s LIMIT 1',
+            (data_file_id,)
+        )
+        rows = cursor.fetchall()
+
+        if not rows:
+            # Записи нет → Add
+            file_path = get_upload_file_path(data_ident_info, with_date=True)
+            return UploadInfo(
+                file_operation=FileOperation.Add,
+                file_path=file_path,
+                data_source_id=data_source_id,
+                data_file_id=data_file_id,
+                main_db_id=data_ident_info.main_db_id,
+                main_db_name=data_ident_info.main_db_name,
+                file_size=data_ident_info.size,
+                last_update=data_ident_info.last_date_time_update,
+                upload_date_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                hdfs_storage_path=file_path.parent,
+                hdfs_full_path=file_path,
+                data_type=data_ident_info.data_type,
+                data_format=data_ident_info.data_format,
+                file_hash=data_ident_info.file_hash
+            )
+
+        row = rows[0]
+        existing_hash = row.get("file_hash")
+
+        if is_main_db:
+            if existing_hash == data_ident_info.file_hash:
+                sys.stderr.write(f"INFO: MainDb file already exists with same hash, skipping. "
+                                 f"data_file_id={data_file_id}\n")
+                # 🔑 Даже при Skip возвращаем путь с датой (текущей)
+                file_path = get_upload_file_path(data_ident_info, with_date=True)
+                return UploadInfo(
+                    file_operation=FileOperation.Skip,
+                    file_path=file_path,
+                    data_source_id=uuid.UUID(row["data_source_id"]),
+                    data_file_id=data_file_id,
+                    main_db_id=data_ident_info.main_db_id,
+                    main_db_name=data_ident_info.main_db_name,
+                    file_size=data_ident_info.size,
+                    last_update=data_ident_info.last_date_time_update,
+                    upload_date_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    hdfs_storage_path=file_path.parent,
+                    hdfs_full_path=file_path,
+                    data_type=row["data_type"],
+                    data_format=row["data_format"],
+                    file_hash=data_ident_info.file_hash
+                )
+            else:
+                # Хеш не совпадает → Add с новым именем (с датой/временем)
+                file_path = get_upload_file_path(data_ident_info, with_date=True)
+                sys.stderr.write(f"INFO: MainDb file hash changed, adding new version. "
+                                 f"data_file_id={data_file_id}, new_path={file_path}\n")
+                return UploadInfo(
+                    file_operation=FileOperation.Add,
+                    file_path=file_path,
+                    data_source_id=data_source_id,
+                    data_file_id=data_file_id,
+                    main_db_id=data_ident_info.main_db_id,
+                    main_db_name=data_ident_info.main_db_name,
+                    file_size=data_ident_info.size,
+                    last_update=data_ident_info.last_date_time_update,
+                    upload_date_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    hdfs_storage_path=file_path.parent,
+                    hdfs_full_path=file_path,
+                    data_type=data_ident_info.data_type,
+                    data_format=data_ident_info.data_format,
+                    file_hash=data_ident_info.file_hash
+                )
+        else:
+            # Any/Double: если запись есть → Skip
+            sys.stderr.write(f"INFO: Any/Double file already exists, skipping. "
+                             f"data_file_id={data_file_id}\n")
+            return UploadInfo(
+                file_operation=FileOperation.Skip,
+                file_path=Path(row["hdfs_full_path"]) if row.get("hdfs_full_path") else get_upload_file_path(data_ident_info, with_date=False),
+                data_source_id=uuid.UUID(row["data_source_id"]),
+                data_file_id=data_file_id,
+                main_db_id=data_ident_info.main_db_id,
+                main_db_name=data_ident_info.main_db_name,
+                file_size=data_ident_info.size,
+                last_update=data_ident_info.last_date_time_update,
+                upload_date_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                hdfs_storage_path=Path(row["hdfs_storage_path"]) if row.get("hdfs_storage_path") else get_upload_file_path(data_ident_info, with_date=False).parent,
+                hdfs_full_path=Path(row["hdfs_full_path"]) if row.get("hdfs_full_path") else get_upload_file_path(data_ident_info, with_date=False),
+                data_type=row["data_type"],
+                data_format=row["data_format"],
+                file_hash=data_ident_info.file_hash
+            )
+    finally:
+        cursor.close()
+        conn.close()
+
+
+def save_flowfile_to_temp() -> str:
+    TEMP_FILES_PATH_DIR.mkdir(parents=True, exist_ok=True)
+    if len(sys.argv) < 2:
+        raise RuntimeError("file_name not provided")
+    file_name = sys.argv[1]
+    if not file_name or file_name == "unknown":
+        raise RuntimeError("invalid file_name")
+    try:
+        data = sys.stdin.buffer.read()
+        if not data:
+            return ""
+    except Exception as e:
+        raise RuntimeError(f"Error reading stdin: {e}")
+    temp_file_path = TEMP_FILES_PATH_DIR / file_name
+    with open(temp_file_path, 'wb') as f:
+        f.write(data)
+    return str(temp_file_path)
+
+
+def main():
+    try:
+        ensure_local_catalogue_exists()
+        temp_file_path_str = save_flowfile_to_temp()
+
+        if not temp_file_path_str:
+            print(json.dumps({
+                "file_operation": FileOperation.Skip,
+                "file_path": "",
+                "temp_file_path": "",
+                "upload_date_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            }, ensure_ascii=True, separators=(',', ':')), flush=True)
+            return
+
+        db_info = get_data_ident_info(temp_file_path_str)
+
+        interval_date_str = db_info.interval_date.strftime("%Y-%m-%d") if db_info.interval_date else "None"
+        sys.stderr.write(f"INFO: Processed file: data_source_id={db_info.data_source_id}, "
+                         f"data_file_id={db_info.data_file_id}, Size={db_info.size}, "
+                         f"Hash={db_info.file_hash}, DataType={db_info.data_type}, "
+                         f"DataFormat={db_info.data_format}, IntervalDate={interval_date_str}\n")
+
+        upload_info = get_hdfs_upload_info(db_info)
+
+        if upload_info.file_operation == FileOperation.Add:
+            save_to_catalogue(upload_info)
+
+        response = {
+            "file_operation": upload_info.file_operation,
+            "file_path": str(upload_info.file_path) if upload_info.file_path else "",
+            "temp_file_path": temp_file_path_str,
+            "data_source_id": upload_info.data_source_id or uuid.UUID(int=0),
+            "data_file_id": upload_info.data_file_id or uuid.UUID(int=0),
+            "main_db_id": upload_info.main_db_id or uuid.UUID(int=0),
+            "main_db_name": upload_info.main_db_name or "",
+            "file_size": upload_info.file_size or 0,
+            "file_hash": upload_info.file_hash or "",
+            "last_update": upload_info.last_update.strftime("%Y-%m-%d %H:%M:%S") if upload_info.last_update else "",
+            "upload_date_time": upload_info.upload_date_time or datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "hdfs_storage_path": str(upload_info.hdfs_storage_path) if upload_info.hdfs_storage_path else "",
+            "hdfs_full_path": str(upload_info.hdfs_full_path) if upload_info.hdfs_full_path else "",
+            "data_type": upload_info.data_type or "",
+            "data_format": upload_info.data_format or ""
         }
-        print(json.dumps(resp, ensure_ascii=False))
+
+        print(json.dumps(response, ensure_ascii=True, separators=(',', ':'), default=json_default), flush=True)
 
     except Exception as e:
+        sys.stderr.write(f"ERROR: {e}\n")
         print(json.dumps({
-            "ok": False,
-            "error": str(e),
-            "traceback": traceback.format_exc()
-        }, ensure_ascii=False), file=sys.stderr)
+            "file_operation": FileOperation.Skip,
+            "file_path": "",
+            "temp_file_path": "",
+            "upload_date_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        }, ensure_ascii=True, separators=(',', ':'), default=json_default), flush=True)
+
+    finally:
+        try:
+            if TEMP_FILES_PATH_DIR.exists():
+                for f in TEMP_FILES_PATH_DIR.iterdir():
+                    try:
+                        os.chmod(f, 0o777)
+                        if f.is_file() or f.is_symlink():
+                            f.unlink()
+                        elif f.is_dir():
+                            shutil.rmtree(f)
+                    except Exception as e:
+                        sys.stderr.write(f"WARNING: Failed to delete {f}: {e}\n")
+                sys.stderr.write("INFO: Temp directory cleaned successfully\n")
+        except Exception as e:
+            sys.stderr.write(f"WARNING: Failed to cleanup temp dir: {e}\n")
+
 
 if __name__ == "__main__":
     main()
+    try:
+        import subprocess
+        if Path("/usr/local/bin/cleanup_temp.sh").exists():
+            subprocess.run(["/usr/local/bin/cleanup_temp.sh"], check=False, capture_output=True)
+    except Exception:
+        pass

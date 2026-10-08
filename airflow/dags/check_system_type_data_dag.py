@@ -1,15 +1,8 @@
 from pathlib import Path
 from datetime import datetime, timedelta
-from airflow import DAG
-from airflow.providers.postgres.hooks.postgres import PostgresHook
-from airflow.providers.postgres.operators.postgres import PostgresOperator
-from airflow.operators.trigger_dagrun import TriggerDagRunOperator
-from airflow.models.param import Param
-from airflow.utils.task_group import TaskGroup
 from airflow.providers.apache.hdfs.hooks.webhdfs import WebHDFSHook
 from airflow.exceptions import AirflowException
 from airflow.decorators import task, dag
-from airflow.operators.python import get_current_context
 import sqlite3
 import tempfile
 import os
@@ -17,9 +10,9 @@ import json
 import logging
 from contextlib import contextmanager
 from typing import Dict, Any
-from check_system_type_data.system_type_data_info import main_db_system_type_data_info
-from check_system_type_data.check_system_type_data import check_system_type_data_tables, check_table_exist
-from check_system_type_data.main_db_tables_list import main_db_tables_list
+from validate_data.system_type_data_info import main_db_system_type_data_info
+from validate_data.check_system_type_data import check_system_type_data_tables, check_table_exist
+from validate_data.tables_list import main_db_tables_list
 
 log = logging.getLogger(__name__)
 
@@ -69,7 +62,7 @@ def hdfs_tempfile(hdfs_path: str):
 
 
 @dag(
-    dag_id='check_main_db_reference_data_dag',
+    dag_id='check_system_type_data_dag',
     default_args={
         'owner': 'airflow',
         'depends_on_past': False,

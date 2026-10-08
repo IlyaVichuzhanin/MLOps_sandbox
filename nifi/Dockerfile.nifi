@@ -2,27 +2,20 @@ FROM apache/nifi:2.0.0
 
 USER root
 
-# Установка зависимостей (без sudo — не нужен)
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     python3 python3-pip python3-venv libpq-dev gcc g++ && \
     rm -rf /var/lib/apt/lists/*
 
-# Установка Python-пакетов
 RUN pip3 install --no-cache-dir psycopg2 pathlib requests pandas numpy
 
-# Создаём директорию с полными правами
 RUN mkdir -p /home/temp_data && \
     chmod 777 /home/temp_data && \
     chown nifi:nifi /home/temp_data
 
-# Гарантируем доступ к тестовым данным
 RUN mkdir -p /opt/nifi/test_data && \
     chmod -R 777 /opt/nifi/test_data
 
-# Добавляем скрипт очистки, который сначала меняет права на файлы
-RUN printf '#!/bin/bash\nset -e\nTEMP_DIR="/home/temp_data"\nif [ -d "$TEMP_DIR" ] && [ -n "$(ls -A $TEMP_DIR 2>/dev/null)" ]; then\n  chmod -R 777 "$TEMP_DIR" 2>/dev/null || true\n  rm -rf "$TEMP_DIR"/* 2>/dev/null || true\n  echo "Temp directory cleaned successfully"\nelse\n  echo "Temp directory is empty or does not exist"\nfi\n' > /usr/local/bin/cleanup_temp.sh && \
+RUN printf '#!/bin/bash\nset -e\n...' > /usr/local/bin/cleanup_temp.sh && \
     chmod +x /usr/local/bin/cleanup_temp.sh && \
     chown nifi:nifi /usr/local/bin/cleanup_temp.sh
-
-USER nifi
