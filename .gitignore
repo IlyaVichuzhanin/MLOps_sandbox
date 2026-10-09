@@ -71,6 +71,19 @@ test_3.py
 test_2.py
 test_1.py
 docker-compose.zip
+build.log
+check_2.py
+check_3.py
+check_4.py
+check_5.py
+check_6.py
+check.py
+add_id_to_data.py
+add_fh_ids.py
+ml-sandbox.code-workspace
+data.parquet
+convert_to_csv.py
+.env
 
 
 # Data files
